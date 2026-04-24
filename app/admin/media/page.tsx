@@ -143,34 +143,65 @@ function UploadZone({
   const [title, setTitle] = useState("");
   const [alt, setAlt] = useState("");
   const [tags, setTags] = useState("");
+  const [stagedFiles, setStagedFiles] = useState<File[]>([]);
+  const [previews, setPreviews] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleDrop = useCallback(
-    (e: React.DragEvent) => {
-      e.preventDefault();
-      setDragging(false);
-      const files = Array.from(e.dataTransfer.files);
-      if (files.length > 0) {
-        onFiles(files, folder, {
-          title,
-          alt,
-          tags: tags.split(",").map((t) => t.trim()).filter(Boolean),
-        });
-      }
-    },
-    [folder, title, alt, tags, onFiles]
-  );
+  // Generate preview URLs when files are staged
+  useEffect(() => {
+    const urls = stagedFiles.map((f) =>
+      f.type.startsWith("image/") ? URL.createObjectURL(f) : ""
+    );
+    setPreviews(urls);
+    return () => urls.forEach((u) => u && URL.revokeObjectURL(u));
+  }, [stagedFiles]);
+
+  const stageFiles = (files: File[]) => {
+    setStagedFiles(files);
+  };
+
+  const handleDrop = useCallback((e: React.DragEvent) => {
+    e.preventDefault();
+    setDragging(false);
+    const files = Array.from(e.dataTransfer.files);
+    if (files.length > 0) stageFiles(files);
+  }, []);
 
   const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
-    if (files.length > 0) {
-      onFiles(files, folder, {
-        title,
-        alt,
-        tags: tags.split(",").map((t) => t.trim()).filter(Boolean),
-      });
-    }
+    if (files.length > 0) stageFiles(files);
     if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const handleRemoveFile = (index: number) => {
+    setStagedFiles((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const handleUpload = () => {
+    if (stagedFiles.length === 0) return;
+    onFiles(stagedFiles, folder, {
+      title,
+      alt,
+      tags: tags.split(",").map((t) => t.trim()).filter(Boolean),
+    });
+    // Clear after upload
+    setStagedFiles([]);
+    setTitle("");
+    setAlt("");
+    setTags("");
+    setFolder("general");
+  };
+
+  const getFileIcon = (file: File) => {
+    if (file.type.startsWith("video/")) return <VideoIcon sx={{ fontSize: 32, color: TYPE_COLORS.video }} />;
+    if (file.type.startsWith("audio/")) return <AudioIcon sx={{ fontSize: 32, color: TYPE_COLORS.audio }} />;
+    return <DocIcon sx={{ fontSize: 32, color: TYPE_COLORS.document }} />;
+  };
+
+  const formatBytes = (bytes: number) => {
+    if (bytes < 1024) return `${bytes} B`;
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
   };
 
   return (
@@ -181,74 +212,203 @@ function UploadZone({
           Upload Media
         </Typography>
 
-        {/* Drop zone */}
-        <Box
-          onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
-          onDragLeave={() => setDragging(false)}
-          onDrop={handleDrop}
-          onClick={() => fileInputRef.current?.click()}
-          sx={{
-            border: "2px dashed",
-            borderColor: dragging ? "primary.main" : "divider",
-            borderRadius: 2,
-            p: 4,
-            mb: 2.5,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 1.5,
-            cursor: "pointer",
-            bgcolor: dragging ? alpha("#6366F1", 0.06) : alpha("#1E293B", 0.4),
-            transition: "all 0.2s ease",
-            "&:hover": {
-              borderColor: "primary.light",
-              bgcolor: alpha("#6366F1", 0.04),
-            },
-          }}
-        >
-          <input
-            ref={fileInputRef}
-            type="file"
-            multiple
-            style={{ display: "none" }}
-            onChange={handleFileInput}
-            accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.xls,.xlsx,.csv"
-          />
+        {/* Drop zone — only show when no files staged */}
+        {stagedFiles.length === 0 && (
           <Box
+            onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
+            onDragLeave={() => setDragging(false)}
+            onDrop={handleDrop}
+            onClick={() => fileInputRef.current?.click()}
             sx={{
-              width: 56,
-              height: 56,
-              borderRadius: "50%",
-              bgcolor: alpha("#6366F1", 0.12),
+              border: "2px dashed",
+              borderColor: dragging ? "primary.main" : "divider",
+              borderRadius: 2,
+              p: 4,
+              mb: 2.5,
               display: "flex",
+              flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
-              color: "primary.main",
+              gap: 1.5,
+              cursor: "pointer",
+              bgcolor: dragging ? alpha("#6366F1", 0.06) : alpha("#1E293B", 0.4),
+              transition: "all 0.2s ease",
+              "&:hover": {
+                borderColor: "primary.light",
+                bgcolor: alpha("#6366F1", 0.04),
+              },
             }}
           >
-            <CloudUploadIcon sx={{ fontSize: 28 }} />
-          </Box>
-          <Box textAlign="center">
-            <Typography variant="body1" fontWeight={500}>
-              Drop files here or{" "}
-              <Typography component="span" color="primary.main" fontWeight={600}>
-                browse
+            <input
+              ref={fileInputRef}
+              type="file"
+              multiple
+              style={{ display: "none" }}
+              onChange={handleFileInput}
+              accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.xls,.xlsx,.csv"
+            />
+            <Box
+              sx={{
+                width: 56,
+                height: 56,
+                borderRadius: "50%",
+                bgcolor: alpha("#6366F1", 0.12),
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                color: "primary.main",
+              }}
+            >
+              <CloudUploadIcon sx={{ fontSize: 28 }} />
+            </Box>
+            <Box textAlign="center">
+              <Typography variant="body1" fontWeight={500}>
+                Drop files here or{" "}
+                <Typography component="span" color="primary.main" fontWeight={600}>
+                  browse
+                </Typography>
               </Typography>
-            </Typography>
-            <Typography variant="caption" color="text.secondary">
-              Images, videos, audio, and documents up to 50MB
-            </Typography>
+              <Typography variant="caption" color="text.secondary">
+                Images, videos, audio, and documents up to 50MB
+              </Typography>
+            </Box>
           </Box>
-        </Box>
+        )}
+
+        {/* Staged file previews */}
+        {stagedFiles.length > 0 && (
+          <Box sx={{ mb: 2.5 }}>
+            <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", mb: 1.5 }}>
+              <Typography variant="subtitle2" fontWeight={600}>
+                {stagedFiles.length} file{stagedFiles.length > 1 ? "s" : ""} ready to upload
+              </Typography>
+              <Button
+                size="small"
+                variant="text"
+                onClick={() => fileInputRef.current?.click()}
+                startIcon={<AddIcon />}
+              >
+                Add more
+              </Button>
+              <input
+                ref={fileInputRef}
+                type="file"
+                multiple
+                style={{ display: "none" }}
+                onChange={(e) => {
+                  const newFiles = Array.from(e.target.files || []);
+                  if (newFiles.length > 0)
+                    setStagedFiles((prev) => [...prev, ...newFiles]);
+                  if (fileInputRef.current) fileInputRef.current.value = "";
+                }}
+                accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.xls,.xlsx,.csv"
+              />
+            </Box>
+
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fill, minmax(100px, 1fr))",
+                gap: 1.5,
+              }}
+            >
+              {stagedFiles.map((file, i) => (
+                <Box
+                  key={i}
+                  sx={{
+                    position: "relative",
+                    borderRadius: 2,
+                    overflow: "hidden",
+                    border: "1px solid",
+                    borderColor: "divider",
+                    bgcolor: "background.accent",
+                    aspectRatio: "1",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  {previews[i] ? (
+                    <Box
+                      component="img"
+                      src={previews[i]}
+                      alt={file.name}
+                      sx={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
+                    />
+                  ) : (
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        gap: 0.5,
+                        p: 1,
+                      }}
+                    >
+                      {getFileIcon(file)}
+                      <Typography
+                        variant="caption"
+                        noWrap
+                        sx={{ maxWidth: "100%", fontSize: "0.6rem", color: "text.secondary" }}
+                      >
+                        {file.name}
+                      </Typography>
+                    </Box>
+                  )}
+
+                  {/* Size badge */}
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      bgcolor: alpha("#0F172A", 0.75),
+                      px: 0.75,
+                      py: 0.4,
+                    }}
+                  >
+                    <Typography
+                      variant="caption"
+                      sx={{ color: "rgba(255,255,255,0.8)", fontSize: "0.6rem" }}
+                      noWrap
+                    >
+                      {formatBytes(file.size)}
+                    </Typography>
+                  </Box>
+
+                  {/* Remove button */}
+                  <IconButton
+                    size="small"
+                    onClick={() => handleRemoveFile(i)}
+                    sx={{
+                      position: "absolute",
+                      top: 2,
+                      right: 2,
+                      width: 20,
+                      height: 20,
+                      bgcolor: alpha("#0F172A", 0.7),
+                      color: "white",
+                      "&:hover": { bgcolor: "error.main" },
+                    }}
+                  >
+                    <CloseIcon sx={{ fontSize: 12 }} />
+                  </IconButton>
+                </Box>
+              ))}
+            </Box>
+          </Box>
+        )}
 
         {/* Upload progress */}
         {uploading && (
           <Box mb={2}>
             <Box sx={{ display: "flex", justifyContent: "space-between", mb: 0.5 }}>
-              <Typography variant="caption" color="text.secondary">
-                Uploading...
-              </Typography>
+              <Typography variant="caption" color="text.secondary">Uploading...</Typography>
               <Typography variant="caption" color="primary.main" fontWeight={600}>
                 {progress}%
               </Typography>
@@ -266,8 +426,8 @@ function UploadZone({
           </Box>
         )}
 
-        {/* Meta fields */}
-        <Grid container spacing={2}>
+        {/* Meta fields — always visible so user can pre-fill before selecting */}
+        <Grid container spacing={2} sx={{ mb: stagedFiles.length > 0 ? 2 : 0 }}>
           <Grid item xs={12} sm={4}>
             <TextField
               size="small"
@@ -305,6 +465,31 @@ function UploadZone({
             />
           </Grid>
         </Grid>
+
+        {/* Upload button — only show when files are staged */}
+        {stagedFiles.length > 0 && (
+          <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 1 }}>
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={() => setStagedFiles([])}
+              disabled={uploading}
+            >
+              Clear All
+            </Button>
+            <Button
+              variant="contained"
+              size="small"
+              startIcon={<CloudUploadIcon />}
+              onClick={handleUpload}
+              disabled={uploading}
+            >
+              {uploading
+                ? `Uploading... ${progress}%`
+                : `Upload ${stagedFiles.length} File${stagedFiles.length > 1 ? "s" : ""}`}
+            </Button>
+          </Box>
+        )}
       </CardContent>
     </Card>
   );
