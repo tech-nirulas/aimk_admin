@@ -37,7 +37,7 @@ export default function LegalEntityForm() {
     bankAccountNumber: selectedLegalEntity?.bankAccountNumber ?? "",
     bankIfsc: selectedLegalEntity?.bankIfsc ?? "",
     city: selectedLegalEntity?.city ?? "",
-    commissionRate: selectedLegalEntity?.comminssionRate ?? "",
+    commissionRate: selectedLegalEntity?.commissionRate ?? "",
     contactEmail: selectedLegalEntity?.contactEmail ?? "",
     contactPhone: selectedLegalEntity?.contactPhone ?? "",
     gstin: selectedLegalEntity?.gstin ?? "",
@@ -45,6 +45,7 @@ export default function LegalEntityForm() {
     pan: selectedLegalEntity?.pan ?? "",
     pincode: selectedLegalEntity?.pincode ?? "",
     state: selectedLegalEntity?.state ?? "",
+    isActive: selectedLegalEntity?.isActive ?? true,
   };
 
   const handleSubmit = async (values: CreateLegalEntityPayload) => {

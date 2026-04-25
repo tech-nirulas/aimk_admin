@@ -1,3 +1,4 @@
+import { Brand } from "./brand.interface";
 import { LegalEntity } from "./legal-entity.interface";
 import { RootPaginate } from "./pagination.interface";
 import { Root } from "./root.interface";
@@ -16,7 +17,8 @@ export interface Outlet {
   pickupCutoffTime: string;
   isActive: boolean;
   coordinates: object;
-  legalEntityId: string;
+  // legalEntityId: string;
+  brands: Brand[];
   createdAt: string;
   updatedAt: string;
   legalEntity: LegalEntity;

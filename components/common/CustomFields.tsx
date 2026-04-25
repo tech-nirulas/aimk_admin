@@ -1,6 +1,6 @@
 import { Autocomplete, Box, Checkbox, Chip, FormControl, FormHelperText, InputLabel, ListItemText, MenuItem, OutlinedInput, OutlinedInputProps, SelectProps, TextField } from "@mui/material";
 import { useField } from "formik";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useMemo } from "react";
 
 interface MaterialTextFieldProps extends React.ComponentProps<typeof TextField> {
   label: string;
@@ -177,8 +177,8 @@ export const MaterialMultiSelectField = ({
   const [field, meta, helpers] = useField(props.name || "");
   const errorText = meta.touched && meta.error ? meta.error : "";
   const [inputValue, setInputValue] = useState("");
-  const selectedValues = Array.isArray(field.value) ? field.value : [];
-  const allOptions = options || [];
+  const selectedValues = useMemo(() => Array.isArray(field.value) ? field.value : [], [field.value]);
+  const allOptions = useMemo(() => options || [], [options]);
 
   const handleOptionChange = (
     event: React.SyntheticEvent,
@@ -241,6 +241,11 @@ export const MaterialMultiSelectField = ({
     }
   };
 
+  const selectedOptions = useMemo(() => {
+    const set = new Set(selectedValues);
+    return allOptions.filter(option => set.has(option.value));
+  }, [selectedValues, allOptions]);
+
   return (
     <FormControl fullWidth variant="outlined" error={!!errorText}>
       <Autocomplete
@@ -248,9 +253,7 @@ export const MaterialMultiSelectField = ({
         freeSolo
         id={props.name}
         options={allOptions}
-        value={allOptions.filter((option) =>
-          selectedValues.includes(option.value)
-        )}
+        value={selectedOptions}
         getOptionLabel={(option) =>
           typeof option === "string" ? option : option.label || ""
         }

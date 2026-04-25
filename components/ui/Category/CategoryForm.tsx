@@ -15,12 +15,14 @@ import {
 } from "@/features/categories/categoriesApiService";
 
 import { MaterialSelectField, MaterialTextField } from "@/components/common/CustomFields";
-import { CreateCategoryPayload } from "@/interfaces/category.interface";
+import { Category, CreateCategoryPayload } from "@/interfaces/category.interface";
 import CategoryValidator from "@/utils/validators/category.validator";
 import CloseIcon from "@mui/icons-material/Close";
 import ImageIcon from "@mui/icons-material/Image";
 import { Field } from "formik";
 import { useEffect } from "react";
+import { Brand } from "@/interfaces/brand.interface";
+import { useGetAllBrandsQuery } from "@/features/brand/brandApiService";
 
 export default function CategoryForm() {
   const { closeDrawer, isEditing } = useFormDrawer();
@@ -38,31 +40,27 @@ export default function CategoryForm() {
   const [updateCategory, { isLoading: isUpdateCategoryLoading, isSuccess: isUpdateSuccess, isError: isUpdateCategoryError, error: updateCategoryError }] =
     useUpdateCategoryMutation();
 
-  const { data: categoriesData } = useGetAllCategoriesQuery({
-    limit: 10000,
-    page: 1
-  });
+  const { data: categoriesData } = useGetAllCategoriesQuery();
+  const { data: brandsData } = useGetAllBrandsQuery();
 
   const initialValues: CreateCategoryPayload = {
     name: selectedCategory?.name || "",
     description: selectedCategory?.description || "",
     categoryImageId: selectedCategory?.categoryImageId || "",
     displayOrder: selectedCategory?.displayOrder || 0,
-    defaultGstRate: selectedCategory?.defaultGstRate || "",
+    brandId: selectedCategory?.brandId || "",
     parentId: selectedCategory?.parentId || "",
-    preparationTime: selectedCategory?.preparationTime || "",
-    typicalConsumption: selectedCategory?.typicalConsumption || "",
   };
 
   const handleSubmit = async (values: CreateCategoryPayload) => {
     try {
+
       const { categoryImageUrl, ...rest } = values;
 
       const payload = {
         ...rest,
         categoryImageId: rest.categoryImageId || null,
         parentId: rest.parentId || null,
-        defaultGstRate: rest.defaultGstRate || null,
       };
 
       if (isEditing) {
@@ -207,14 +205,10 @@ export default function CategoryForm() {
                 </Grid>
 
                 <Grid item xs={12}>
-                  <MaterialTextField name="preparationTime" label="Preparation Time" />
-                </Grid>
-
-                <Grid item xs={12}>
                   <MaterialSelectField
                     name="parentId"
                     label="Parent Category Id"
-                    options={categoriesData?.data?.map((cat: any) => ({
+                    options={categoriesData?.data?.map((cat: Category) => ({
                       value: cat.id,
                       label: cat.name,
                     })) || []}
@@ -222,11 +216,14 @@ export default function CategoryForm() {
                 </Grid>
 
                 <Grid item xs={12}>
-                  <MaterialTextField name="defaultGstRate" label="Default GST Rate" />
-                </Grid>
-
-                <Grid item xs={12}>
-                  <MaterialTextField name="typicalConsumption" label="Typical Consumption" />
+                  <MaterialSelectField
+                    name="brandId"
+                    label="Brand Id"
+                    options={brandsData?.data?.map((brand: Brand) => ({
+                      value: brand.id,
+                      label: brand.name,
+                    })) || []}
+                  />
                 </Grid>
               </Grid>
             </Box>

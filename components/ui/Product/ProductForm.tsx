@@ -35,6 +35,7 @@ import {
   useUpdateProductMutation,
 } from "@/features/products/productApiService";
 import { CreateProductPayload } from "@/interfaces/product.interface";
+import { useGetAllBrandsQuery } from "@/features/brand/brandApiService";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -439,7 +440,7 @@ const SingleImagePicker = ({
 
 // ─── Step Content ─────────────────────────────────────────────────────────────
 
-const renderStep = (step: number, values: any, handleChange: any, categoriesData: any) => {
+const renderStep = (step: number, values: any, handleChange: any, categoriesData: any, brandsData: any) => {
   switch (step) {
     // ── Step 0: Basic Info ───────────────────────────────────────────────────
     case 0:
@@ -487,6 +488,19 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
                 categoriesData?.data?.map((cat: any) => ({
                   value: cat.id,
                   label: cat.name,
+                })) || []
+              }
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <MaterialSelectField
+              name="brandId"
+              label="Brand *"
+              options={
+                brandsData?.data?.map((brand: any) => ({
+                  value: brand.id,
+                  label: brand.name,
                 })) || []
               }
               fullWidth
@@ -895,7 +909,8 @@ export default function ProductForm() {
   const [activeStep, setActiveStep] = useState(0);
 
   const selectedProduct = useSelector((state: any) => state.productReducer.selectedProduct);
-  const { data: categoriesData } = useGetAllCategoriesQuery({ limit: 10000, page: 1 });
+  const { data: categoriesData } = useGetAllCategoriesQuery();
+  const { data: brandsData } = useGetAllBrandsQuery();
 
   const [createProduct, { isLoading: isCreateLoading, isSuccess: isCreateSuccess, error: createError }] =
     useCreateProductMutation();
@@ -1051,7 +1066,7 @@ export default function ProductForm() {
           {/* ── Scrollable Content ──────────────────────────────────────────── */}
           <Box sx={{ flex: 1, overflow: "auto", p: 3 }}>
             <Paper elevation={0} variant="outlined" sx={{ p: 3 }}>
-              {renderStep(activeStep, values, handleChange, categoriesData)}
+              {renderStep(activeStep, values, handleChange, categoriesData, brandsData)}
             </Paper>
           </Box>
 

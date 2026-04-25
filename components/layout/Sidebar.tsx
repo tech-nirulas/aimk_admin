@@ -29,6 +29,7 @@ const MENU_ITEMS = [
   { label: "Categories", path: "/admin/categories", icon: <CategoryIcon /> },
   { label: "Media", path: "/admin/media", icon: <ImageIcon /> },
   { label: "Outlets", path: "/admin/outlets", icon: <LocationIcon /> },
+  { label: "Brands", path: "/admin/brands", icon: <CategoryIcon /> },
   { label: "Legal Entities", path: "/admin/legal-entities", icon: <LegalEntityIcon /> },
   { label: "Outlet Prices", path: "/admin/outlet-prices", icon: <MoneyIcon /> },
   { label: "Orders", path: "/admin/orders", icon: <ShoppingCartOutlinedIcon /> },

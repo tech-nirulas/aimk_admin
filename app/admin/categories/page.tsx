@@ -1,13 +1,14 @@
 "use client";
 
-import { Box, Button, FormControl, InputLabel, MenuItem, Paper, Select, Switch, TextField, Typography, debounce } from "@mui/material";
+import { Box, Button, FormControl, IconButton, InputLabel, MenuItem, Paper, Select, Switch, TextField, Typography, debounce } from "@mui/material";
 import { useCallback, useMemo, useState } from "react";
 import { FaEdit, FaSearch, FaTrash } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 
 import {
   useDeleteCategoryMutation,
-  useGetAllCategoriesQuery,
+  useGetAllCategoriesPaginatedQuery,
+  useUpdateCategoryMutation
 } from "@/features/categories/categoriesApiService";
 
 import {
@@ -17,8 +18,10 @@ import {
 
 import TableComponent from "@/components/common/DataTable";
 import CategoryForm from "@/components/ui/Category/CategoryForm";
+import { Category } from "@/interfaces/category.interface";
 import { useConfirmDialog } from "@/lib/DialogProvider";
 import { useFormDrawer } from "@/lib/FormDrawerProvider";
+import { Refresh } from "@mui/icons-material";
 
 export default function CategoriesPage() {
   const dispatch = useDispatch();
@@ -35,7 +38,7 @@ export default function CategoriesPage() {
   const { openDialog } = useConfirmDialog();
 
   // Fetch data with pagination
-  const { data, isLoading } = useGetAllCategoriesQuery({
+  const { data, isLoading, refetch: handleRefresh } = useGetAllCategoriesPaginatedQuery({
     page,
     limit,
     search: search || undefined,
@@ -45,6 +48,7 @@ export default function CategoriesPage() {
   });
 
   const [deleteCategory] = useDeleteCategoryMutation();
+  const [updateCategory] = useUpdateCategoryMutation();
 
   // Debounced search
   const debouncedSearch = useMemo(
@@ -100,7 +104,7 @@ export default function CategoriesPage() {
     });
   };
 
-  const handleDelete = useCallback(async (row: any) => {
+  const handleDelete = useCallback(async (row: Category) => {
     openDialog("Are you sure you want to delete this category?", async () => await deleteCategory({ id: row.id }))
   }, [deleteCategory, openDialog]);
 
@@ -111,12 +115,24 @@ export default function CategoriesPage() {
     }
   };
 
+  const handleChangeActiveStatus = useCallback(async (row: Brand, newStatus: boolean) => {
+    await updateCategory({ id: row.id, body: { isActive: newStatus } });
+  }, [updateCategory]);
+
   const columns = useMemo(() => [
+    {
+      field: "displayOrder",
+      headerName: "Display Order",
+      flex: 1,
+      renderCell: ({ row }: { row: Category }) => (
+        <p className="truncate font-medium">{row.displayOrder}</p>
+      )
+    },
     {
       field: "name",
       headerName: "Name",
       flex: 1,
-      renderCell: ({ row }: any) => (
+      renderCell: ({ row }: { row: Category }) => (
         <p className="truncate font-medium">{row.name}</p>
       )
     },
@@ -125,23 +141,39 @@ export default function CategoriesPage() {
       field: "description",
       headerName: "Description",
       flex: 2,
-      renderCell: ({ row }: any) => (
+      renderCell: ({ row }: { row: Category }) => (
         <p className="truncate">{row.description || "-"}</p>
+      )
+    },
+    {
+      field: "brand",
+      headerName: "Brand",
+      flex: 1,
+      renderCell: ({ row }: { row: Category }) => (
+        <p className="truncate">{row.brand?.name || "-"}</p>
+      )
+    },
+    {
+      field: "totalProducts",
+      headerName: "Total Products",
+      flex: 1,
+      renderCell: ({ row }: { row: Category }) => (
+        <p className="truncate">{row._count?.products || 0}</p>
       )
     },
     {
       field: "isActive",
       headerName: "Status",
       flex: 0.5,
-      renderCell: ({ row }: any) => (
-        <Switch checked={row.isActive} disabled />
+      renderCell: ({ row }: { row: Category }) => (
+        <Switch checked={row.isActive} onChange={(e) => handleChangeActiveStatus(row, e.target.checked)} />
       ),
     },
     {
       field: "createdAt",
       headerName: "Created At",
       flex: 1,
-      renderCell: ({ row }: any) => (
+      renderCell: ({ row }: { row: Category }) => (
         <p>{new Date(row.createdAt).toLocaleDateString()}</p>
       ),
     },
@@ -149,7 +181,7 @@ export default function CategoriesPage() {
       field: "actions",
       headerName: "Actions",
       flex: 0.5,
-      renderCell: ({ row }: any) => (
+      renderCell: ({ row }: { row: Category }) => (
         <div className="flex gap-2 items-center justify-start h-full">
           <FaEdit
             className="cursor-pointer text-blue-600 hover:text-blue-800"
@@ -164,15 +196,20 @@ export default function CategoriesPage() {
         </div>
       ),
     },
-  ], [handleDelete, handleEdit]);
+  ], [handleDelete, handleEdit, handleChangeActiveStatus]);
 
   return (
     <Box className="p-4">
       <div className="flex justify-between items-center mb-4">
         <Typography variant="h2">Categories</Typography>
-        <Button variant="contained" onClick={handleCreate}>
-          + New Category
-        </Button>
+        <Box className="flex gap-2">
+          <IconButton onClick={handleRefresh}>
+            <Refresh />
+          </IconButton>
+          <Button variant="contained" onClick={handleCreate}>
+            + New Category
+          </Button>
+        </Box>
       </div>
 
       {/* Filters Section */}

@@ -12,6 +12,7 @@ class ProductValidator {
     description: Yup.string(),
     code: Yup.string().max(5, "Max 5 characters"),
     categoryId: Yup.string().required("Category is required"),
+    brandId: Yup.string().required("Brand is required"),
 
     // Pricing & Units
     baseUnit: Yup.string().required("Base unit is required"),

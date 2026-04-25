@@ -1,7 +1,7 @@
 import {
   CreateCategoryPayload,
   GetCategoryResponse,
-  PaginatedCategoriesResponse
+  PaginatedCategoriesResponse,
 } from "@/interfaces/category.interface";
 import { EndpointBuilder } from "@reduxjs/toolkit/query";
 
@@ -16,7 +16,7 @@ export const categoryEndpoints = (builder: EndpointDefinitions) => ({
     }),
     invalidatesTags: ["Category"],
   }),
-  getAllCategories: builder.query<
+  getAllCategoriesPaginated: builder.query<
     PaginatedCategoriesResponse,
     {
       page: number;
@@ -28,7 +28,7 @@ export const categoryEndpoints = (builder: EndpointDefinitions) => ({
     }
   >({
     query: (params) => ({
-      url: "category",
+      url: "category/paginated",
       method: "GET",
       params: {
         page: params.page,
@@ -41,28 +41,33 @@ export const categoryEndpoints = (builder: EndpointDefinitions) => ({
     }),
     providesTags: ["Category"],
   }),
+  getAllCategories: builder.query<PaginatedCategoriesResponse, void>({
+    query: () => ({
+      url: "category",
+      method: "GET",
+    }),
+    providesTags: ["Category"],
+  }),
   getCategory: builder.query<GetCategoryResponse, { id: string }>({
     query: (body) => ({
       url: `category/${body.id}`,
       method: "GET",
     }),
-    providesTags: (result, error, arg) => [{ type: "Category", id: arg.id }],
+    providesTags: ["Category"],
   }),
   updateCategory: builder.mutation<any, { id: string; body: any }>({
     query: ({ id, body }) => ({
       url: `category/${id}`,
       method: "PATCH",
       body,
-      invalidatesTags: ["Category"],
     }),
-    invalidatesTags: (result, error, arg) => [{ type: "Category", id: arg.id }],
+    invalidatesTags: ["Category"],
   }),
 
   deleteCategory: builder.mutation<any, { id: string }>({
     query: ({ id }) => ({
       url: `category/${id}`,
       method: "DELETE",
-      invalidatesTags: ["Category"],
     }),
     invalidatesTags: ["Category"],
   }),

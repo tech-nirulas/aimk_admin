@@ -29,7 +29,7 @@ export type PaginatedLegalEntitiesResponse = RootPaginate<LegalEntity>;
 
 export type CreateLegalEntityPayload = Omit<
   LegalEntity,
-  "id" | "isActive" | "createdAt" | "updatedAt"
+  "id" | "createdAt" | "updatedAt"
 >;
 
-export type UpdateLegalEntityPayload = Partial<CreateLegalEntityPayload>;
+export type UpdateLegalEntityPayload = Partial<LegalEntity>;

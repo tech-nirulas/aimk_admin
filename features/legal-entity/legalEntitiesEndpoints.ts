@@ -1,5 +1,6 @@
 import {
   CreateLegalEntityPayload,
+  GetLegalEntitiesResponse,
   GetLegalEntityResponse,
   PaginatedLegalEntitiesResponse,
   UpdateLegalEntityPayload,
@@ -21,6 +22,16 @@ export const legalEntitiesEndpoints = (builder: EndpointDefinitions) => ({
     invalidatesTags: ["LegalEntity"],
   }),
   getAllLegalEntities: builder.query<
+    GetLegalEntitiesResponse,
+    void
+  >({
+    query: () => ({
+      url: "legal-entity",
+      method: "GET",
+    }),
+    providesTags: ["LegalEntity"],
+  }),
+  getAllLegalEntitiesPaginated: builder.query<
     PaginatedLegalEntitiesResponse,
     {
       page: number;
@@ -32,7 +43,7 @@ export const legalEntitiesEndpoints = (builder: EndpointDefinitions) => ({
     }
   >({
     query: (params) => ({
-      url: "legal-entity",
+      url: "legal-entity/paginated",
       method: "GET",
       params: {
         page: params.page,
@@ -61,9 +72,7 @@ export const legalEntitiesEndpoints = (builder: EndpointDefinitions) => ({
       method: "PATCH",
       body,
     }),
-    invalidatesTags: (result, error, arg) => [
-      { type: "LegalEntity", id: arg.id },
-    ],
+    invalidatesTags: ["LegalEntity"],
   }),
 
   deleteLegalEntity: builder.mutation<any, { id: string }>({

@@ -24,13 +24,15 @@ class OutletValidator {
       .required("Email is required")
       .email("Invalid email format"),
 
-    legalEntityId: Yup.string().required("Legal entity is required"),
+    // legalEntityId: Yup.string().required("Legal entity is required"),
+    brands: Yup.array()
+      .of(Yup.string())
+      .min(1, "At least one brand is required"),
 
     // Optional fields
     pickupCutoffTime: Yup.string().nullable(),
 
-    openingHours: Yup.object().nullable(),
-
+    openingHours: Yup.mixed().nullable(),
     // Coordinates validation (important)
     coordinates: Yup.object({
       lat: Yup.number()

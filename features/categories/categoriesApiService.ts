@@ -20,5 +20,7 @@ export const {
   useLazyGetCategoriesWithSkuCountQuery,
   useCreateCategoryMutation,
   useUpdateCategoryMutation,
-  useDeleteCategoryMutation
+  useDeleteCategoryMutation,
+  useGetAllCategoriesPaginatedQuery,
+  useLazyGetAllCategoriesPaginatedQuery,
 } = categoryApiService;

@@ -1,21 +1,29 @@
 "use client";
 
-import { Box, Button, Chip, FormControl, InputLabel, MenuItem, Paper, Select, Switch, TextField, Typography, debounce } from "@mui/material";
+import { Box, Button, FormControl, IconButton, InputLabel, MenuItem, Paper, Select, Switch, TextField, Typography, debounce } from "@mui/material";
 import { useCallback, useMemo, useState } from "react";
 import { FaEdit, FaSearch, FaTrash } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 
+import {
+  useDeleteBrandMutation,
+  useGetAllBrandsPaginatedQuery,
+  useUpdateBrandMutation
+} from "@/features/brand/brandApiService";
 
+import {
+  clearSelectedBrand,
+  setSelectedBrand,
+} from "@/features/brand/brandSlice";
 
 import TableComponent from "@/components/common/DataTable";
-import OutletForm from "@/components/ui/Outlet/OutletForm";
-import { useDeleteOutletMutation, useGetAllOutletsQuery } from "@/features/outlets/outletsApiService";
-import { clearSelectedOutlet, setSelectedOutlet } from "@/features/outlets/outletsSlice";
-import { Outlet } from "@/interfaces/outlet.interface";
+import CategoryForm from "@/components/ui/Category/CategoryForm";
+import { Brand } from "@/interfaces/brand.interface";
 import { useConfirmDialog } from "@/lib/DialogProvider";
 import { useFormDrawer } from "@/lib/FormDrawerProvider";
+import { Refresh } from "@mui/icons-material";
 
-export default function OutletsPage() {
+export default function BrandsPage() {
   const dispatch = useDispatch();
   const { openDrawer, setIsEditing } = useFormDrawer();
 
@@ -30,7 +38,7 @@ export default function OutletsPage() {
   const { openDialog } = useConfirmDialog();
 
   // Fetch data with pagination
-  const { data, isLoading } = useGetAllOutletsQuery({
+  const { data, isLoading, refetch: handleRefresh } = useGetAllBrandsPaginatedQuery({
     page,
     limit,
     search: search || undefined,
@@ -39,7 +47,8 @@ export default function OutletsPage() {
     sortOrder,
   });
 
-  const [deleteOutlet] = useDeleteOutletMutation();
+  const [deleteBrand] = useDeleteBrandMutation();
+  const [updateBrand] = useUpdateBrandMutation();
 
   // Debounced search
   const debouncedSearch = useMemo(
@@ -72,14 +81,14 @@ export default function OutletsPage() {
     debouncedSearch("");
   };
 
-  const handleEdit = useCallback((row: unknown) => {
-    dispatch(setSelectedOutlet(row));
+  const handleEdit = useCallback((row: Brand) => {
+    dispatch(setSelectedBrand(row));
     setIsEditing(true);
 
     openDrawer({
-      drawerName: "Edit Outlet",
-      children: <OutletForm />,
-      dispatchFunctions: [clearSelectedOutlet],
+      drawerName: "Edit Brand",
+      children: <CategoryForm />,
+      dispatchFunctions: [clearSelectedBrand],
       isEditing: true,
       width: 500,
       anchor: "right"
@@ -88,16 +97,16 @@ export default function OutletsPage() {
 
   const handleCreate = () => {
     openDrawer({
-      drawerName: "Create Outlet",
-      children: <OutletForm />,
+      drawerName: "Create Brand",
+      children: <CategoryForm />,
       width: 500,
       anchor: "right"
     });
   };
 
-  const handleDelete = useCallback(async (row: any) => {
-    openDialog("Are you sure you want to delete this outlet?", async () => await deleteOutlet({ id: row.id }))
-  }, [deleteOutlet, openDialog]);
+  const handleDelete = useCallback(async (row: Brand) => {
+    openDialog("Are you sure you want to delete this brand?", async () => await deleteBrand({ id: row.id }))
+  }, [deleteBrand, openDialog]);
 
   const handlePageChange = (newPage: number, newPageSize: number) => {
     setPage(newPage);
@@ -106,41 +115,58 @@ export default function OutletsPage() {
     }
   };
 
+  const handleChangeActiveStatus = useCallback(async (row: Brand, newStatus: boolean) => {
+    await updateBrand({ id: row.id, body: { isActive: newStatus } });
+  }, [updateBrand]);
+
   const columns = useMemo(() => [
     {
       field: "name",
       headerName: "Name",
       flex: 1,
-      renderCell: ({ row }: { row: Outlet }) => (
+      renderCell: ({ row }: { row: Brand }) => (
         <p className="truncate font-medium">{row.name}</p>
       )
     },
     { field: "slug", headerName: "Slug", flex: 1 },
     {
-      field: "brands",
-      headerName: "Brands",
+      field: "legalEntity",
+      headerName: "Legal Entity",
       flex: 2,
-      renderCell: ({ row }: { row: Outlet }) => {
-        return row.brands.length > 0 ? row.brands.map((brand: any) => (
-          <Chip key={brand.id} label={brand.name} className="mr-1 mb-1" />
-        )) : (
-          <Chip label="No Brands" className="mr-1 mb-1" color="default" />
-        )
-      }
+      renderCell: ({ row }: { row: Brand }) => (
+        <p className="truncate">{row?.legalEntity?.name || "-"}</p>
+      )
     },
+    {
+      field: "totalProducts",
+      headerName: "Total Products",
+      flex: 1,
+      renderCell: ({ row }: { row: Brand }) => (
+        <p className="truncate">{row?._count?.products || "-"}</p>
+      )
+    },
+    {
+      field: "totalCategories",
+      headerName: "Total Categories",
+      flex: 1,
+      renderCell: ({ row }: { row: Brand }) => (
+        <p className="truncate">{row?._count?.categories || "-"}</p>
+      )
+    },
+
     {
       field: "isActive",
       headerName: "Status",
       flex: 0.5,
-      renderCell: ({ row }: { row: Outlet }) => (
-        <Switch checked={row.isActive} disabled />
+      renderCell: ({ row }: { row: Brand }) => (
+        <Switch checked={row.isActive} onChange={(e) => handleChangeActiveStatus(row, e.target.checked)} />
       ),
     },
     {
       field: "createdAt",
       headerName: "Created At",
       flex: 1,
-      renderCell: ({ row }: { row: Outlet }) => (
+      renderCell: ({ row }: { row: Brand }) => (
         <p>{new Date(row.createdAt).toLocaleDateString()}</p>
       ),
     },
@@ -148,7 +174,7 @@ export default function OutletsPage() {
       field: "actions",
       headerName: "Actions",
       flex: 0.5,
-      renderCell: ({ row }: { row: Outlet }) => (
+      renderCell: ({ row }: { row: Brand }) => (
         <div className="flex gap-2 items-center justify-start h-full">
           <FaEdit
             className="cursor-pointer text-blue-600 hover:text-blue-800"
@@ -163,15 +189,20 @@ export default function OutletsPage() {
         </div>
       ),
     },
-  ], [handleDelete, handleEdit]);
+  ], [handleDelete, handleEdit, handleChangeActiveStatus]);
 
   return (
     <Box className="p-4">
       <div className="flex justify-between items-center mb-4">
-        <Typography variant="h2">Outlets</Typography>
-        <Button variant="contained" onClick={handleCreate}>
-          + New Outlet
-        </Button>
+        <Typography variant="h2">Brands</Typography>
+        <Box className="flex gap-2">
+          <IconButton onClick={handleRefresh}>
+            <Refresh />
+          </IconButton>
+          <Button variant="contained" onClick={handleCreate}>
+            + New Brand
+          </Button>
+        </Box>
       </div>
 
       {/* Filters Section */}

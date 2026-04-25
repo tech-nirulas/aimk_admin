@@ -36,7 +36,7 @@ export const productsEndpoints = (builder: EndpointDefinitions) => ({
     }
   >({
     query: (params) => ({
-      url: "product",
+      url: "product/paginated",
       method: "GET",
       params: {
         page: params.page,

@@ -1,13 +1,15 @@
 "use client";
 
-import { Box, Button, FormControl, InputLabel, MenuItem, Paper, Select, Switch, TextField, Typography, debounce } from "@mui/material";
+import { Box, Button, FormControl, IconButton, InputLabel, MenuItem, Paper, Select, Switch, TextField, Typography, debounce } from "@mui/material";
 import { useCallback, useMemo, useState } from "react";
 import { FaEdit, FaSearch, FaTrash } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 
 import {
   useDeleteLegalEntityMutation,
+  useGetAllLegalEntitiesPaginatedQuery,
   useGetAllLegalEntitiesQuery,
+  useUpdateLegalEntityMutation,
 } from "@/features/legal-entity/legalEntitiesApiService";
 
 import {
@@ -16,11 +18,11 @@ import {
 } from "@/features/legal-entity/legalEntitiesSlice";
 
 import TableComponent from "@/components/common/DataTable";
-import CategoryForm from "@/components/ui/Category/CategoryForm";
+import LegalEntityForm from "@/components/ui/LegalEntity/LegalEntityForm";
+import { LegalEntity } from "@/interfaces/legal-entity.interface";
 import { useConfirmDialog } from "@/lib/DialogProvider";
 import { useFormDrawer } from "@/lib/FormDrawerProvider";
-import { LegalEntity } from "@/interfaces/legal-entity.interface";
-import LegalEntityForm from "@/components/ui/LegalEntity/LegalEntityForm";
+import { Refresh } from "@mui/icons-material";
 
 export default function LegalEntitiesPage() {
   const dispatch = useDispatch();
@@ -37,7 +39,7 @@ export default function LegalEntitiesPage() {
   const { openDialog } = useConfirmDialog();
 
   // Fetch data with pagination
-  const { data, isLoading } = useGetAllLegalEntitiesQuery({
+  const { data, isLoading, refetch: handleRefresh } = useGetAllLegalEntitiesPaginatedQuery({
     page,
     limit,
     search: search || undefined,
@@ -47,6 +49,8 @@ export default function LegalEntitiesPage() {
   });
 
   const [deleteLegalEntity] = useDeleteLegalEntityMutation();
+
+  const [updateLegalEntity] = useUpdateLegalEntityMutation();
 
   // Debounced search
   const debouncedSearch = useMemo(
@@ -102,7 +106,7 @@ export default function LegalEntitiesPage() {
     });
   };
 
-  const handleDelete = useCallback(async (row: any) => {
+  const handleDelete = useCallback(async (row: LegalEntity) => {
     openDialog("Are you sure you want to delete this legal entity?", async () => await deleteLegalEntity({ id: row.id }))
   }, [deleteLegalEntity, openDialog]);
 
@@ -113,6 +117,10 @@ export default function LegalEntitiesPage() {
     }
   };
 
+  const handleChangeActiveStatus = useCallback(async (row: LegalEntity, newStatus: boolean) => {
+    await updateLegalEntity({ id: row.id, body: { isActive: newStatus } });
+  }, [updateLegalEntity]);
+
   const columns = useMemo(() => [
     {
       field: "name",
@@ -122,7 +130,15 @@ export default function LegalEntitiesPage() {
         <p className="truncate font-medium">{row.name}</p>
       )
     },
-    { field: "slug", headerName: "Slug", flex: 1 },
+    {
+      field: "legalName",
+      headerName: "Legal Name",
+      flex: 1,
+      renderCell: ({ row }: { row: LegalEntity }) => (
+        <p className="truncate font-medium">{row.legalName}</p>
+      )
+    },
+    { field: "pan", headerName: "PAN", flex: 1 },
     {
       field: "gstin",
       headerName: "GST-IN",
@@ -136,7 +152,7 @@ export default function LegalEntitiesPage() {
       headerName: "Status",
       flex: 0.5,
       renderCell: ({ row }: { row: LegalEntity }) => (
-        <Switch checked={row.isActive} disabled />
+        <Switch checked={row.isActive} onChange={(e) => handleChangeActiveStatus(row, e.target.checked)} />
       ),
     },
     {
@@ -166,15 +182,20 @@ export default function LegalEntitiesPage() {
         </div>
       ),
     },
-  ], [handleDelete, handleEdit]);
+  ], [handleDelete, handleEdit, handleChangeActiveStatus]);
 
   return (
     <Box className="p-4">
       <div className="flex justify-between items-center mb-4">
         <Typography variant="h2">Legal Entities</Typography>
-        <Button variant="contained" onClick={handleCreate}>
-          + New Legal Entity
-        </Button>
+        <Box>
+          <IconButton onClick={handleRefresh}>
+            <Refresh />
+          </IconButton>
+          <Button variant="contained" onClick={handleCreate}>
+            + New Legal Entity
+          </Button>
+        </Box>
       </div>
 
       {/* Filters Section */}

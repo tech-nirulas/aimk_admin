@@ -6,10 +6,8 @@ class CategoryValidator {
     description: Yup.string().required("Description is required"),
     displayOrder: Yup.number().optional(),
     categoryImageId: Yup.string().optional(),
-    typicalConsumption: Yup.string().optional(),
-    preparationTime: Yup.string().optional(),
-    defaultGstRate: Yup.number().optional(),
-
+    parentId: Yup.string().optional(),
+    brandId: Yup.string().required("Brand is required")
   });
 }
 

@@ -19,4 +19,6 @@ export const {
   useUpdateLegalEntityMutation,
   useLazyGetAllLegalEntitiesQuery,
   useLazyGetLegalEntityQuery,
+  useGetAllLegalEntitiesPaginatedQuery,
+  useLazyGetAllLegalEntitiesPaginatedQuery,
 } = legalEntityApiService;

@@ -6,6 +6,7 @@ import { legalEntityApiService } from "@/features/legal-entity/legalEntitiesApiS
 import { outletApiService } from "@/features/outlets/outletsApiService";
 import { orderApiService } from "@/features/order/orderApiService";
 import { paymentApiService } from "@/features/payments/paymentApiService";
+import { brandApiService } from "@/features/brand/brandApiService";
 
 export const api = {
   categoryApiService,
@@ -16,4 +17,5 @@ export const api = {
   outletApiService,
   orderApiService,
   paymentApiService,
+  brandApiService,
 };

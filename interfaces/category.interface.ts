@@ -1,5 +1,7 @@
+import { Brand } from "./brand.interface";
 import { Media } from "./media.interface";
 import { RootPaginate } from "./pagination.interface";
+import { Product } from "./product.interface";
 import { Root } from "./root.interface";
 
 export interface Category {
@@ -7,17 +9,23 @@ export interface Category {
   name: string;
   slug: string;
   description: string;
-  categoryImageId: string;
+  categoryImageId: string | null;
   displayOrder: number;
   isActive: boolean;
-  parentId: string;
+  parentId: string | null;
   typicalConsumption: string;
   preparationTime: string;
   defaultGstRate: number;
   createdAt: string;
   updatedAt: string;
+  brandId: string;
+  brand: Brand;
+  parent: Category;
+  products: Product[];
   categoryImage: Media;
-  _count: object
+  _count: {
+    products: number;
+  };
 }
 
 export type GetCategoryWithSkuCountResponse = Category[];
@@ -34,4 +42,9 @@ export type CreateCategoryPayload = Omit<
   | "parent"
   | "isActive"
   | "categoryImage"
+  | "products"
+  | "_count"
+  | "typicalConsumption"
+  | "preparationTime"
+  | "defaultGstRate"
 >;

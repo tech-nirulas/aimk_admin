@@ -16,6 +16,7 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 import {
+  MaterialMultiSelectField,
   MaterialSelectField,
   MaterialTextField,
 } from "@/components/common/CustomFields";
@@ -28,6 +29,7 @@ import { CreateOutletPayload } from "@/interfaces/outlet.interface";
 import OutletValidator from "@/utils/validators/outlet.validator";
 import CoordinatesInput from "./CoordinatesInput";
 import OpeningHoursInput from "./OpeningHoursInput";
+import { useGetAllBrandsQuery } from "@/features/brand/brandApiService";
 
 // ─── Section header (same pattern as ProductForm) ────────────────────────────
 
@@ -99,7 +101,9 @@ export default function OutletForm() {
   ] = useUpdateOutletMutation();
 
   const { data: legalEntities, isLoading: isLegalEntitiesLoading } =
-    useGetAllLegalEntitiesQuery({ limit: 10000, page: 1 });
+    useGetAllLegalEntitiesQuery();
+
+  const { data: brands, isLoading: isBrandsLoading } = useGetAllBrandsQuery();
 
   const initialValues: CreateOutletPayload = {
     name: selectedOutlet?.name ?? "",
@@ -111,11 +115,12 @@ export default function OutletForm() {
     // coordinates stores { lat, lng }
     coordinates: selectedOutlet?.coordinates ?? {},
     email: selectedOutlet?.email ?? "",
-    legalEntityId: selectedOutlet?.legalEntityId ?? "",
+    // legalEntityId: selectedOutlet?.legalEntityId ?? "",
     phone: selectedOutlet?.phone ?? "",
     pickupCutoffTime: selectedOutlet?.pickupCutoffTime ?? "16:00",
     pincode: selectedOutlet?.pincode ?? "",
     state: selectedOutlet?.state ?? "",
+    brands: selectedOutlet?.brands ?? [],
   };
 
   const handleSubmit = async (values: typeof initialValues) => {
@@ -159,7 +164,9 @@ export default function OutletForm() {
       initialValues={initialValues}
       onSubmit={handleSubmit}
       validationSchema={OutletValidator.createOutletSchema}
-      enableReinitialize
+      validateOnChange={false}
+      validateOnBlur={true}
+      enableReinitialize={false}
     >
       {({ isSubmitting, resetForm }) => (
         <Form className="flex flex-col" style={{ height: "100%" }}>
@@ -196,7 +203,7 @@ export default function OutletForm() {
               </Grid>
 
               {/* ── Legal Entity ───────────────────────────────────────── */}
-              <SectionHeader>Legal Entity</SectionHeader>
+              {/* <SectionHeader>Legal Entity</SectionHeader>
               <Grid container spacing={2} mb={3}>
                 <Grid item xs={12}>
                   {isLegalEntitiesLoading ? (
@@ -209,6 +216,27 @@ export default function OutletForm() {
                         legalEntities?.data?.map((le) => ({
                           value: le.id,
                           label: le.name,
+                        })) || []
+                      }
+                    />
+                  )}
+                </Grid>
+              </Grid> */}
+
+              {/* ── Brands ───────────────────────────────────────── */}
+              <SectionHeader>Brands</SectionHeader>
+              <Grid container spacing={2} mb={3}>
+                <Grid item xs={12}>
+                  {isBrandsLoading ? (
+                    <Skeleton width="100%" height={40} />
+                  ) : (
+                    <MaterialMultiSelectField
+                      name="brands"
+                      label="Brands"
+                      options={
+                        brands?.data?.map((brand) => ({
+                          value: brand.id,
+                          label: brand.name,
                         })) || []
                       }
                     />
