@@ -15,14 +15,14 @@ import {
 } from "@/features/categories/categoriesApiService";
 
 import { MaterialSelectField, MaterialTextField } from "@/components/common/CustomFields";
+import { useGetAllBrandsQuery } from "@/features/brand/brandApiService";
+import { Brand } from "@/interfaces/brand.interface";
 import { Category, CreateCategoryPayload } from "@/interfaces/category.interface";
 import CategoryValidator from "@/utils/validators/category.validator";
 import CloseIcon from "@mui/icons-material/Close";
 import ImageIcon from "@mui/icons-material/Image";
 import { Field } from "formik";
 import { useEffect } from "react";
-import { Brand } from "@/interfaces/brand.interface";
-import { useGetAllBrandsQuery } from "@/features/brand/brandApiService";
 
 export default function CategoryForm() {
   const { closeDrawer, isEditing } = useFormDrawer();
