@@ -17,7 +17,7 @@ import {
 } from "@/features/brand/brandSlice";
 
 import TableComponent from "@/components/common/DataTable";
-import CategoryForm from "@/components/ui/Category/CategoryForm";
+import BrandForm from "@/components/ui/Brand/BrandForm";
 import { Brand } from "@/interfaces/brand.interface";
 import { useConfirmDialog } from "@/lib/DialogProvider";
 import { useFormDrawer } from "@/lib/FormDrawerProvider";
@@ -87,7 +87,7 @@ export default function BrandsPage() {
 
     openDrawer({
       drawerName: "Edit Brand",
-      children: <CategoryForm />,
+      children: <BrandForm />,
       dispatchFunctions: [clearSelectedBrand],
       isEditing: true,
       width: 500,
@@ -98,7 +98,7 @@ export default function BrandsPage() {
   const handleCreate = () => {
     openDrawer({
       drawerName: "Create Brand",
-      children: <CategoryForm />,
+      children: <BrandForm />,
       width: 500,
       anchor: "right"
     });
