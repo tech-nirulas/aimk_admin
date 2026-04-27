@@ -20,7 +20,7 @@ import {
   MaterialSelectField,
   MaterialTextField,
 } from "@/components/common/CustomFields";
-import { useGetAllLegalEntitiesQuery } from "@/features/legal-entity/legalEntitiesApiService";
+import { useGetAllBrandsQuery } from "@/features/brand/brandApiService";
 import {
   useCreateOutletMutation,
   useUpdateOutletMutation,
@@ -29,7 +29,6 @@ import { CreateOutletPayload } from "@/interfaces/outlet.interface";
 import OutletValidator from "@/utils/validators/outlet.validator";
 import CoordinatesInput from "./CoordinatesInput";
 import OpeningHoursInput from "./OpeningHoursInput";
-import { useGetAllBrandsQuery } from "@/features/brand/brandApiService";
 
 // ─── Section header (same pattern as ProductForm) ────────────────────────────
 
@@ -100,9 +99,6 @@ export default function OutletForm() {
     },
   ] = useUpdateOutletMutation();
 
-  const { data: legalEntities, isLoading: isLegalEntitiesLoading } =
-    useGetAllLegalEntitiesQuery();
-
   const { data: brands, isLoading: isBrandsLoading } = useGetAllBrandsQuery();
 
   const initialValues: CreateOutletPayload = {
@@ -112,6 +108,7 @@ export default function OutletForm() {
     code: selectedOutlet?.code ?? "",
     // openingHours stores the full weekly schedule object
     openingHours: selectedOutlet?.openingHours ?? {},
+    gstin: selectedOutlet?.gstin ?? "",
     // coordinates stores { lat, lng }
     coordinates: selectedOutlet?.coordinates ?? {},
     email: selectedOutlet?.email ?? "",
@@ -202,27 +199,6 @@ export default function OutletForm() {
                 </Grid>
               </Grid>
 
-              {/* ── Legal Entity ───────────────────────────────────────── */}
-              {/* <SectionHeader>Legal Entity</SectionHeader>
-              <Grid container spacing={2} mb={3}>
-                <Grid item xs={12}>
-                  {isLegalEntitiesLoading ? (
-                    <Skeleton width="100%" height={40} />
-                  ) : (
-                    <MaterialSelectField
-                      name="legalEntityId"
-                      label="Legal Entity"
-                      options={
-                        legalEntities?.data?.map((le) => ({
-                          value: le.id,
-                          label: le.name,
-                        })) || []
-                      }
-                    />
-                  )}
-                </Grid>
-              </Grid> */}
-
               {/* ── Brands ───────────────────────────────────────── */}
               <SectionHeader>Brands</SectionHeader>
               <Grid container spacing={2} mb={3}>
@@ -241,6 +217,14 @@ export default function OutletForm() {
                       }
                     />
                   )}
+                </Grid>
+              </Grid>
+
+              {/* ── GSTIN ───────────────────────────────────────── */}
+              <SectionHeader>GSTIN</SectionHeader>
+              <Grid container spacing={2} mb={3}>
+                <Grid item xs={12}>
+                  <MaterialTextField name="gstin" label="GSTIN" />
                 </Grid>
               </Grid>
 

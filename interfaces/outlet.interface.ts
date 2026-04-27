@@ -17,6 +17,7 @@ export interface Outlet {
   pickupCutoffTime: string;
   isActive: boolean;
   coordinates: object;
+  gstin: string;
   // legalEntityId: string;
   brands: Brand[];
   createdAt: string;

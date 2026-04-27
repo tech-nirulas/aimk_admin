@@ -29,6 +29,8 @@ class OutletValidator {
       .of(Yup.string())
       .min(1, "At least one brand is required"),
 
+    gstin: Yup.string().required("GSTIN is required"),
+
     // Optional fields
     pickupCutoffTime: Yup.string().nullable(),
 
