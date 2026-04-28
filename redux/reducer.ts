@@ -5,6 +5,7 @@ import productReducer from "@/features/products/productSlice";
 import legalEntityReducer from "@/features/legal-entity/legalEntitiesSlice";
 import outletReducer from "@/features/outlets/outletsSlice";
 import brandReducer from "@/features/brand/brandSlice";
+import discountReducer from "@/features/discounts/discountSlice";
 
 export const reducer = {
   cartReducer,
@@ -14,4 +15,5 @@ export const reducer = {
   legalEntityReducer,
   outletReducer,
   brandReducer,
+  discountReducer,
 };
