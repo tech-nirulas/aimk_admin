@@ -34,6 +34,8 @@ const MENU_ITEMS = [
   { label: "Outlet Prices", path: "/admin/outlet-prices", icon: <MoneyIcon /> },
   { label: "Orders", path: "/admin/orders", icon: <ShoppingCartOutlinedIcon /> },
   { label: "Payments", path: "/admin/payments", icon: <ReceiptLongOutlinedIcon /> },
+  { label: "Discounts", path: "/admin/discounts", icon: <ReceiptLongOutlinedIcon /> },
+  { label: "Offers", path: "/admin/offers", icon: <ReceiptLongOutlinedIcon /> },
 ];
 
 export default function Sidebar() {

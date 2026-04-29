@@ -36,6 +36,7 @@ import {
 } from "@/features/products/productApiService";
 import { CreateProductPayload } from "@/interfaces/product.interface";
 import { useGetAllBrandsQuery } from "@/features/brand/brandApiService";
+import SectionHeader from "@/components/common/SectionHeader";
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
@@ -93,27 +94,6 @@ const GST_RATES = [
   { value: 28, label: "28%" },
   { value: 40, label: "40%" },
 ];
-
-// ─── Sub-components ───────────────────────────────────────────────────────────
-
-const SectionHeader = ({ children }: { children: React.ReactNode }) => {
-  const theme = useTheme();
-  return (
-    <Box
-      sx={{
-        bgcolor: theme.palette.primary.main,
-        px: 2,
-        py: 0.75,
-        borderRadius: 1,
-        mb: 2,
-      }}
-    >
-      <Typography variant="subtitle2" sx={{ color: theme.palette.primary.contrastText, fontWeight: 600 }}>
-        {children}
-      </Typography>
-    </Box>
-  );
-};
 
 const DietaryTagsInput = ({ name }: { name: string }) => {
   const [field, , helpers] = useField(name);

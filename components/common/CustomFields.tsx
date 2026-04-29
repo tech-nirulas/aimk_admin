@@ -1,6 +1,8 @@
 import { Autocomplete, Box, Checkbox, Chip, FormControl, FormHelperText, InputLabel, ListItemText, MenuItem, OutlinedInput, OutlinedInputProps, SelectProps, TextField } from "@mui/material";
 import { useField } from "formik";
 import { useEffect, useRef, useState, useMemo } from "react";
+import { DatePicker, DateTimePicker } from "@mui/x-date-pickers";
+import dayjs from "dayjs";
 
 interface MaterialTextFieldProps extends React.ComponentProps<typeof TextField> {
   label: string;
@@ -277,12 +279,16 @@ export const MaterialMultiSelectField = ({
             helperText={errorText}
           />
         )}
-        renderOption={(optionProps, option) => (
-          <MenuItem {...optionProps} key={String(option.value)}>
-            <Checkbox checked={selectedValues.includes(option.value)} />
-            <ListItemText primary={option.label} />
-          </MenuItem>
-        )}
+        renderOption={(optionProps, option) => {
+          const { key, ...rest } = optionProps;
+
+          return (
+            <MenuItem key={key} {...rest}>
+              <Checkbox checked={selectedValues.includes(option.value)} />
+              <ListItemText primary={option.label} />
+            </MenuItem>
+          );
+        }}
         isOptionEqualToValue={(option, value) =>
           option.value === value.value
         }
@@ -347,5 +353,59 @@ export const MaterialFreeInputMultiSelect = ({
       />
       {errorText && <FormHelperText>{errorText}</FormHelperText>}
     </FormControl>
+  );
+};
+
+
+interface MaterialDateFieldProps {
+  name: string;
+  label: string;
+  type?: "date" | "datetime";
+  minDate?: Date;
+  maxDate?: Date;
+}
+
+export const MaterialDateField = ({
+  name,
+  label,
+  type = "date",
+  minDate,
+  maxDate,
+}: MaterialDateFieldProps) => {
+  const [field, meta, helpers] = useField(name);
+  const errorText = meta.touched && meta.error ? meta.error : "";
+
+  // Convert string → dayjs
+  const value = field.value ? dayjs(field.value) : null;
+
+  const handleChange = (newValue: any) => {
+    if (!newValue) {
+      helpers.setValue("");
+      return;
+    }
+
+    // Save as ISO string (backend friendly)
+    helpers.setValue(newValue.toISOString());
+  };
+
+  const commonProps = {
+    label,
+    value,
+    onChange: handleChange,
+    minDate: minDate ? dayjs(minDate) : undefined,
+    maxDate: maxDate ? dayjs(maxDate) : undefined,
+    slotProps: {
+      textField: {
+        fullWidth: true,
+        error: !!errorText,
+        helperText: errorText,
+      },
+    },
+  };
+
+  return type === "datetime" ? (
+    <DateTimePicker {...commonProps} />
+  ) : (
+    <DatePicker {...commonProps} />
   );
 };

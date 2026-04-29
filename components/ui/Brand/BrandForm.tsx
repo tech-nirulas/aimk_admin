@@ -4,7 +4,6 @@ import { useToast } from "@/hooks/useToast";
 import { useFormDrawer } from "@/lib/FormDrawerProvider";
 import { Box, Button, CircularProgress, Grid, Typography, useTheme } from "@mui/material";
 import { Form, Formik } from "formik";
-import { useState } from "react";
 import { useSelector } from "react-redux";
 
 
@@ -13,9 +12,8 @@ import { useCreateBrandMutation, useUpdateBrandMutation } from "@/features/brand
 import { useGetAllLegalEntitiesQuery } from "@/features/legal-entity/legalEntitiesApiService";
 import { CreateBrandPayload } from "@/interfaces/brand.interface";
 import { LegalEntity } from "@/interfaces/legal-entity.interface";
-import CategoryValidator from "@/utils/validators/category.validator";
-import { useEffect } from "react";
 import BrandValidator from "@/utils/validators/brand.validator";
+import { useEffect } from "react";
 
 export default function BrandForm() {
   const { closeDrawer, isEditing } = useFormDrawer();

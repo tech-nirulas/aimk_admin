@@ -1,18 +1,29 @@
 "use client";
 
-import { Box, Button, FormControl, InputLabel, MenuItem, Paper, Select, Switch, TextField, Typography, debounce } from "@mui/material";
+import { Box, Button, FormControl, IconButton, InputLabel, MenuItem, Paper, Select, Switch, TextField, Typography, debounce } from "@mui/material";
 import { useCallback, useMemo, useState } from "react";
 import { FaEdit, FaSearch, FaTrash } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 
+import {
+  useDeleteDiscountMutation,
+  useGetAllDiscountsPaginatedQuery,
+  useUpdateDiscountMutation
+} from "@/features/discounts/discountApiService";
+
+import {
+  clearSelectedDiscount,
+  setSelectedDiscount
+} from "@/features/discounts/discountSlice";
+
 import TableComponent from "@/components/common/DataTable";
-import ProductForm from "@/components/ui/Product/ProductForm";
-import { useDeleteProductMutation, useGetPaginatedProductQuery } from "@/features/products/productApiService";
-import { clearProduct, clearSelectedProduct, setSelectedProduct } from "@/features/products/productSlice";
+import DiscountForm from "@/components/ui/Discount/DiscountForm";
+import { Discount } from "@/interfaces/discount.interface";
 import { useConfirmDialog } from "@/lib/DialogProvider";
 import { useFormDrawer } from "@/lib/FormDrawerProvider";
+import { Refresh } from "@mui/icons-material";
 
-export default function ProductsPage() {
+export default function DiscountsPage() {
   const dispatch = useDispatch();
   const { openDrawer, setIsEditing } = useFormDrawer();
 
@@ -27,7 +38,7 @@ export default function ProductsPage() {
   const { openDialog } = useConfirmDialog();
 
   // Fetch data with pagination
-  const { data, isLoading } = useGetPaginatedProductQuery({
+  const { data, isLoading, refetch: handleRefresh } = useGetAllDiscountsPaginatedQuery({
     page,
     limit,
     search: search || undefined,
@@ -36,7 +47,8 @@ export default function ProductsPage() {
     sortOrder,
   });
 
-  const [deleteProduct] = useDeleteProductMutation();
+  const [deleteDiscount] = useDeleteDiscountMutation();
+  const [updateDiscount] = useUpdateDiscountMutation();
 
   // Debounced search
   const debouncedSearch = useMemo(
@@ -70,13 +82,13 @@ export default function ProductsPage() {
   };
 
   const handleEdit = useCallback((row: unknown) => {
-    dispatch(setSelectedProduct(row));
+    dispatch(setSelectedDiscount(row));
     setIsEditing(true);
 
     openDrawer({
-      drawerName: "Edit Product",
-      children: <ProductForm />,
-      dispatchFunctions: [clearSelectedProduct],
+      drawerName: "Edit Discount",
+      children: <DiscountForm />,
+      dispatchFunctions: [clearSelectedDiscount],
       isEditing: true,
       width: 500,
       anchor: "right"
@@ -85,17 +97,16 @@ export default function ProductsPage() {
 
   const handleCreate = () => {
     openDrawer({
-      drawerName: "Create Product",
-      children: <ProductForm />,
-      dispatchFunctions: [clearSelectedProduct, clearProduct],
+      drawerName: "Create Discount",
+      children: <DiscountForm />,
       width: 500,
       anchor: "right"
     });
   };
 
-  const handleDelete = useCallback(async (row: any) => {
-    openDialog("Are you sure you want to delete this product?", async () => await deleteProduct({ id: row.id }))
-  }, [deleteProduct, openDialog]);
+  const handleDelete = useCallback(async (row: Discount) => {
+    openDialog("Are you sure you want to delete this discount?", async () => await deleteDiscount({ id: row.id }))
+  }, [deleteDiscount, openDialog]);
 
   const handlePageChange = (newPage: number, newPageSize: number) => {
     setPage(newPage);
@@ -104,37 +115,40 @@ export default function ProductsPage() {
     }
   };
 
+  const handleChangeActiveStatus = useCallback(async (row: Discount, newStatus: boolean) => {
+    await updateDiscount({ id: row.id, body: { isActive: newStatus } });
+  }, [updateDiscount]);
+
   const columns = useMemo(() => [
+    {
+      field: "id",
+      headerName: "Discount ID",
+      flex: 1,
+      renderCell: ({ row }: { row: Discount }) => (
+        <p className="truncate font-medium">{row.id}</p>
+      )
+    },
     {
       field: "name",
       headerName: "Name",
       flex: 1,
-      renderCell: ({ row }: any) => (
+      renderCell: ({ row }: { row: Discount }) => (
         <p className="truncate font-medium">{row.name}</p>
-      )
-    },
-    { field: "slug", headerName: "Slug", flex: 1 },
-    {
-      field: "description",
-      headerName: "Description",
-      flex: 2,
-      renderCell: ({ row }: any) => (
-        <p className="truncate">{row.description || "-"}</p>
       )
     },
     {
       field: "isActive",
       headerName: "Status",
       flex: 0.5,
-      renderCell: ({ row }: any) => (
-        <Switch checked={row.isActive} disabled />
+      renderCell: ({ row }: { row: Discount }) => (
+        <Switch checked={row.isActive} onChange={(e) => handleChangeActiveStatus(row, e.target.checked)} />
       ),
     },
     {
       field: "createdAt",
       headerName: "Created At",
       flex: 1,
-      renderCell: ({ row }: any) => (
+      renderCell: ({ row }: { row: Discount }) => (
         <p>{new Date(row.createdAt).toLocaleDateString()}</p>
       ),
     },
@@ -142,7 +156,7 @@ export default function ProductsPage() {
       field: "actions",
       headerName: "Actions",
       flex: 0.5,
-      renderCell: ({ row }: any) => (
+      renderCell: ({ row }: { row: Discount }) => (
         <div className="flex gap-2 items-center justify-start h-full">
           <FaEdit
             className="cursor-pointer text-blue-600 hover:text-blue-800"
@@ -157,21 +171,26 @@ export default function ProductsPage() {
         </div>
       ),
     },
-  ], [handleDelete, handleEdit]);
+  ], [handleDelete, handleEdit, handleChangeActiveStatus]);
 
   return (
     <Box className="p-4">
       <div className="flex justify-between items-center mb-4">
-        <Typography variant="h2">Products</Typography>
-        <Button variant="contained" onClick={handleCreate}>
-          + New Product
-        </Button>
+        <Typography variant="h2">Discounts</Typography>
+        <Box className="flex gap-2">
+          <IconButton onClick={handleRefresh}>
+            <Refresh />
+          </IconButton>
+          <Button variant="contained" onClick={handleCreate}>
+            + New Discount
+          </Button>
+        </Box>
       </div>
 
       {/* Filters Section */}
       <Paper className="mb-4 p-4">
         <div className="flex gap-4 items-end flex-wrap">
-          <div className="flex-1 min-w-[200px]">
+          <div className="flex-1 min-w-50">
             <TextField
               label="Search"
               variant="outlined"
