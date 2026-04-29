@@ -10,7 +10,7 @@ class ProductValidator {
       .required("Short description is required")
       .max(200, "Max 200 characters"),
     description: Yup.string(),
-    code: Yup.string().max(5, "Max 5 characters"),
+    code: Yup.string(),
     categoryId: Yup.string().required("Category is required"),
     brandId: Yup.string().required("Brand is required"),
 
