@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import TableComponent from "@/components/common/DataTable";
 import ProductForm from "@/components/ui/Product/ProductForm";
 import { useDeleteProductMutation, useGetPaginatedProductQuery } from "@/features/products/productApiService";
-import { clearSelectedProduct, setSelectedProduct } from "@/features/products/productSlice";
+import { clearProduct, clearSelectedProduct, setSelectedProduct } from "@/features/products/productSlice";
 import { useConfirmDialog } from "@/lib/DialogProvider";
 import { useFormDrawer } from "@/lib/FormDrawerProvider";
 
@@ -87,7 +87,7 @@ export default function ProductsPage() {
     openDrawer({
       drawerName: "Create Product",
       children: <ProductForm />,
-      dispatchFunctions: [clearSelectedProduct],
+      dispatchFunctions: [clearSelectedProduct, clearProduct],
       width: 500,
       anchor: "right"
     });
