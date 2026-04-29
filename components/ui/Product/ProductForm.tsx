@@ -456,8 +456,7 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
               name="code"
               label="Product Code"
               fullWidth
-              helperText="Max 5 chars — used for SKU prefix generation"
-              inputProps={{ maxLength: 5 }}
+              helperText="used for SKU prefix generation"
             />
           </Grid>
           <Grid item xs={6}>
