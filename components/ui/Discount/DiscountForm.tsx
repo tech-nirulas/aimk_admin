@@ -7,7 +7,7 @@ import { Form, Formik } from "formik";
 import { useSelector } from "react-redux";
 
 
-import { MaterialDateField, MaterialMultiSelectField, MaterialTextField } from "@/components/common/CustomFields";
+import { MaterialDateField, MaterialMultiSelectField, MaterialSelectField, MaterialTextField } from "@/components/common/CustomFields";
 import SectionHeader from "@/components/common/SectionHeader";
 import { useGetAllBrandsQuery } from "@/features/brand/brandApiService";
 import { useGetAllCategoriesQuery } from "@/features/categories/categoriesApiService";
@@ -43,18 +43,18 @@ export default function DiscountForm() {
   const initialValues: DiscountPayloadBase = {
     name: selectedDiscount?.name || "",
     description: selectedDiscount?.description || "",
-    endsAt: selectedDiscount?.endsAt || "",
-    isActive: selectedDiscount?.isActive || true,
-    startsAt: selectedDiscount?.startsAt || "",
     type: selectedDiscount?.type || "",
     value: selectedDiscount?.value || "",
-    brands: selectedDiscount?.brands || "",
-    categories: selectedDiscount?.categories || "",
-    products: selectedDiscount?.products || "",
     discountOnAll: selectedDiscount?.discountOnAll || false,
-    excludedBrands: selectedDiscount?.excludedBrands || "",
-    excludedCategories: selectedDiscount?.excludedCategories || "",
-    excludedProducts: selectedDiscount?.excludedProducts || "",
+    brands: selectedDiscount?.brands?.map((brand: Brand) => brand.id) || [],
+    categories: selectedDiscount?.categories?.map((category: Category) => category?.id) || [],
+    products: selectedDiscount?.products?.map((product: Product) => product?.id) || [],
+    excludedBrands: selectedDiscount?.excludedBrands?.map((excludedBrand: Brand) => excludedBrand?.id) || [],
+    excludedCategories: selectedDiscount?.excludedCategories?.map((excludedCategory: Category) => excludedCategory?.id) || [],
+    excludedProducts: selectedDiscount?.excludedProducts?.map((excludedProduct: Product) => excludedProduct?.id) || [],
+    startsAt: selectedDiscount?.startsAt || "",
+    endsAt: selectedDiscount?.endsAt || "",
+    isActive: selectedDiscount?.isActive || true,
     priority: selectedDiscount?.priority || false,
   };
 
@@ -92,7 +92,7 @@ export default function DiscountForm() {
       showToast(updateDiscountError?.data?.message, "error");
     }
 
-  }, [isCreateSuccess, isUpdateSuccess, isCreateDiscountError, isUpdateDiscountError, createDiscountError, updateDiscountError, showToast, closeDrawer])
+  }, [isCreateSuccess, isUpdateSuccess, isCreateDiscountError, isUpdateDiscountError, createDiscountError, updateDiscountError])
 
   return (
     <Formik
@@ -119,10 +119,10 @@ export default function DiscountForm() {
                   <MaterialTextField name="description" label="Discount Description" />
                 </Grid>
                 <Grid item xs={6}>
-                  <MaterialTextField name="type" label="Discount type" />
+                  <MaterialSelectField name="type" label="Discount type" options={[{ label: "Percentage", value: "PERCENTAGE" }, { label: "Fixed", value: "FIXED_AMOUNT" }]} />
                 </Grid>
                 <Grid item xs={6}>
-                  <MaterialTextField name="value" label="Discount Value" />
+                  <MaterialTextField name="value" label="Discount Value" type="number" />
                 </Grid>
                 <Grid item xs={12}>
                   <Tooltip title="If enabled then discount will be applied to all products across platform">
@@ -207,10 +207,10 @@ export default function DiscountForm() {
                   <MaterialDateField name="endsAt" label="End Date" />
                 </Grid>
                 <Grid item xs={12}>
-                  <MaterialTextField name="name" label="Discount Name" />
+                  <MaterialSelectField name="isActive" label="Is Active" options={[{ label: "Active", value: true }, { label: "InActive", value: false }]} />
                 </Grid>
                 <Grid item xs={12}>
-                  <MaterialTextField name="name" label="Discount Name" />
+                  <MaterialTextField name="priority" label="Priority" type="number" />
                 </Grid>
               </Grid>
             </Box>
