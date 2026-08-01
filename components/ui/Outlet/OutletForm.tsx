@@ -172,37 +172,37 @@ export default function OutletForm() {
             <Box className="p-4">
               {/* ── Basic Information ──────────────────────────────────── */}
               <SectionHeader>Basic Information</SectionHeader>
-              <Grid container spacing={2} mb={3}>
-                <Grid item xs={12} sm={8}>
+              <Grid container spacing={2} sx={{ mb: 3 }}>
+                <Grid size={{ xs: 12, sm: 8 }}>
                   <MaterialTextField name="name" label="Outlet Name" />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid size={{ xs: 12, sm: 4 }}>
                   <MaterialTextField name="code" label="Outlet Code" />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <MaterialTextField name="address" label="Address" />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid size={{ xs: 12, sm: 4 }}>
                   <MaterialTextField name="city" label="City" />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid size={{ xs: 12, sm: 4 }}>
                   <MaterialTextField name="state" label="State" />
                 </Grid>
-                <Grid item xs={12} sm={4}>
+                <Grid size={{ xs: 12, sm: 4 }}>
                   <MaterialTextField name="pincode" label="Pincode" />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   <MaterialTextField name="phone" label="Phone" />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   <MaterialTextField name="email" label="Email" />
                 </Grid>
               </Grid>
 
               {/* ── Brands ───────────────────────────────────────── */}
               <SectionHeader>Brands</SectionHeader>
-              <Grid container spacing={2} mb={3}>
-                <Grid item xs={12}>
+              <Grid container spacing={2} sx={{ mb: 3 }}>
+                <Grid size={{ xs: 12 }}>
                   {isBrandsLoading ? (
                     <Skeleton width="100%" height={40} />
                   ) : (
@@ -222,36 +222,40 @@ export default function OutletForm() {
 
               {/* ── GSTIN ───────────────────────────────────────── */}
               <SectionHeader>GSTIN</SectionHeader>
-              <Grid container spacing={2} mb={3}>
-                <Grid item xs={12}>
+              <Grid container spacing={2} sx={{ mb: 3 }}>
+                <Grid size={{ xs: 12 }}>
                   <MaterialTextField name="gstin" label="GSTIN" />
                 </Grid>
               </Grid>
 
               {/* ── Location ───────────────────────────────────────────── */}
               <SectionHeader>Location Coordinates</SectionHeader>
-              <Box mb={3}>
+              <Box sx={{
+                mb: 3
+              }}>
                 <CoordinatesInput name="coordinates" />
               </Box>
 
               {/* ── Hours & Cutoff ─────────────────────────────────────── */}
               <SectionHeader>Operations</SectionHeader>
-              <Grid container spacing={2} mb={3}>
+              <Grid container spacing={2} sx={{mb: 3}}>
                 {/* Pickup cutoff time — now a proper time selector */}
-                <Grid item xs={12} sm={6}>
+                <Grid size={{ xs: 12, sm: 6 }}>
                   <Box>
                     <Typography
                       variant="caption"
                       color="text.secondary"
-                      display="block"
-                      mb={0.75}
+                      // display="block"
+                      component="h6"
+                      sx={{mb: 0.75}}
                     >
                       Pickup Cutoff Time
                     </Typography>
                     <Typography
                       variant="caption"
                       color="text.secondary"
-                      display="block"
+                      // display="block"
+                      component="p"
                       mb={1}
                       sx={{ opacity: 0.7 }}
                     >
@@ -267,7 +271,7 @@ export default function OutletForm() {
                 </Grid>
 
                 {/* Opening hours */}
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <Typography
                     variant="caption"
                     color="text.secondary"

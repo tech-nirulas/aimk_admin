@@ -94,11 +94,11 @@ export default function BrandForm() {
               </Box>
 
               <Grid container spacing={2}>
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <MaterialTextField name="name" label="Brand Name" />
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <MaterialSelectField
                     name="isActive"
                     label="Status"
@@ -109,7 +109,7 @@ export default function BrandForm() {
                   />
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <MaterialSelectField
                     name="legalEntityId"
                     label="Legal Entity"

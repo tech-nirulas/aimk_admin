@@ -181,7 +181,7 @@ const NutritionalInfoInput = () => (
       { name: "nutritionalInfo.sugar", label: "Sugar (g)" },
       { name: "nutritionalInfo.sodium", label: "Sodium (mg)" },
     ].map(({ name, label }) => (
-      <Grid item xs={6} sm={3} key={name}>
+      <Grid size={{ xs: 6, sm: 3 }} key={name}>
         <MaterialTextField name={name} label={label} type="number" fullWidth size="small" />
       </Grid>
     ))}
@@ -426,13 +426,13 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
     case 0:
       return (
         <Grid container spacing={2.5}>
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <Alert severity="info">Provide the core product identity and classification.</Alert>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <MaterialTextField name="name" label="Product Name *" fullWidth />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <MaterialTextField
               name="shortDescription"
               label="Short Description *"
@@ -442,7 +442,7 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
               helperText="Shown in product cards — max 200 characters"
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <MaterialTextField
               name="description"
               label="Full Description"
@@ -451,7 +451,7 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
               fullWidth
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={{ xs: 6 }}>
             <MaterialTextField
               name="code"
               label="Product Code"
@@ -459,7 +459,7 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
               helperText="used for SKU prefix generation"
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={{ xs: 6 }}>
             <MaterialSelectField
               name="categoryId"
               label="Category *"
@@ -472,7 +472,7 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
               fullWidth
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <MaterialSelectField
               name="brandId"
               label="Brand *"
@@ -492,14 +492,14 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
     case 1:
       return (
         <Grid container spacing={2.5}>
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <Alert severity="info">Configure pricing, GST classification, and purchasable units.</Alert>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <SectionHeader>Base Pricing</SectionHeader>
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={{ xs: 6 }}>
             <MaterialSelectField
               name="baseUnit"
               label="Base Unit *"
@@ -507,7 +507,7 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
               fullWidth
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={{ xs: 6 }}>
             <MaterialTextField
               name="basePrice"
               label="Base Price (₹) *"
@@ -517,10 +517,10 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
             />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <SectionHeader>Tax Details</SectionHeader>
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={{ xs: 6 }}>
             <MaterialTextField
               name="hsnCode"
               label="HSN Code"
@@ -528,7 +528,7 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
               helperText="Harmonized System Nomenclature code for GST filing"
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={{ xs: 6 }}>
             <MaterialSelectField
               name="gstRate"
               label="GST Rate *"
@@ -537,7 +537,7 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
             />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <SectionHeader>Available Units</SectionHeader>
             <AvailableUnitsInput name="availableUnits" />
           </Grid>
@@ -548,14 +548,14 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
     case 2:
       return (
         <Grid container spacing={2.5}>
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <Alert severity="info">Manage stock levels and pre-order settings.</Alert>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <SectionHeader>Stock</SectionHeader>
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={{ xs: 6 }}>
             <MaterialTextField
               name="stockQuantity"
               label="Stock Quantity"
@@ -564,7 +564,7 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
               inputProps={{ min: 0 }}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={{ xs: 6 }}>
             <MaterialTextField
               name="lowStockThreshold"
               label="Low Stock Alert Threshold"
@@ -574,21 +574,21 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
               inputProps={{ min: 0 }}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <FormControlLabel
               control={<Checkbox name="inStock" checked={values.inStock} onChange={handleChange} />}
               label="Currently In Stock"
             />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <Divider />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <SectionHeader>Pre-order</SectionHeader>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <FormControlLabel
               control={
                 <Checkbox
@@ -601,7 +601,7 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
             />
           </Grid>
           {values.preorderEnabled && (
-            <Grid item xs={6}>
+            <Grid size={{ xs: 6 }}>
               <MaterialTextField
                 name="preorderLeadDays"
                 label="Pre-order Lead Days"
@@ -619,14 +619,14 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
     case 3:
       return (
         <Grid container spacing={2.5}>
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <Alert severity="info">Physical attributes and storage guidance.</Alert>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <SectionHeader>Weight & Packaging</SectionHeader>
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={{ xs: 6 }}>
             <MaterialTextField
               name="weight"
               label="Weight"
@@ -635,7 +635,7 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
               inputProps={{ min: 0, step: "0.01" }}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={{ xs: 6 }}>
             <MaterialSelectField
               name="weightUnit"
               label="Weight Unit"
@@ -648,7 +648,7 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
               fullWidth
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={{ xs: 6 }}>
             <MaterialTextField
               name="piecesPerPack"
               label="Pieces Per Pack"
@@ -658,7 +658,7 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
               inputProps={{ min: 1 }}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid size={{ xs: 6 }}>
             <MaterialTextField
               name="shelfLife"
               label="Shelf Life (days)"
@@ -668,7 +668,7 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
               inputProps={{ min: 0 }}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <MaterialTextField
               name="storageInstructions"
               label="Storage Instructions"
@@ -685,24 +685,24 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
     case 4:
       return (
         <Grid container spacing={3}>
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <Alert severity="info">Dietary status, allergen info, and nutritional breakdown.</Alert>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <SectionHeader>Dietary Tags</SectionHeader>
             <DietaryTagsInput name="dietaryTags" />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <Divider />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <SectionHeader>Allergen Information</SectionHeader>
             <AllergenInfoInput name="allergenInfo" />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <Divider />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <SectionHeader>Nutritional Information (per serving)</SectionHeader>
             <NutritionalInfoInput />
           </Grid>
@@ -713,10 +713,10 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
     case 5:
       return (
         <Grid container spacing={3}>
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <Alert severity="info">Select images from your media library.</Alert>
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <SectionHeader>Main Image</SectionHeader>
             <SingleImagePicker
               idField="mainImageId"
@@ -725,7 +725,7 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
               helperText="Primary product photo shown on the product detail page"
             />
           </Grid>
-          <Grid item xs={12} md={6}>
+          <Grid size={{ xs: 12, md: 6 }}>
             <SectionHeader>Thumbnail</SectionHeader>
             <SingleImagePicker
               idField="thumbnailId"
@@ -734,10 +734,10 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
               helperText="Smaller image used in listing cards (falls back to main image)"
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <Divider />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <SectionHeader>Gallery</SectionHeader>
             <GalleryPickerInput name="gallery" />
           </Grid>
@@ -748,14 +748,14 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
     case 6:
       return (
         <Grid container spacing={2.5}>
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <Alert severity="info">SEO metadata, promotional flags, and seasonal availability.</Alert>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <SectionHeader>SEO</SectionHeader>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <MaterialTextField
               name="seoTitle"
               label="SEO Title"
@@ -763,7 +763,7 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
               helperText="Leave empty to use product name"
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <MaterialTextField
               name="seoDescription"
               label="SEO Description"
@@ -774,14 +774,14 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
             />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <Divider />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <SectionHeader>Promotional Flags</SectionHeader>
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid size={{ xs: 12, sm: 4 }}>
             <Tooltip title="Show in featured product carousels">
               <FormControlLabel
                 control={
@@ -791,7 +791,7 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
               />
             </Tooltip>
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid size={{ xs: 12, sm: 4 }}>
             <Tooltip title="Show in best seller sections">
               <FormControlLabel
                 control={
@@ -805,7 +805,7 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
               />
             </Tooltip>
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid size={{ xs: 12, sm: 4 }}>
             <Tooltip title="Show in new arrivals">
               <FormControlLabel
                 control={
@@ -820,14 +820,14 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
             </Tooltip>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <Divider />
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <SectionHeader>Seasonal Availability</SectionHeader>
           </Grid>
-          <Grid item xs={12}>
+          <Grid size={{ xs: 12 }}>
             <FormControlLabel
               control={
                 <Checkbox
@@ -841,7 +841,7 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
           </Grid>
           {values.isSeasonal && (
             <>
-              <Grid item xs={6}>
+              <Grid size={{ xs: 6 }}>
                 <MaterialTextField
                   name="availableFrom"
                   label="Available From"
@@ -850,7 +850,7 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
                   InputLabelProps={{ shrink: true }}
                 />
               </Grid>
-              <Grid item xs={6}>
+              <Grid size={{ xs: 6 }}>
                 <MaterialTextField
                   name="availableUntil"
                   label="Available Until"
@@ -861,7 +861,7 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
               </Grid>
             </>
           )}
-          <Grid item xs={6}>
+          <Grid size={{ xs: 6 }}>
             <MaterialTextField
               name="maxPerOrder"
               label="Maximum Per Order"

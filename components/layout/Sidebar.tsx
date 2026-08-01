@@ -9,6 +9,9 @@ import LocationIcon from "@mui/icons-material/LocationCity";
 import MoneyIcon from "@mui/icons-material/Money";
 import ReceiptLongOutlinedIcon from "@mui/icons-material/ReceiptLongOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import CakeIcon from "@mui/icons-material/Cake";
+import RateReviewIcon from "@mui/icons-material/RateReview";
+import PeopleIcon from "@mui/icons-material/People";
 import {
   Box,
   Divider,
@@ -26,7 +29,12 @@ const drawerWidth = 240;
 const MENU_ITEMS = [
   { label: "Dashboard", path: "/admin", icon: <DashboardIcon /> },
   { label: "Products", path: "/admin/products", icon: <InventoryIcon /> },
+  { label: "Inventory & Batches", path: "/admin/inventory", icon: <InventoryIcon /> },
+  { label: "Customers", path: "/admin/customers", icon: <PeopleIcon /> },
   { label: "Categories", path: "/admin/categories", icon: <CategoryIcon /> },
+  { label: "Cake Customizations", path: "/admin/cake-customizations", icon: <CakeIcon /> },
+  { label: "Customer Reviews", path: "/admin/reviews", icon: <RateReviewIcon /> },
+  { label: "Team Users & Roles", path: "/admin/users", icon: <PeopleIcon /> },
   { label: "Media", path: "/admin/media", icon: <ImageIcon /> },
   { label: "Outlets", path: "/admin/outlets", icon: <LocationIcon /> },
   { label: "Brands", path: "/admin/brands", icon: <CategoryIcon /> },

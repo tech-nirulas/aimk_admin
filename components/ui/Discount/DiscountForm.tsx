@@ -1,33 +1,30 @@
 "use client";
 
-import { useToast } from "@/hooks/useToast";
-import { useFormDrawer } from "@/lib/FormDrawerProvider";
-import { Box, Button, Checkbox, CircularProgress, FormControlLabel, Grid, Tooltip, Typography, useTheme } from "@mui/material";
-import { Form, Formik } from "formik";
-import { useSelector } from "react-redux";
-
-
 import { MaterialDateField, MaterialMultiSelectField, MaterialSelectField, MaterialTextField } from "@/components/common/CustomFields";
 import SectionHeader from "@/components/common/SectionHeader";
 import { useGetAllBrandsQuery } from "@/features/brand/brandApiService";
 import { useGetAllCategoriesQuery } from "@/features/categories/categoriesApiService";
 import { useCreateDiscountMutation, useUpdateDiscountMutation } from "@/features/discounts/discountApiService";
 import { useGetAllProductsQuery } from "@/features/products/productApiService";
+import { useToast } from "@/hooks/useToast";
 import { Brand } from "@/interfaces/brand.interface";
 import { Category } from "@/interfaces/category.interface";
 import { DiscountPayloadBase } from "@/interfaces/discount.interface";
 import { Product } from "@/interfaces/product.interface";
+import { useFormDrawer } from "@/lib/FormDrawerProvider";
 import DiscountValidator from "@/utils/validators/discount.validator";
+import { Box, Button, Checkbox, CircularProgress, FormControlLabel, Grid, Tooltip, Typography, useTheme } from "@mui/material";
+import { Form, Formik } from "formik";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
-export default function DiscountForm() {
+export default function DiscountForm({ refetch }: { refetch?: () => void }) {
   const { closeDrawer, isEditing } = useFormDrawer();
   const { showToast } = useToast();
-
   const theme = useTheme();
 
   const selectedDiscount = useSelector(
-    (state: any) => state.discountReducer.selectedDiscount
+    (state: any) => state.discountReducer?.selectedDiscount
   );
 
   const [createDiscount, { isLoading: isCreateDiscountLoading, isSuccess: isCreateSuccess, isError: isCreateDiscountError, error: createDiscountError }] =
@@ -36,69 +33,93 @@ export default function DiscountForm() {
   const [updateDiscount, { isLoading: isUpdateDiscountLoading, isSuccess: isUpdateSuccess, isError: isUpdateDiscountError, error: updateDiscountError }] =
     useUpdateDiscountMutation();
 
-  const { data: products } = useGetAllProductsQuery(null);
-  const { data: categories } = useGetAllCategoriesQuery();
-  const { data: brands } = useGetAllBrandsQuery();
+  const { data: productsData } = useGetAllProductsQuery(null);
+  const { data: categoriesData } = useGetAllCategoriesQuery();
+  const { data: brandsData } = useGetAllBrandsQuery();
 
-  const initialValues: DiscountPayloadBase = {
+  const productsList = productsData?.data || productsData || [];
+  const categoriesList = categoriesData?.data || categoriesData || [];
+  const brandsList = brandsData?.data || brandsData || [];
+
+  const initialValues: any = {
     name: selectedDiscount?.name || "",
     description: selectedDiscount?.description || "",
-    type: selectedDiscount?.type || "",
-    value: selectedDiscount?.value || "",
-    discountOnAll: selectedDiscount?.discountOnAll || false,
-    brands: selectedDiscount?.brands?.map((brand: Brand) => brand.id) || [],
-    categories: selectedDiscount?.categories?.map((category: Category) => category?.id) || [],
-    products: selectedDiscount?.products?.map((product: Product) => product?.id) || [],
-    excludedBrands: selectedDiscount?.excludedBrands?.map((excludedBrand: Brand) => excludedBrand?.id) || [],
-    excludedCategories: selectedDiscount?.excludedCategories?.map((excludedCategory: Category) => excludedCategory?.id) || [],
-    excludedProducts: selectedDiscount?.excludedProducts?.map((excludedProduct: Product) => excludedProduct?.id) || [],
-    startsAt: selectedDiscount?.startsAt || "",
-    endsAt: selectedDiscount?.endsAt || "",
-    isActive: selectedDiscount?.isActive || true,
-    priority: selectedDiscount?.priority || false,
+    type: selectedDiscount?.type || "PERCENTAGE",
+    value: selectedDiscount?.value ? Number(selectedDiscount.value) : "",
+    discountOnAll: Boolean(selectedDiscount?.discountOnAll),
+    brands: selectedDiscount?.brands?.map((b: Brand) => b.id) || [],
+    categories: selectedDiscount?.categories?.map((c: Category) => c.id) || [],
+    products: selectedDiscount?.products?.map((p: Product) => p.id) || [],
+    excludedBrands: selectedDiscount?.excludedBrands?.map((b: Brand) => b.id) || [],
+    excludedCategories: selectedDiscount?.excludedCategories?.map((c: Category) => c.id) || [],
+    excludedProducts: selectedDiscount?.excludedProducts?.map((p: Product) => p.id) || [],
+    startsAt: selectedDiscount?.startsAt ? new Date(selectedDiscount.startsAt).toISOString().split("T")[0] : new Date().toISOString().split("T")[0],
+    endsAt: selectedDiscount?.endsAt ? new Date(selectedDiscount.endsAt).toISOString().split("T")[0] : "",
+    isActive: selectedDiscount?.isActive ?? true,
+    priority: selectedDiscount?.priority ?? 0,
   };
 
-  const handleSubmit = async (values: DiscountPayloadBase) => {
+  const handleSubmit = async (values: any) => {
     try {
-      if (isEditing) {
+      const payload: DiscountPayloadBase = {
+        ...values,
+        value: Number(values.value),
+        priority: Number(values.priority),
+        startsAt: new Date(values.startsAt).toISOString(),
+        endsAt: values.endsAt ? new Date(values.endsAt).toISOString() : (undefined as any),
+      };
+
+      if (isEditing && selectedDiscount?.id) {
         await updateDiscount({
           id: selectedDiscount.id,
-          body: values,
-        });
+          body: payload,
+        }).unwrap();
       } else {
-        await createDiscount(values);
+        await createDiscount(payload).unwrap();
       }
     } catch (e) {
-      console.error(e);
+      console.error("Discount submit error:", e);
     }
   };
 
   useEffect(() => {
     if (isCreateSuccess) {
-      showToast("Discount Created", "success");
+      showToast("Discount Created Successfully", "success");
+      if (refetch) refetch();
       closeDrawer();
     }
 
     if (isUpdateSuccess) {
-      showToast("Discount Updated", "success");
+      showToast("Discount Updated Successfully", "success");
+      if (refetch) refetch();
       closeDrawer();
     }
 
     if (isCreateDiscountError) {
-      showToast(createDiscountError?.data?.message, "error");
+      showToast((createDiscountError as any)?.data?.message || "Failed to create discount", "error");
     }
 
     if (isUpdateDiscountError) {
-      showToast(updateDiscountError?.data?.message, "error");
+      showToast((updateDiscountError as any)?.data?.message || "Failed to update discount", "error");
     }
-
-  }, [isCreateSuccess, isUpdateSuccess, isCreateDiscountError, isUpdateDiscountError, createDiscountError, updateDiscountError])
+  }, [
+    isCreateSuccess,
+    isUpdateSuccess,
+    isCreateDiscountError,
+    isUpdateDiscountError,
+    createDiscountError,
+    updateDiscountError,
+    closeDrawer,
+    refetch,
+    showToast,
+  ]);
 
   return (
     <Formik
       initialValues={initialValues}
       onSubmit={handleSubmit}
       validationSchema={DiscountValidator.createDiscountSchema}
+      enableReinitialize
     >
       {({ isSubmitting, resetForm, values, handleChange }) => (
         <Form className="flex flex-col" style={{ height: "100%" }}>
@@ -106,128 +127,148 @@ export default function DiscountForm() {
           <Box sx={{ flex: 1, overflow: "auto" }}>
             <Box className="p-4">
               <Box className="mb-6" sx={{ bgcolor: theme.palette.primary.main, padding: 1, borderRadius: 1 }}>
-                <Typography variant='subtitle1' sx={{ color: theme.palette.primary.contrastText }}>
+                <Typography variant="subtitle1" sx={{ color: theme.palette.primary.contrastText, fontWeight: 700 }}>
                   Basic Information
                 </Typography>
               </Box>
 
               <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <MaterialTextField name="name" label="Discount Name" />
+                <Grid size={{xs:12}}>
+                  <MaterialTextField name="name" label="Discount Name" required />
                 </Grid>
-                <Grid item xs={12}>
-                  <MaterialTextField name="description" label="Discount Description" />
+                <Grid size={{xs:12}}>
+                  <MaterialTextField name="description" label="Discount Description" multiline rows={2} required />
                 </Grid>
-                <Grid item xs={6}>
-                  <MaterialSelectField name="type" label="Discount type" options={[{ label: "Percentage", value: "PERCENTAGE" }, { label: "Fixed", value: "FIXED_AMOUNT" }]} />
+                <Grid size={{xs:12}}>
+                  <MaterialSelectField
+                    name="type"
+                    label="Discount Type"
+                    options={[
+                      { label: "Percentage (%)", value: "PERCENTAGE" },
+                      { label: "Fixed Amount (₹)", value: "FIXED_AMOUNT" },
+                    ]}
+                  />
                 </Grid>
-                <Grid item xs={6}>
-                  <MaterialTextField name="value" label="Discount Value" type="number" />
+                <Grid size={{ xs: 6 }}>
+                  <MaterialTextField name="value" label="Discount Value" type="number" required />
                 </Grid>
-                <Grid item xs={12}>
-                  <Tooltip title="If enabled then discount will be applied to all products across platform">
+                <Grid size={{ xs: 12 }}>
+                  <Tooltip title="If enabled, this discount will be applied across all products">
                     <FormControlLabel
                       control={
-                        <Checkbox name="featured" checked={values.discountOnAll} onChange={handleChange} />
+                        <Checkbox
+                          name="discountOnAll"
+                          checked={Boolean(values.discountOnAll)}
+                          onChange={handleChange}
+                        />
                       }
-                      label="Discount on all"
+                      label="Apply discount on all products"
                     />
                   </Tooltip>
                 </Grid>
-                <Grid item xs={12}>
-                  <SectionHeader>Inclusion Critieria</SectionHeader>
+                <Grid size={{ xs: 12 }}>
+                  <SectionHeader>Inclusion Criteria</SectionHeader>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <MaterialMultiSelectField
                     name="products"
                     label="Products"
-                    options={products?.data?.map((product: Product) => ({
+                    options={productsList.map((product: Product) => ({
                       value: product.id,
-                      label: product.name,
-                    })) || []}
+                      label: `${product.name} (${product.sku})`,
+                    }))}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <MaterialMultiSelectField
                     name="categories"
                     label="Categories"
-                    options={categories?.data?.map((category: Category) => ({
+                    options={categoriesList.map((category: Category) => ({
                       value: category.id,
                       label: category.name,
-                    })) || []}
+                    }))}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <MaterialMultiSelectField
                     name="brands"
                     label="Brands"
-                    options={brands?.data?.map((brand: Brand) => ({
+                    options={brandsList.map((brand: Brand) => ({
                       value: brand.id,
                       label: brand.name,
-                    })) || []}
+                    }))}
                   />
                 </Grid>
-                <Grid item xs={12}>
-                  <SectionHeader>Exclusion Critieria</SectionHeader>
+                <Grid size={{ xs: 12 }}>
+                  <SectionHeader>Exclusion Criteria</SectionHeader>
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <MaterialMultiSelectField
                     name="excludedProducts"
                     label="Excluded Products"
-                    options={products?.data?.map((product: Product) => ({
+                    options={productsList.map((product: Product) => ({
                       value: product.id,
-                      label: product.name,
-                    })) || []}
+                      label: `${product.name} (${product.sku})`,
+                    }))}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <MaterialMultiSelectField
                     name="excludedCategories"
                     label="Excluded Categories"
-                    options={categories?.data?.map((category: Category) => ({
+                    options={categoriesList.map((category: Category) => ({
                       value: category.id,
                       label: category.name,
-                    })) || []}
+                    }))}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <MaterialMultiSelectField
                     name="excludedBrands"
                     label="Excluded Brands"
-                    options={brands?.data?.map((brand: Brand) => ({
+                    options={brandsList.map((brand: Brand) => ({
                       value: brand.id,
                       label: brand.name,
-                    })) || []}
+                    }))}
                   />
                 </Grid>
-                <Grid item xs={6}>
-                  <MaterialDateField name="startsAt" label="Start Date" />
+                <Grid size={{ xs: 6 }}>
+                  <MaterialDateField name="startsAt" label="Start Date" required />
                 </Grid>
-                <Grid item xs={6}>
-                  <MaterialDateField name="endsAt" label="End Date" />
+                <Grid size={{ xs: 6 }}>
+                  <MaterialDateField name="endsAt" label="End Date" required />
                 </Grid>
-                <Grid item xs={12}>
-                  <MaterialSelectField name="isActive" label="Is Active" options={[{ label: "Active", value: true }, { label: "InActive", value: false }]} />
+                <Grid size={{ xs: 6 }}>
+                  <MaterialSelectField
+                    name="isActive"
+                    label="Is Active"
+                    options={[
+                      { label: "Active", value: true },
+                      { label: "Inactive", value: false },
+                    ]}
+                  />
                 </Grid>
-                <Grid item xs={12}>
-                  <MaterialTextField name="priority" label="Priority" type="number" />
+                <Grid size={{ xs: 6 }}>
+                  <MaterialTextField name="priority" label="Priority Order" type="number" required />
                 </Grid>
               </Grid>
             </Box>
           </Box>
 
-          {/* Fixed Bottom Buttons */}
-          <Box sx={{
-            borderTop: 1,
-            borderColor: 'divider',
-            p: 2,
-            display: 'flex',
-            gap: 2,
-            backgroundColor: theme.palette.background.paper,
-            position: 'sticky',
-            bottom: 0,
-            zIndex: 1
-          }}>
+          {/* Fixed Bottom Action Buttons */}
+          <Box
+            sx={{
+              borderTop: 1,
+              borderColor: "divider",
+              p: 2,
+              display: "flex",
+              gap: 2,
+              backgroundColor: theme.palette.background.paper,
+              position: "sticky",
+              bottom: 0,
+              zIndex: 1,
+            }}
+          >
             <Button
               type="submit"
               variant="contained"
@@ -235,11 +276,15 @@ export default function DiscountForm() {
               disabled={isSubmitting || isCreateDiscountLoading || isUpdateDiscountLoading}
               sx={{ minWidth: 100 }}
             >
-              {(isSubmitting || isCreateDiscountLoading || isUpdateDiscountLoading) ? <CircularProgress color="primary" size={24} /> : "Submit"}
+              {isSubmitting || isCreateDiscountLoading || isUpdateDiscountLoading ? (
+                <CircularProgress color="inherit" size={24} />
+              ) : (
+                "Submit"
+              )}
             </Button>
 
             <Button
-              type="reset"
+              type="button"
               variant="outlined"
               color="primary"
               onClick={() => resetForm()}

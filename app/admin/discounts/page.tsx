@@ -87,18 +87,21 @@ export default function DiscountsPage() {
 
     openDrawer({
       drawerName: "Edit Discount",
-      children: <DiscountForm />,
+      children: <DiscountForm refetch={handleRefresh} />,
       dispatchFunctions: [clearSelectedDiscount],
       isEditing: true,
       width: 500,
       anchor: "right"
     });
-  }, [dispatch, setIsEditing, openDrawer]);
+  }, [dispatch, setIsEditing, openDrawer, handleRefresh]);
 
   const handleCreate = () => {
+    dispatch(clearSelectedDiscount());
+    setIsEditing(false);
     openDrawer({
       drawerName: "Create Discount",
-      children: <DiscountForm />,
+      children: <DiscountForm refetch={handleRefresh} />,
+      dispatchFunctions: [clearSelectedDiscount],
       width: 500,
       anchor: "right"
     });

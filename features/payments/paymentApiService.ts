@@ -12,4 +12,5 @@ export const paymentApiService = createApi({
 export const {
   useGetPaymentsQuery,
   useGetPaymentQuery,
+  useRefundPaymentMutation,
 } = paymentApiService;

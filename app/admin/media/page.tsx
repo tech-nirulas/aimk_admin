@@ -428,7 +428,7 @@ function UploadZone({
 
         {/* Meta fields — always visible so user can pre-fill before selecting */}
         <Grid container spacing={2} sx={{ mb: stagedFiles.length > 0 ? 2 : 0 }}>
-          <Grid item xs={12} sm={4}>
+          <Grid size={{ xs: 12, sm: 4 }}>
             <TextField
               size="small"
               fullWidth
@@ -445,7 +445,7 @@ function UploadZone({
               }}
             />
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid size={{ xs: 12, sm: 4 }}>
             <TextField
               size="small"
               fullWidth
@@ -454,7 +454,7 @@ function UploadZone({
               onChange={(e) => setTitle(e.target.value)}
             />
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid size={{ xs: 12, sm: 4 }}>
             <TextField
               size="small"
               fullWidth
@@ -720,7 +720,7 @@ function MediaDetailDialog({
       <DialogContent sx={{ p: 2.5 }}>
         <Grid container spacing={3}>
           {/* Preview */}
-          <Grid item xs={12} md={7}>
+          <Grid size={{ xs: 12, md: 7 }}>
             {item.type === "image" ? (
               <ImageViewer url={item.url} alt={item.alt} />
             ) : item.type === "video" ? (
@@ -824,7 +824,7 @@ function MediaDetailDialog({
           </Grid>
 
           {/* Meta info + Edit */}
-          <Grid item xs={12} md={5}>
+          <Grid size={{ xs: 12, md: 5 }}>
             {/* Stats */}
             <Box sx={{ mb: 2 }}>
               <Typography variant="overline" color="text.secondary" gutterBottom display="block">
@@ -1673,45 +1673,45 @@ export default function MediaPage() {
         >
           {isLoading
             ? Array.from({ length: 16 }).map((_, i) => (
-                <Skeleton
-                  key={i}
-                  variant="rectangular"
-                  sx={{ borderRadius: 2, aspectRatio: "1" }}
-                />
-              ))
+              <Skeleton
+                key={i}
+                variant="rectangular"
+                sx={{ borderRadius: 2, aspectRatio: "1" }}
+              />
+            ))
             : mediaItems.map((item) => (
-                <MediaCard
-                  key={item.id}
-                  item={item}
-                  selected={selectedIds.includes(item.id)}
-                  onSelect={() => handleToggleSelect(item.id)}
-                  onOpen={() => {
-                    setDetailItem(item);
-                    setDetailOpen(true);
-                  }}
-                  onDelete={() => handleDelete(item.id)}
-                />
-              ))}
+              <MediaCard
+                key={item.id}
+                item={item}
+                selected={selectedIds.includes(item.id)}
+                onSelect={() => handleToggleSelect(item.id)}
+                onOpen={() => {
+                  setDetailItem(item);
+                  setDetailOpen(true);
+                }}
+                onDelete={() => handleDelete(item.id)}
+              />
+            ))}
         </Box>
       ) : (
         <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
           {isLoading
             ? Array.from({ length: 8 }).map((_, i) => (
-                <Skeleton key={i} variant="rectangular" height={72} sx={{ borderRadius: 2 }} />
-              ))
+              <Skeleton key={i} variant="rectangular" height={72} sx={{ borderRadius: 2 }} />
+            ))
             : mediaItems.map((item) => (
-                <MediaListRow
-                  key={item.id}
-                  item={item}
-                  selected={selectedIds.includes(item.id)}
-                  onSelect={() => handleToggleSelect(item.id)}
-                  onOpen={() => {
-                    setDetailItem(item);
-                    setDetailOpen(true);
-                  }}
-                  onDelete={() => handleDelete(item.id)}
-                />
-              ))}
+              <MediaListRow
+                key={item.id}
+                item={item}
+                selected={selectedIds.includes(item.id)}
+                onSelect={() => handleToggleSelect(item.id)}
+                onOpen={() => {
+                  setDetailItem(item);
+                  setDetailOpen(true);
+                }}
+                onDelete={() => handleDelete(item.id)}
+              />
+            ))}
         </Box>
       )}
 

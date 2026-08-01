@@ -97,11 +97,28 @@ export const orderEndpoints = (builder: EndpointDefinitions) => ({
     providesTags: ["Order"],
   }),
 
+  getAdminOrder: builder.query<any, { id: string }>({
+    query: ({ id }) => ({
+      url: `order/admin/${id}`,
+      method: "GET",
+    }),
+    providesTags: ["Order"],
+  }),
+
   updateOrderStatus: builder.mutation<any, { id: string; status: string }>({
     query: ({ id, status }) => ({
       url: `order/admin/${id}/status`,
       method: "PATCH",
       body: { status },
+    }),
+    invalidatesTags: ["Order"],
+  }),
+
+  assignOrderOutlet: builder.mutation<any, { id: string; outletId: string }>({
+    query: ({ id, outletId }) => ({
+      url: `order/admin/${id}/assign-outlet`,
+      method: "PATCH",
+      body: { outletId },
     }),
     invalidatesTags: ["Order"],
   }),

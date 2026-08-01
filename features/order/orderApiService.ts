@@ -37,4 +37,6 @@ export const {
   useUpdateOrderStatusMutation,
   useGetAllAdminOrdersQuery,
   useLazyGetAllAdminOrdersQuery,
+  useGetAdminOrderQuery,
+  useAssignOrderOutletMutation,
 } = orderApiService;

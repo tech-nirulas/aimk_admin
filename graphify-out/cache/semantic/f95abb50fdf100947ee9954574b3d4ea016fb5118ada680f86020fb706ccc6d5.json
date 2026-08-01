@@ -1,0 +1,1 @@
+{"nodes": [{"id": "doc:AGENTS.md", "label": "Workspace Rules (AGENTS.md)", "type": "DOCUMENT", "source_file": ".agents/AGENTS.md", "summary": "Rules and guidelines for aimk_admin development, Next.js 16 / React 19 rules, MUI & Tailwind styling, local port 7070, and documentation maintenance.", "confidence": "EXTRACTED"}], "edges": [], "hyperedges": []}

@@ -8,6 +8,13 @@ import { orderApiService } from "@/features/order/orderApiService";
 import { paymentApiService } from "@/features/payments/paymentApiService";
 import { brandApiService } from "@/features/brand/brandApiService";
 import { discountApiService } from "@/features/discounts/discountApiService";
+import { cakeApiService } from "@/features/cake-customization/cakeApiService";
+import { offerApiService } from "@/features/offers/offerApiService";
+import { reviewApiService } from "@/features/reviews/reviewApiService";
+import { userApiService } from "@/features/users/userApiService";
+import { inventoryApiService } from "@/features/inventory/inventoryApiService";
+import { customerApiService } from "@/features/customers/customerApiService";
+import { analyticsApiService } from "@/features/analytics/analyticsApiService";
 
 export const api = {
   categoryApiService,
@@ -20,4 +27,11 @@ export const api = {
   paymentApiService,
   brandApiService,
   discountApiService,
+  cakeApiService,
+  offerApiService,
+  reviewApiService,
+  userApiService,
+  inventoryApiService,
+  customerApiService,
+  analyticsApiService,
 };

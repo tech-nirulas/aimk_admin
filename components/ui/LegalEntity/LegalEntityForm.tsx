@@ -111,37 +111,37 @@ export default function LegalEntityForm() {
               </Box>
 
               <Grid container spacing={2}>
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <MaterialTextField name="name" label="Entity Name" />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <MaterialTextField name="legalName" label="Legal Entity Name" />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <MaterialTextField name="gstin" label="GST-IN" />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <MaterialTextField name="pan" label="PAN" />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <MaterialTextField name="address" label="Address" />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <MaterialTextField name="city" label="City" />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <MaterialTextField name="state" label="State" />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <MaterialTextField name="pincode" label="Pincode" />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <MaterialTextField name="contactEmail" label="Contact Email" />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <MaterialTextField name="contactPhone" label="Contact Phone" />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <MaterialSelectField
                     name="isDefault"
                     label="Is Default"
@@ -154,13 +154,16 @@ export default function LegalEntityForm() {
                     }]}
                   />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <MaterialTextField name="bankAccountName" label="Bank Account Name" />
-                </Grid><Grid item xs={12}>
+                </Grid>
+                <Grid size={{ xs: 12 }}>
                   <MaterialTextField name="bankAccountNumber" label="Bank Account Number" />
-                </Grid><Grid item xs={12}>
+                </Grid>
+                <Grid size={{ xs: 12 }}>
                   <MaterialTextField name="bankIfsc" label="Bank IFSC" />
-                </Grid><Grid item xs={12}>
+                </Grid>
+                <Grid size={{ xs: 12 }}>
                   <MaterialTextField name="commissionRate" label="Commission Rate" type="number" />
                 </Grid>
               </Grid>

@@ -113,11 +113,11 @@ export default function CategoryForm() {
               </Box>
 
               <Grid container spacing={2}>
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <MaterialTextField name="name" label="Category Name" />
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <MaterialTextField
                     name="description"
                     label="Description"
@@ -126,12 +126,12 @@ export default function CategoryForm() {
                   />
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <MaterialTextField name="displayOrder" label="Display Order" type="number" />
                 </Grid>
 
                 {/* Replace the image MaterialTextField with this */}
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <Field name="categoryImageId">
                     {({ field, form }: any) => (
                       <Box>
@@ -204,7 +204,7 @@ export default function CategoryForm() {
                   </Field>
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <MaterialSelectField
                     name="parentId"
                     label="Parent Category Id"
@@ -215,7 +215,7 @@ export default function CategoryForm() {
                   />
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12 }}>
                   <MaterialSelectField
                     name="brandId"
                     label="Brand Id"

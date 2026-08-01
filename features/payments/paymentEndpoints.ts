@@ -22,4 +22,12 @@ export const paymentEndpoints = (builder: EndpointDefinitions) => ({
     }),
     providesTags: ["Payment"],
   }),
+
+  refundPayment: builder.mutation<any, { orderId: string }>({
+    query: ({ orderId }) => ({
+      url: `payment/refund/${orderId}`,
+      method: "POST",
+    }),
+    invalidatesTags: ["Payment"],
+  }),
 });

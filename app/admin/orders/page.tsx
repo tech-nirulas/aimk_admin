@@ -2,6 +2,7 @@
 
 import {
   Box,
+  Button,
   FormControl,
   InputLabel,
   MenuItem,
@@ -11,6 +12,7 @@ import {
 } from "@mui/material";
 import { useMemo, useState } from "react";
 
+import { useRouter } from "next/navigation";
 import TableComponent from "@/components/common/DataTable";
 import {
   useGetAllAdminOrdersQuery,
@@ -18,6 +20,7 @@ import {
 } from "@/features/order/orderApiService";
 
 export default function OrdersPage() {
+  const router = useRouter();
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [status, setStatus] = useState("");
@@ -39,6 +42,21 @@ export default function OrdersPage() {
         field: "orderNumber",
         headerName: "Order ID",
         flex: 1,
+        renderCell: ({ row }: any) => (
+          <Typography variant="body2" sx={{ fontWeight: 800, color: "#1E293B" }}>
+            {row.orderNumber}
+          </Typography>
+        ),
+      },
+      {
+        field: "outlet",
+        headerName: "Fulfilment Outlet",
+        flex: 1.2,
+        renderCell: ({ row }: any) => (
+          <Typography variant="caption" sx={{ fontWeight: 700, color: row.outlet ? "#0F172A" : "text.secondary" }}>
+            {row.outlet?.name ? `🏪 ${row.outlet.name}` : "⚠️ Unassigned"}
+          </Typography>
+        ),
       },
       {
         field: "status",
@@ -63,6 +81,11 @@ export default function OrdersPage() {
         field: "grandTotal",
         headerName: "Amount",
         flex: 1,
+        renderCell: ({ row }: any) => (
+          <Typography variant="body2" sx={{ fontWeight: 800 }}>
+            ₹{Number(row.grandTotal).toFixed(2)}
+          </Typography>
+        ),
       },
       {
         field: "paymentStatus",
@@ -70,14 +93,22 @@ export default function OrdersPage() {
         flex: 1,
       },
       {
-        field: "createdAt",
-        headerName: "Created",
+        field: "actions",
+        headerName: "Action",
         flex: 1,
-        renderCell: ({ row }: any) =>
-          new Date(row.createdAt).toLocaleString(),
+        renderCell: ({ row }: any) => (
+          <Button
+            size="small"
+            variant="outlined"
+            onClick={() => router.push(`/admin/orders/${row.id}`)}
+            sx={{ borderRadius: 2, textTransform: "none", fontSize: "0.75rem", fontWeight: 700 }}
+          >
+            View Details
+          </Button>
+        ),
       },
     ],
-    []
+    [router]
   );
 
   return (
