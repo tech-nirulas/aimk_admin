@@ -207,11 +207,16 @@ export default function CategoryForm() {
                 <Grid size={{ xs: 12 }}>
                   <MaterialSelectField
                     name="parentId"
-                    label="Parent Category Id"
-                    options={categoriesData?.data?.map((cat: Category) => ({
-                      value: cat.id,
-                      label: cat.name,
-                    })) || []}
+                    label="Parent Category"
+                    options={[
+                      { value: "", label: "-- None (Top Level Category) --" },
+                      ...(categoriesData?.data
+                        ?.filter((cat: Category) => cat.id !== selectedCategory?.id)
+                        ?.map((cat: Category) => ({
+                          value: cat.id,
+                          label: cat.name,
+                        })) || []),
+                    ]}
                   />
                 </Grid>
 

@@ -35,3 +35,8 @@
 - Standardized all domain interfaces in `interfaces/` directory (`customer.interface.ts`, `inventory.interface.ts`, `analytics.interface.ts`, `user.interface.ts`, `role.interface.ts`, `permission.interface.ts`).
 - Updated components (`UserForm.tsx`, `RolePermissionsModal.tsx`, `BatchForm.tsx`, `CustomerDetailModal.tsx`) to import directly from `@/interfaces/`.
 - Guaranteed 100% type-safe compilation across all admin modules.
+
+## [2026-08-06] Milestone 15: Custom Cakes Category Hierarchy Support in Admin Form
+- Updated `CategoryForm.tsx` in `aimk_admin` with parent category selector including a `-- None (Top Level Category) --` option and self-filtering logic to prevent circular references.
+- Added `CategoryWithChildren` interface in `interfaces/category.interface.ts`.
+

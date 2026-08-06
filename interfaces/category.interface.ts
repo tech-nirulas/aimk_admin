@@ -28,9 +28,14 @@ export interface Category {
   };
 }
 
+export interface CategoryWithChildren extends Category {
+  children?: CategoryWithChildren[];
+}
+
 export type GetCategoryWithSkuCountResponse = Category[];
 export type GetCategoryResponse = Root<Category>;
 export type GetAllCategoriesResponse = Root<Category[]>;
+export type GetCategoryTreeResponse = Root<CategoryWithChildren[]>;
 export type PaginatedCategoriesResponse = RootPaginate<Category>;
 
 export type CreateCategoryPayload = Omit<
