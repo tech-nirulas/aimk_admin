@@ -95,7 +95,7 @@ export default function Sidebar() {
         {/* Header */}
         <Box sx={{ p: 2 }}>
           <Typography variant="h5">
-            AIMK Admin
+            Welcome, {user && user?.firstName}
           </Typography>
         </Box>
         <Divider />

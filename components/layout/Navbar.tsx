@@ -38,8 +38,10 @@ export default function Navbar() {
   const isOpenRef = useRef<HTMLDivElement>(null);
 
   const user = useSelector((state: { authReducer: { user } }) => {
-    return state?.authReducer?.user?.data;
+    return state?.authReducer?.user;
   });
+
+  console.log("User", user)
 
   const dispatch = useDispatch();
   const { openDialog } = useConfirmDialog();
