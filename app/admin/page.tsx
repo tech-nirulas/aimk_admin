@@ -33,8 +33,9 @@ import Link from "next/link";
 export default function AdminDashboard() {
   const { data, isLoading, refetch } = useGetDashboardMetricsQuery({});
 
-  const metrics = data?.overview || {};
-  const topProducts = data?.topProducts || [];
+  const actualData = (data as any)?.data || data;
+  const metrics = actualData?.overview || {};
+  const topProducts = actualData?.topProducts || [];
 
   return (
     <Box className="p-6">
@@ -89,16 +90,16 @@ export default function AdminDashboard() {
 
           {/* Stat 2: Total Orders */}
           <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-            <Paper sx={{ p: 3, borderRadius: 3, bgcolor: "#FFFFFF", border: "1px solid #E2E8F0" }}>
+            <Paper sx={{ p: 3, borderRadius: 3 }}>
               <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <Typography variant="caption" sx={{ color: "#64748B", fontWeight: 700, letterSpacing: 1 }}>
+                <Typography variant="caption" sx={{ fontWeight: 700, letterSpacing: 1 }}>
                   TOTAL ORDERS
                 </Typography>
                 <Avatar sx={{ bgcolor: "#F0F9FF", width: 36, height: 36 }}>
                   <ShoppingBagIcon sx={{ color: "#0284C7" }} />
                 </Avatar>
               </Box>
-              <Typography variant="h4" sx={{ fontWeight: 900, mt: 1.5, mb: 1, color: "#0F172A" }}>
+              <Typography variant="h4" sx={{ fontWeight: 900, mt: 1.5, mb: 1 }}>
                 {metrics.totalOrders || 0}
               </Typography>
               <Box sx={{ display: "flex", gap: 1 }}>
@@ -110,19 +111,19 @@ export default function AdminDashboard() {
 
           {/* Stat 3: Registered Customers */}
           <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-            <Paper sx={{ p: 3, borderRadius: 3, bgcolor: "#FFFFFF", border: "1px solid #E2E8F0" }}>
+            <Paper sx={{ p: 3, borderRadius: 3 }}>
               <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <Typography variant="caption" sx={{ color: "#64748B", fontWeight: 700, letterSpacing: 1 }}>
+                <Typography variant="caption" sx={{ fontWeight: 700, letterSpacing: 1 }}>
                   ACTIVE CUSTOMERS
                 </Typography>
                 <Avatar sx={{ bgcolor: "#FDF4FF", width: 36, height: 36 }}>
                   <PeopleIcon sx={{ color: "#C026D3" }} />
                 </Avatar>
               </Box>
-              <Typography variant="h4" sx={{ fontWeight: 900, mt: 1.5, mb: 1, color: "#0F172A" }}>
+              <Typography variant="h4" sx={{ fontWeight: 900, mt: 1.5, mb: 1 }}>
                 {metrics.activeCustomers || 0}
               </Typography>
-              <Typography variant="caption" sx={{ color: "#64748B", fontWeight: 600 }}>
+              <Typography variant="caption" sx={{ fontWeight: 600 }}>
                 Registered customer directory
               </Typography>
             </Paper>
@@ -130,16 +131,16 @@ export default function AdminDashboard() {
 
           {/* Stat 4: Active Outlets */}
           <Grid size={{ xs: 12, sm: 6, md: 3 }}>
-            <Paper sx={{ p: 3, borderRadius: 3, bgcolor: "#FFFFFF", border: "1px solid #E2E8F0" }}>
+            <Paper sx={{ p: 3, borderRadius: 3 }}>
               <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <Typography variant="caption" sx={{ color: "#64748B", fontWeight: 700, letterSpacing: 1 }}>
+                <Typography variant="caption" sx={{ fontWeight: 700, letterSpacing: 1 }}>
                   BAKERY OUTLETS
                 </Typography>
                 <Avatar sx={{ bgcolor: "#ECFDF5", width: 36, height: 36 }}>
                   <LocationOnIcon sx={{ color: "#059669" }} />
                 </Avatar>
               </Box>
-              <Typography variant="h4" sx={{ fontWeight: 900, mt: 1.5, mb: 1, color: "#0F172A" }}>
+              <Typography variant="h4" sx={{ fontWeight: 900, mt: 1.5, mb: 1 }}>
                 {metrics.activeOutlets || 0}
               </Typography>
               <Typography variant="caption" sx={{ color: "#059669", fontWeight: 700 }}>
@@ -150,8 +151,8 @@ export default function AdminDashboard() {
 
           {/* Quick Shortcuts */}
           <Grid size={{ xs: 12 }}>
-            <Paper sx={{ p: 3, borderRadius: 3, bgcolor: "#F8FAFC", border: "1px dashed #CBD5E1" }}>
-              <Typography variant="subtitle2" sx={{ fontWeight: 800, mb: 2, color: "#334155" }}>
+            <Paper sx={{ p: 3, borderRadius: 3 }}>
+              <Typography variant="subtitle2" sx={{ fontWeight: 800, mb: 2 }}>
                 QUICK ACTIONS & SHORTCUTS
               </Typography>
               <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
@@ -189,7 +190,7 @@ export default function AdminDashboard() {
                 </Button>
               </Box>
               <Table size="small">
-                <TableHead sx={{ bgcolor: "#F8FAFC" }}>
+                <TableHead>
                   <TableRow>
                     <TableCell sx={{ fontWeight: 800 }}>Product</TableCell>
                     <TableCell sx={{ fontWeight: 800 }}>SKU</TableCell>

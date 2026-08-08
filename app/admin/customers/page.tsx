@@ -6,28 +6,76 @@ import { useGetCustomersQuery } from "@/features/customers/customerApiService";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import PeopleIcon from "@mui/icons-material/People";
 import RefreshIcon from "@mui/icons-material/Refresh";
-import SearchIcon from "@mui/icons-material/Search";
 import {
   Avatar,
   Box,
   Button,
   Chip,
+  FormControl,
   IconButton,
-  InputAdornment,
+  InputLabel,
+  MenuItem,
   Paper,
+  Select,
   TextField,
   Typography,
+  debounce,
 } from "@mui/material";
 import { useMemo, useState } from "react";
-import { FaEye } from "react-icons/fa";
+import { FaEye, FaSearch } from "react-icons/fa";
 
 export default function CustomersPage() {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState("");
+  const [sortBy, setSortBy] = useState("createdAt");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
   const [selectedCustomerId, setSelectedCustomerId] = useState<string | null>(null);
 
-  const { data, isLoading, refetch: handleRefresh } = useGetCustomersQuery({ page, limit, search });
+  // Debounced search
+  const debouncedSearch = useMemo(
+    () =>
+      debounce((value: string) => {
+        setSearch(value);
+        setPage(1);
+      }, 500),
+    [setSearch, setPage]
+  );
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    debouncedSearch(e.target.value);
+  };
+
+  const handleFilterChange = (field: string, value: any) => {
+    if (field === "limit") setLimit(value);
+    if (field === "sortBy") setSortBy(value);
+    if (field === "sortOrder") setSortOrder(value);
+    setPage(1);
+  };
+
+  const handleClearFilters = () => {
+    setSearch("");
+    setSortBy("createdAt");
+    setSortOrder("desc");
+    setLimit(10);
+    setPage(1);
+    debouncedSearch("");
+  };
+
+  const { data, isLoading, refetch: handleRefresh } = useGetCustomersQuery({
+    page,
+    limit,
+    search: search || undefined,
+    sortBy,
+    sortOrder,
+  });
+
+  const handlePageChange = (newPage: number, newPageSize: number) => {
+    setPage(newPage);
+    if (newPageSize !== limit) {
+      setLimit(newPageSize);
+    }
+  };
 
   const columns = useMemo(
     () => [
@@ -148,26 +196,76 @@ export default function CustomersPage() {
         </Box>
 
         <Box sx={{ display: "flex", gap: 1.5, alignItems: "center" }}>
-          <TextField
-            size="small"
-            placeholder="Search by name, email, phone..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon fontSize="small" />
-                </InputAdornment>
-              ),
-            }}
-            sx={{ width: 260 }}
-          />
           <IconButton onClick={handleRefresh}>
             <RefreshIcon />
           </IconButton>
         </Box>
       </Box>
 
+      {/* Filters Section */}
+      <Paper className="mb-4 p-4" sx={{ borderRadius: 3 }}>
+        <div className="flex gap-4 items-end flex-wrap">
+          <div className="flex-1 min-w-[200px]">
+            <TextField
+              label="Search"
+              variant="outlined"
+              size="small"
+              fullWidth
+              onChange={handleSearchChange}
+              placeholder="Search by name, email, or phone..."
+              slotProps={{
+                input: {
+                  startAdornment: <FaSearch className="mr-2 text-gray-400" />,
+                },
+              }}
+            />
+          </div>
+
+          <FormControl size="small" sx={{ minWidth: 120 }}>
+            <InputLabel>Items per page</InputLabel>
+            <Select
+              value={limit}
+              label="Items per page"
+              onChange={(e) => handleFilterChange("limit", e.target.value)}
+            >
+              <MenuItem value={5}>5</MenuItem>
+              <MenuItem value={10}>10</MenuItem>
+              <MenuItem value={25}>25</MenuItem>
+              <MenuItem value={50}>50</MenuItem>
+            </Select>
+          </FormControl>
+
+          <FormControl size="small" sx={{ minWidth: 120 }}>
+            <InputLabel>Sort By</InputLabel>
+            <Select
+              value={sortBy}
+              label="Sort By"
+              onChange={(e) => handleFilterChange("sortBy", e.target.value)}
+            >
+              <MenuItem value="createdAt">Registered Date</MenuItem>
+              <MenuItem value="loyaltyPoints">Loyalty Points</MenuItem>
+            </Select>
+          </FormControl>
+
+          <FormControl size="small" sx={{ minWidth: 100 }}>
+            <InputLabel>Order</InputLabel>
+            <Select
+              value={sortOrder}
+              label="Order"
+              onChange={(e) => handleFilterChange("sortOrder", e.target.value)}
+            >
+              <MenuItem value="asc">Ascending</MenuItem>
+              <MenuItem value="desc">Descending</MenuItem>
+            </Select>
+          </FormControl>
+
+          <Button variant="outlined" onClick={handleClearFilters}>
+            Clear Filters
+          </Button>
+        </div>
+      </Paper>
+
+      {/* Table */}
       <Paper sx={{ p: 3, borderRadius: 3 }}>
         <TableComponent
           columns={columns}
@@ -177,8 +275,23 @@ export default function CustomersPage() {
           pageSize={limit}
           totalItems={data?.meta?.totalItems || 0}
           isLoading={isLoading}
+          onPageChange={handlePageChange}
         />
       </Paper>
+
+      {/* Pagination Info */}
+      {data?.meta && data.meta.totalItems > 0 && (
+        <div className="mt-4 text-sm text-gray-600 flex justify-between items-center">
+          <div>
+            Showing {(data.meta.page - 1) * data.meta.limit + 1} to{" "}
+            {Math.min(data.meta.page * data.meta.limit, data.meta.totalItems)} of{" "}
+            {data.meta.totalItems} entries
+          </div>
+          <div>
+            Page {data.meta.page} of {data.meta.totalPages}
+          </div>
+        </div>
+      )}
 
       {selectedCustomerId && (
         <CustomerDetailModal

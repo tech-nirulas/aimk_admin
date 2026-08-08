@@ -1,23 +1,26 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  transpilePackages: ["@aimk/permissions"],
   typescript: {
-    ignoreBuildErrors: true
+    ignoreBuildErrors: true,
   },
   images: {
-    remotePatterns: [{
-      protocol: "https",
-      hostname: "placehold.co",
-      port: "",
-      pathname: "/**",
-    }, {
-      protocol: "https",
-      hostname: "cdn.angelsinmykitchen.in",
-      port: "",
-      pathname: "/**",
-    }]
-  }
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "placehold.co",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "cdn.angelsinmykitchen.in",
+        port: "",
+        pathname: "/**",
+      },
+    ],
+  },
 };
 
 export default nextConfig;

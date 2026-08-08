@@ -2,9 +2,17 @@ import { EndpointBuilder } from "@reduxjs/toolkit/query/react";
 
 export const userEndpoints = (builder: EndpointBuilder<any, any, any>) => ({
   getAdminUsers: builder.query({
-    query: ({ page = 1, limit = 10 }: { page?: number; limit?: number }) => ({
-      url: `/user/admin/list?page=${page}&limit=${limit}`,
+    query: (params: {
+      page?: number;
+      limit?: number;
+      search?: string;
+      isActive?: boolean;
+      sortBy?: string;
+      sortOrder?: "asc" | "desc";
+    }) => ({
+      url: `/user/admin/list`,
       method: "GET",
+      params,
     }),
     providesTags: ["User"],
   }),
@@ -38,12 +46,28 @@ export const userEndpoints = (builder: EndpointBuilder<any, any, any>) => ({
     providesTags: ["Role"],
   }),
   updateRolePermissions: builder.mutation({
-    query: ({ roleId, permissions }: { roleId: string; permissions: any[] }) => ({
+    query: ({
+      roleId,
+      permissions,
+      moduleIds,
+      modulePaths,
+    }: {
+      roleId: string;
+      permissions?: any[];
+      moduleIds?: string[];
+      modulePaths?: string[];
+    }) => ({
       url: `/user/roles/${roleId}/permissions`,
       method: "PATCH",
-      body: { permissions },
+      body: { permissions, moduleIds, modulePaths },
     }),
     invalidatesTags: ["Role"],
+  }),
+  getSidebarModules: builder.query({
+    query: () => ({
+      url: `/user/modules`,
+      method: "GET",
+    }),
   }),
   createAdminUser: builder.mutation({
     query: (body: any) => ({

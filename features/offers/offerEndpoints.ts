@@ -3,7 +3,17 @@ import { EndpointBuilder } from "@reduxjs/toolkit/query";
 type EndpointDefinitions = EndpointBuilder<any, any, any>;
 
 export const offerEndpoints = (builder: EndpointDefinitions) => ({
-  getOffers: builder.query<any, { page: number; limit: number }>({
+  getOffers: builder.query<
+    any,
+    {
+      page: number;
+      limit: number;
+      search?: string;
+      isActive?: boolean;
+      sortBy?: string;
+      sortOrder?: "asc" | "desc";
+    }
+  >({
     query: (params) => ({
       url: "offer",
       method: "GET",

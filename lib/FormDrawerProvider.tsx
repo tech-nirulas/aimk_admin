@@ -48,6 +48,7 @@ export const FormDrawerProvider: FC<FormDrawerProviderProps> = ({ children }) =>
   const openDrawer = useCallback(
     (props: Omit<FormDrawerProps, 'open' | 'onClose'>) => {
       setDrawerProps({
+        anchor: 'right',
         ...props,
         open: true,
         isEditing: props.isEditing || false,

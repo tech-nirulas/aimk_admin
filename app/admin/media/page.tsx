@@ -436,12 +436,14 @@ function UploadZone({
               value={folder}
               onChange={(e) => setFolder(e.target.value)}
               placeholder="general"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <FolderIcon sx={{ fontSize: 16, color: "text.secondary" }} />
-                  </InputAdornment>
-                ),
+              slotProps={{
+                input: {
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <FolderIcon sx={{ fontSize: 16, color: "text.secondary" }} />
+                    </InputAdornment>
+                  ),
+                },
               }}
             />
           </Grid>
@@ -1512,12 +1514,14 @@ export default function MediaPage() {
           placeholder="Search media..."
           value={search}
           onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon sx={{ fontSize: 18, color: "text.secondary" }} />
-              </InputAdornment>
-            ),
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon sx={{ fontSize: 18, color: "text.secondary" }} />
+                </InputAdornment>
+              ),
+            },
           }}
           sx={{ flex: 1, minWidth: 200, maxWidth: 320 }}
         />

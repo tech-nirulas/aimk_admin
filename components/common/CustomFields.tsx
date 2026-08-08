@@ -283,10 +283,10 @@ export const MaterialMultiSelectField = ({
           const { key, ...rest } = optionProps;
 
           return (
-            <MenuItem key={key} {...rest}>
+            <Box component="li" key={key} {...rest}>
               <Checkbox checked={selectedValues.includes(option.value)} />
               <ListItemText primary={option.label} />
-            </MenuItem>
+            </Box>
           );
         }}
         isOptionEqualToValue={(option, value) =>

@@ -456,12 +456,14 @@ export default function MediaPickerModal({
             setSearch(e.target.value);
             setPage(1);
           }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon sx={{ fontSize: 18, color: "text.secondary" }} />
-              </InputAdornment>
-            ),
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon sx={{ fontSize: 18, color: "text.secondary" }} />
+                </InputAdornment>
+              ),
+            },
           }}
           sx={{ flex: 1, minWidth: 200 }}
         />

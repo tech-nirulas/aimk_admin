@@ -20,13 +20,19 @@ import {
   Box,
   Button,
   Chip,
+  FormControl,
   IconButton,
+  InputLabel,
+  MenuItem,
   Paper,
+  Select,
   Switch,
+  TextField,
   Typography,
+  debounce,
 } from "@mui/material";
 import { useCallback, useMemo, useState } from "react";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit, FaSearch, FaTrash } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 
 export default function OffersPage() {
@@ -36,13 +42,64 @@ export default function OffersPage() {
 
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
+  const [search, setSearch] = useState("");
+  const [isActive, setIsActive] = useState<string>("");
+  const [sortBy, setSortBy] = useState("createdAt");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
 
-  const { data, isLoading, refetch: handleRefresh } = useGetOffersQuery({ page, limit });
+  // Debounced search
+  const debouncedSearch = useMemo(
+    () =>
+      debounce((value: string) => {
+        setSearch(value);
+        setPage(1);
+      }, 500),
+    [setSearch, setPage]
+  );
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    debouncedSearch(e.target.value);
+  };
+
+  const handleFilterChange = (field: string, value: any) => {
+    if (field === "isActive") setIsActive(value);
+    if (field === "limit") setLimit(value);
+    if (field === "sortBy") setSortBy(value);
+    if (field === "sortOrder") setSortOrder(value);
+    setPage(1);
+  };
+
+  const handleClearFilters = () => {
+    setSearch("");
+    setIsActive("");
+    setSortBy("createdAt");
+    setSortOrder("desc");
+    setLimit(10);
+    setPage(1);
+    debouncedSearch("");
+  };
+
+  const { data, isLoading, refetch: handleRefresh } = useGetOffersQuery({
+    page,
+    limit,
+    search: search || undefined,
+    isActive: isActive ? isActive === "true" : undefined,
+    sortBy,
+    sortOrder,
+  });
+
   const [updateOffer] = useUpdateOfferMutation();
   const [deleteOffer] = useDeleteOfferMutation();
 
   const handleToggleActive = async (id: string, currentStatus: boolean) => {
     await updateOffer({ id, isActive: !currentStatus });
+  };
+
+  const handlePageChange = (newPage: number, newPageSize: number) => {
+    setPage(newPage);
+    if (newPageSize !== limit) {
+      setLimit(newPageSize);
+    }
   };
 
   const handleEdit = useCallback(
@@ -218,6 +275,84 @@ export default function OffersPage() {
         </Box>
       </Box>
 
+      {/* Filters Section */}
+      <Paper className="mb-4 p-4" sx={{ borderRadius: 3 }}>
+        <div className="flex gap-4 items-end flex-wrap">
+          <div className="flex-1 min-w-[200px]">
+            <TextField
+              label="Search"
+              variant="outlined"
+              size="small"
+              fullWidth
+              onChange={handleSearchChange}
+              placeholder="Search by offer title or promo code..."
+              slotProps={{
+                input: {
+                  startAdornment: <FaSearch className="mr-2 text-gray-400" />,
+                },
+              }}
+            />
+          </div>
+
+          <FormControl size="small" sx={{ minWidth: 120 }}>
+            <InputLabel>Status</InputLabel>
+            <Select
+              value={isActive}
+              label="Status"
+              onChange={(e) => handleFilterChange("isActive", e.target.value)}
+            >
+              <MenuItem value="">All</MenuItem>
+              <MenuItem value="true">Active</MenuItem>
+              <MenuItem value="false">Inactive</MenuItem>
+            </Select>
+          </FormControl>
+
+          <FormControl size="small" sx={{ minWidth: 120 }}>
+            <InputLabel>Items per page</InputLabel>
+            <Select
+              value={limit}
+              label="Items per page"
+              onChange={(e) => handleFilterChange("limit", e.target.value)}
+            >
+              <MenuItem value={5}>5</MenuItem>
+              <MenuItem value={10}>10</MenuItem>
+              <MenuItem value={25}>25</MenuItem>
+              <MenuItem value={50}>50</MenuItem>
+            </Select>
+          </FormControl>
+
+          <FormControl size="small" sx={{ minWidth: 120 }}>
+            <InputLabel>Sort By</InputLabel>
+            <Select
+              value={sortBy}
+              label="Sort By"
+              onChange={(e) => handleFilterChange("sortBy", e.target.value)}
+            >
+              <MenuItem value="title">Title</MenuItem>
+              <MenuItem value="createdAt">Created Date</MenuItem>
+              <MenuItem value="updatedAt">Updated Date</MenuItem>
+            </Select>
+          </FormControl>
+
+          <FormControl size="small" sx={{ minWidth: 100 }}>
+            <InputLabel>Order</InputLabel>
+            <Select
+              value={sortOrder}
+              label="Order"
+              onChange={(e) => handleFilterChange("sortOrder", e.target.value)}
+            >
+              <MenuItem value="asc">Ascending</MenuItem>
+              <MenuItem value="desc">Descending</MenuItem>
+            </Select>
+          </FormControl>
+
+          <Button variant="outlined" onClick={handleClearFilters}>
+            Clear Filters
+          </Button>
+        </div>
+      </Paper>
+
+      {/* Table */}
       <Paper sx={{ p: 3, borderRadius: 3 }}>
         <TableComponent
           columns={columns}
@@ -227,8 +362,23 @@ export default function OffersPage() {
           pageSize={limit}
           totalItems={data?.meta?.totalItems || 0}
           isLoading={isLoading}
+          onPageChange={handlePageChange}
         />
       </Paper>
+
+      {/* Pagination Info */}
+      {data?.meta && data.meta.totalItems > 0 && (
+        <div className="mt-4 text-sm text-gray-600 flex justify-between items-center">
+          <div>
+            Showing {(data.meta.page - 1) * data.meta.limit + 1} to{" "}
+            {Math.min(data.meta.page * data.meta.limit, data.meta.totalItems)} of{" "}
+            {data.meta.totalItems} entries
+          </div>
+          <div>
+            Page {data.meta.page} of {data.meta.totalPages}
+          </div>
+        </div>
+      )}
     </Box>
   );
 }

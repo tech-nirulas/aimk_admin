@@ -17,13 +17,19 @@ import {
   Box,
   Button,
   Chip,
+  FormControl,
   IconButton,
+  InputLabel,
+  MenuItem,
   Paper,
+  Select,
+  TextField,
   Tooltip,
   Typography,
+  debounce,
 } from "@mui/material";
 import { useCallback, useMemo, useState } from "react";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit, FaSearch, FaTrash } from "react-icons/fa";
 
 export default function InventoryPage() {
   const { openDrawer } = useFormDrawer();
@@ -31,9 +37,60 @@ export default function InventoryPage() {
 
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
+  const [search, setSearch] = useState("");
+  const [status, setStatus] = useState<string>("");
+  const [sortBy, setSortBy] = useState("createdAt");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
 
-  const { data, isLoading, refetch: handleRefresh } = useGetBatchesQuery({ page, limit });
+  // Debounced search
+  const debouncedSearch = useMemo(
+    () =>
+      debounce((value: string) => {
+        setSearch(value);
+        setPage(1);
+      }, 500),
+    [setSearch, setPage]
+  );
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    debouncedSearch(e.target.value);
+  };
+
+  const handleFilterChange = (field: string, value: any) => {
+    if (field === "status") setStatus(value);
+    if (field === "limit") setLimit(value);
+    if (field === "sortBy") setSortBy(value);
+    if (field === "sortOrder") setSortOrder(value);
+    setPage(1);
+  };
+
+  const handleClearFilters = () => {
+    setSearch("");
+    setStatus("");
+    setSortBy("createdAt");
+    setSortOrder("desc");
+    setLimit(10);
+    setPage(1);
+    debouncedSearch("");
+  };
+
+  const { data, isLoading, refetch: handleRefresh } = useGetBatchesQuery({
+    page,
+    limit,
+    search: search || undefined,
+    status: status || undefined,
+    sortBy,
+    sortOrder,
+  });
+
   const [deleteBatch] = useDeleteBatchMutation();
+
+  const handlePageChange = (newPage: number, newPageSize: number) => {
+    setPage(newPage);
+    if (newPageSize !== limit) {
+      setLimit(newPageSize);
+    }
+  };
 
   const handleCreateNew = useCallback(() => {
     openDrawer({
@@ -262,6 +319,87 @@ export default function InventoryPage() {
         </Box>
       </Box>
 
+      {/* Filters Section */}
+      <Paper className="mb-4 p-4" sx={{ borderRadius: 3 }}>
+        <div className="flex gap-4 items-end flex-wrap">
+          <div className="flex-1 min-w-[200px]">
+            <TextField
+              label="Search"
+              variant="outlined"
+              size="small"
+              fullWidth
+              onChange={handleSearchChange}
+              placeholder="Search by batch number or SKU..."
+              slotProps={{
+                input: {
+                  startAdornment: <FaSearch className="mr-2 text-gray-400" />,
+                },
+              }}
+            />
+          </div>
+
+          <FormControl size="small" sx={{ minWidth: 120 }}>
+            <InputLabel>Status</InputLabel>
+            <Select
+              value={status}
+              label="Status"
+              onChange={(e) => handleFilterChange("status", e.target.value)}
+            >
+              <MenuItem value="">All</MenuItem>
+              <MenuItem value="in_stock">In Stock</MenuItem>
+              <MenuItem value="selling">Selling</MenuItem>
+              <MenuItem value="expired">Expired</MenuItem>
+              <MenuItem value="used">Used</MenuItem>
+            </Select>
+          </FormControl>
+
+          <FormControl size="small" sx={{ minWidth: 120 }}>
+            <InputLabel>Items per page</InputLabel>
+            <Select
+              value={limit}
+              label="Items per page"
+              onChange={(e) => handleFilterChange("limit", e.target.value)}
+            >
+              <MenuItem value={5}>5</MenuItem>
+              <MenuItem value={10}>10</MenuItem>
+              <MenuItem value={25}>25</MenuItem>
+              <MenuItem value={50}>50</MenuItem>
+            </Select>
+          </FormControl>
+
+          <FormControl size="small" sx={{ minWidth: 120 }}>
+            <InputLabel>Sort By</InputLabel>
+            <Select
+              value={sortBy}
+              label="Sort By"
+              onChange={(e) => handleFilterChange("sortBy", e.target.value)}
+            >
+              <MenuItem value="batchNumber">Batch No</MenuItem>
+              <MenuItem value="quantity">Stock Qty</MenuItem>
+              <MenuItem value="expiresAt">Expiry Date</MenuItem>
+              <MenuItem value="createdAt">Created Date</MenuItem>
+            </Select>
+          </FormControl>
+
+          <FormControl size="small" sx={{ minWidth: 100 }}>
+            <InputLabel>Order</InputLabel>
+            <Select
+              value={sortOrder}
+              label="Order"
+              onChange={(e) => handleFilterChange("sortOrder", e.target.value)}
+            >
+              <MenuItem value="asc">Ascending</MenuItem>
+              <MenuItem value="desc">Descending</MenuItem>
+            </Select>
+          </FormControl>
+
+          <Button variant="outlined" onClick={handleClearFilters}>
+            Clear Filters
+          </Button>
+        </div>
+      </Paper>
+
+      {/* Table */}
       <Paper sx={{ p: 3, borderRadius: 3 }}>
         <TableComponent
           columns={columns}
@@ -271,8 +409,23 @@ export default function InventoryPage() {
           pageSize={limit}
           totalItems={data?.meta?.totalItems || 0}
           isLoading={isLoading}
+          onPageChange={handlePageChange}
         />
       </Paper>
+
+      {/* Pagination Info */}
+      {data?.meta && data.meta.totalItems > 0 && (
+        <div className="mt-4 text-sm text-gray-600 flex justify-between items-center">
+          <div>
+            Showing {(data.meta.page - 1) * data.meta.limit + 1} to{" "}
+            {Math.min(data.meta.page * data.meta.limit, data.meta.totalItems)} of{" "}
+            {data.meta.totalItems} entries
+          </div>
+          <div>
+            Page {data.meta.page} of {data.meta.totalPages}
+          </div>
+        </div>
+      )}
     </Box>
   );
 }

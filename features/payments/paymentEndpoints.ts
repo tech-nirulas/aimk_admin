@@ -5,7 +5,14 @@ type EndpointDefinitions = EndpointBuilder<any, any, any>;
 export const paymentEndpoints = (builder: EndpointDefinitions) => ({
   getPayments: builder.query<
     any,
-    { page: number; limit: number }
+    {
+      page: number;
+      limit: number;
+      search?: string;
+      status?: string;
+      sortBy?: string;
+      sortOrder?: "asc" | "desc";
+    }
   >({
     query: (params) => ({
       url: "payment",

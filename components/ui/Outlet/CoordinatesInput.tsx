@@ -118,18 +118,17 @@ export default function CoordinatesInput({ name }: { name: string }) {
           onChange={(e) => setLat(e.target.value)}
           placeholder="e.g. 12.9716"
           type="number"
-          inputProps={{ step: "any", min: -90, max: 90 }}
-          error={lat !== "" && !isValidLat(lat)}
-          helperText={lat !== "" && !isValidLat(lat) ? "Must be –90 to 90" : ""}
-          sx={{ flex: 1, minWidth: 140 }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <Typography variant="caption" color="text.secondary" fontWeight={600}>
-                  LAT
-                </Typography>
-              </InputAdornment>
-            ),
+          slotProps={{
+            htmlInput: { step: "any", min: -90, max: 90 },
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Typography variant="caption" color="text.secondary" fontWeight={600}>
+                    LAT
+                  </Typography>
+                </InputAdornment>
+              ),
+            },
           }}
         />
 
@@ -141,18 +140,17 @@ export default function CoordinatesInput({ name }: { name: string }) {
           onChange={(e) => setLng(e.target.value)}
           placeholder="e.g. 77.5946"
           type="number"
-          inputProps={{ step: "any", min: -180, max: 180 }}
-          error={lng !== "" && !isValidLng(lng)}
-          helperText={lng !== "" && !isValidLng(lng) ? "Must be –180 to 180" : ""}
-          sx={{ flex: 1, minWidth: 140 }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <Typography variant="caption" color="text.secondary" fontWeight={600}>
-                  LNG
-                </Typography>
-              </InputAdornment>
-            ),
+          slotProps={{
+            htmlInput: { step: "any", min: -180, max: 180 },
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Typography variant="caption" color="text.secondary" fontWeight={600}>
+                    LNG
+                  </Typography>
+                </InputAdornment>
+              ),
+            },
           }}
         />
 

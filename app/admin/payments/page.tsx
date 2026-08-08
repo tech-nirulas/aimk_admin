@@ -14,10 +14,17 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControl,
+  InputLabel,
+  MenuItem,
   Paper,
+  Select,
+  TextField,
   Typography,
+  debounce,
 } from "@mui/material";
 import { useMemo, useState } from "react";
+import { FaSearch } from "react-icons/fa";
 
 const STATUS_CHIPS: Record<string, { bg: string; color: string }> = {
   PENDING: { bg: "#FEF3C7", color: "#D97706" },
@@ -30,11 +37,51 @@ const STATUS_CHIPS: Record<string, { bg: string; color: string }> = {
 export default function PaymentsPage() {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
+  const [search, setSearch] = useState("");
+  const [status, setStatus] = useState("");
+  const [sortBy, setSortBy] = useState("createdAt");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
   const [selectedRefundRow, setSelectedRefundRow] = useState<any>(null);
+
+  // Debounced search
+  const debouncedSearch = useMemo(
+    () =>
+      debounce((value: string) => {
+        setSearch(value);
+        setPage(1);
+      }, 500),
+    [setSearch, setPage]
+  );
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    debouncedSearch(e.target.value);
+  };
+
+  const handleFilterChange = (field: string, value: any) => {
+    if (field === "status") setStatus(value);
+    if (field === "limit") setLimit(value);
+    if (field === "sortBy") setSortBy(value);
+    if (field === "sortOrder") setSortOrder(value);
+    setPage(1);
+  };
+
+  const handleClearFilters = () => {
+    setSearch("");
+    setStatus("");
+    setSortBy("createdAt");
+    setSortOrder("desc");
+    setLimit(10);
+    setPage(1);
+    debouncedSearch("");
+  };
 
   const { data, isLoading } = useGetPaymentsQuery({
     page,
     limit,
+    search: search || undefined,
+    status: status || undefined,
+    sortBy,
+    sortOrder,
   });
 
   const [refundPayment, { isLoading: isRefunding }] = useRefundPaymentMutation();
@@ -46,6 +93,13 @@ export default function PaymentsPage() {
       setSelectedRefundRow(null);
     } catch (err) {
       console.error("Refund failed:", err);
+    }
+  };
+
+  const handlePageChange = (newPage: number, newPageSize: number) => {
+    setPage(newPage);
+    if (newPageSize !== limit) {
+      setLimit(newPageSize);
     }
   };
 
@@ -70,7 +124,7 @@ export default function PaymentsPage() {
           return (
             <Box>
               <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                {user?.name || "Customer"}
+                {user ? `${user.firstName || ""} ${user.lastName || ""}`.trim() : "Customer"}
               </Typography>
               <Typography variant="caption" sx={{ color: "text.secondary" }}>
                 {user?.phone || user?.email || "N/A"}
@@ -168,6 +222,86 @@ export default function PaymentsPage() {
         Payment & Refund Management
       </Typography>
 
+      {/* Filters Section */}
+      <Paper className="mb-4 p-4">
+        <div className="flex gap-4 items-end flex-wrap">
+          <div className="flex-1 min-w-[200px]">
+            <TextField
+              label="Search"
+              variant="outlined"
+              size="small"
+              fullWidth
+              onChange={handleSearchChange}
+              placeholder="Search by Order ID or Payment ID..."
+              slotProps={{
+                input: {
+                  startAdornment: <FaSearch className="mr-2 text-gray-400" />,
+                },
+              }}
+            />
+          </div>
+
+          <FormControl size="small" sx={{ minWidth: 140 }}>
+            <InputLabel>Status</InputLabel>
+            <Select
+              value={status}
+              label="Status"
+              onChange={(e) => handleFilterChange("status", e.target.value)}
+            >
+              <MenuItem value="">All Statuses</MenuItem>
+              <MenuItem value="CAPTURED">CAPTURED</MenuItem>
+              <MenuItem value="AUTHORIZED">AUTHORIZED</MenuItem>
+              <MenuItem value="PENDING">PENDING</MenuItem>
+              <MenuItem value="REFUNDED">REFUNDED</MenuItem>
+              <MenuItem value="FAILED">FAILED</MenuItem>
+            </Select>
+          </FormControl>
+
+          <FormControl size="small" sx={{ minWidth: 120 }}>
+            <InputLabel>Items per page</InputLabel>
+            <Select
+              value={limit}
+              label="Items per page"
+              onChange={(e) => handleFilterChange("limit", e.target.value)}
+            >
+              <MenuItem value={5}>5</MenuItem>
+              <MenuItem value={10}>10</MenuItem>
+              <MenuItem value={25}>25</MenuItem>
+              <MenuItem value={50}>50</MenuItem>
+            </Select>
+          </FormControl>
+
+          <FormControl size="small" sx={{ minWidth: 120 }}>
+            <InputLabel>Sort By</InputLabel>
+            <Select
+              value={sortBy}
+              label="Sort By"
+              onChange={(e) => handleFilterChange("sortBy", e.target.value)}
+            >
+              <MenuItem value="createdAt">Date</MenuItem>
+              <MenuItem value="amount">Amount</MenuItem>
+            </Select>
+          </FormControl>
+
+          <FormControl size="small" sx={{ minWidth: 100 }}>
+            <InputLabel>Order</InputLabel>
+            <Select
+              value={sortOrder}
+              label="Order"
+              onChange={(e) => handleFilterChange("sortOrder", e.target.value)}
+            >
+              <MenuItem value="asc">Ascending</MenuItem>
+              <MenuItem value="desc">Descending</MenuItem>
+            </Select>
+          </FormControl>
+
+          <Button variant="outlined" onClick={handleClearFilters}>
+            Clear Filters
+          </Button>
+        </div>
+      </Paper>
+
+      {/* Data Table */}
       <Paper className="p-4">
         <TableComponent
           columns={columns}
@@ -177,8 +311,23 @@ export default function PaymentsPage() {
           pageSize={limit}
           totalItems={data?.meta?.totalItems || 0}
           isLoading={isLoading}
+          onPageChange={handlePageChange}
         />
       </Paper>
+
+      {/* Pagination Info */}
+      {data?.meta && data.meta.totalItems > 0 && (
+        <div className="mt-4 text-sm text-gray-600 flex justify-between items-center">
+          <div>
+            Showing {(data.meta.page - 1) * data.meta.limit + 1} to{" "}
+            {Math.min(data.meta.page * data.meta.limit, data.meta.totalItems)} of{" "}
+            {data.meta.totalItems} entries
+          </div>
+          <div>
+            Page {data.meta.page} of {data.meta.totalPages}
+          </div>
+        </div>
+      )}
 
       {/* Confirmation Dialog for Refund */}
       <Dialog open={Boolean(selectedRefundRow)} onClose={() => setSelectedRefundRow(null)} maxWidth="xs" fullWidth>

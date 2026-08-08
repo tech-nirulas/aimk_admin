@@ -7,6 +7,10 @@ import { useDispatch } from "react-redux";
 
 import TableComponent from "@/components/common/DataTable";
 import ProductForm from "@/components/ui/Product/ProductForm";
+import { ProtectedComponent } from "@/components/common/ProtectedComponent";
+import { UnauthorizedAccess } from "@/components/common/UnauthorizedAccess";
+import { usePermission } from "@/hooks/usePermission";
+import { PERMISSIONS } from "@aimk/permissions";
 import { useDeleteProductMutation, useGetPaginatedProductQuery } from "@/features/products/productApiService";
 import { clearProduct, clearSelectedProduct, setSelectedProduct } from "@/features/products/productSlice";
 import { useConfirmDialog } from "@/lib/DialogProvider";
@@ -15,6 +19,11 @@ import { useFormDrawer } from "@/lib/FormDrawerProvider";
 export default function ProductsPage() {
   const dispatch = useDispatch();
   const { openDrawer, setIsEditing } = useFormDrawer();
+  const { can } = usePermission();
+
+  const canCreate = can(PERMISSIONS.PRODUCT.CREATE);
+  const canUpdate = can(PERMISSIONS.PRODUCT.UPDATE);
+  const canDelete = can(PERMISSIONS.PRODUCT.DELETE);
 
   // Pagination and filter state
   const [page, setPage] = useState(1);
@@ -144,133 +153,142 @@ export default function ProductsPage() {
       flex: 0.5,
       renderCell: ({ row }: any) => (
         <div className="flex gap-2 items-center justify-start h-full">
-          <FaEdit
-            className="cursor-pointer text-blue-600 hover:text-blue-800"
-            size={18}
-            onClick={() => handleEdit(row)}
-          />
-          <FaTrash
-            className="cursor-pointer text-red-600 hover:text-red-800"
-            size={16}
-            onClick={() => handleDelete(row)}
-          />
+          {canUpdate && (
+            <FaEdit
+              className="cursor-pointer text-blue-600 hover:text-blue-800"
+              size={18}
+              onClick={() => handleEdit(row)}
+            />
+          )}
+          {canDelete && (
+            <FaTrash
+              className="cursor-pointer text-red-600 hover:text-red-800"
+              size={16}
+              onClick={() => handleDelete(row)}
+            />
+          )}
         </div>
       ),
     },
-  ], [handleDelete, handleEdit]);
+  ], [handleDelete, handleEdit, canUpdate, canDelete]);
 
   return (
-    <Box className="p-4">
-      <div className="flex justify-between items-center mb-4">
-        <Typography variant="h2">Products</Typography>
-        <Button variant="contained" onClick={handleCreate}>
-          + New Product
-        </Button>
-      </div>
-
-      {/* Filters Section */}
-      <Paper className="mb-4 p-4">
-        <div className="flex gap-4 items-end flex-wrap">
-          <div className="flex-1 min-w-[200px]">
-            <TextField
-              label="Search"
-              variant="outlined"
-              size="small"
-              fullWidth
-              onChange={handleSearchChange}
-              placeholder="Search by name or description..."
-              InputProps={{
-                startAdornment: <FaSearch className="mr-2 text-gray-400" />,
-              }}
-            />
-          </div>
-
-          <FormControl size="small" sx={{ minWidth: 120 }}>
-            <InputLabel>Status</InputLabel>
-            <Select
-              value={isActive}
-              label="Status"
-              onChange={(e) => handleFilterChange("isActive", e.target.value)}
-            >
-              <MenuItem value="">All</MenuItem>
-              <MenuItem value="true">Active</MenuItem>
-              <MenuItem value="false">Inactive</MenuItem>
-            </Select>
-          </FormControl>
-
-          <FormControl size="small" sx={{ minWidth: 120 }}>
-            <InputLabel>Items per page</InputLabel>
-            <Select
-              value={limit}
-              label="Items per page"
-              onChange={(e) => handleFilterChange("limit", e.target.value)}
-            >
-              <MenuItem value={5}>5</MenuItem>
-              <MenuItem value={10}>10</MenuItem>
-              <MenuItem value={25}>25</MenuItem>
-              <MenuItem value={50}>50</MenuItem>
-            </Select>
-          </FormControl>
-
-          <FormControl size="small" sx={{ minWidth: 120 }}>
-            <InputLabel>Sort By</InputLabel>
-            <Select
-              value={sortBy}
-              label="Sort By"
-              onChange={(e) => handleFilterChange("sortBy", e.target.value)}
-            >
-              <MenuItem value="name">Name</MenuItem>
-              <MenuItem value="createdAt">Created Date</MenuItem>
-              <MenuItem value="updatedAt">Updated Date</MenuItem>
-            </Select>
-          </FormControl>
-
-          <FormControl size="small" sx={{ minWidth: 100 }}>
-            <InputLabel>Order</InputLabel>
-            <Select
-              value={sortOrder}
-              label="Order"
-              onChange={(e) => handleFilterChange("sortOrder", e.target.value)}
-            >
-              <MenuItem value="asc">Ascending</MenuItem>
-              <MenuItem value="desc">Descending</MenuItem>
-            </Select>
-          </FormControl>
-
-          <Button
-            variant="outlined"
-            onClick={handleClearFilters}
-          >
-            Clear Filters
-          </Button>
+    <ProtectedComponent permission={PERMISSIONS.PRODUCT.READ} fallback={<UnauthorizedAccess />}>
+      <Box className="p-4">
+        <div className="flex justify-between items-center mb-4">
+          <Typography variant="h2">Products</Typography>
+          {canCreate && (
+            <Button variant="contained" onClick={handleCreate}>
+              + New Product
+            </Button>
+          )}
         </div>
-      </Paper>
 
-      {/* Table Component */}
-      <TableComponent
-        columns={columns}
-        data={data?.data || []}
-        currentPage={page}
-        setCurrentPage={setPage}
-        pageSize={limit}
-        totalItems={data?.meta?.totalItems || 0}
-        isLoading={isLoading}
-        onPageChange={handlePageChange}
-      />
+        {/* Filters Section */}
+        <Paper className="mb-4 p-4">
+          <div className="flex gap-4 items-end flex-wrap">
+            <div className="flex-1 min-w-[200px]">
+              <TextField
+                label="Search"
+                variant="outlined"
+                size="small"
+                fullWidth
+                onChange={handleSearchChange}
+                placeholder="Search by name or description..."
+                slotProps={{
+                  input: {
+                    startAdornment: <FaSearch className="mr-2 text-gray-400" />,
+                  },
+                }}
+              />
+            </div>
 
-      {/* Pagination Info */}
-      {data?.meta && data.meta.totalItems > 0 && (
-        <div className="mt-4 text-sm text-gray-600 flex justify-between items-center">
-          <div>
-            Showing {(data.meta.page - 1) * data.meta.limit + 1} to{" "}
-            {Math.min(data.meta.page * data.meta.limit, data.meta.totalItems)} of{" "}
-            {data.meta.totalItems} entries
+            <FormControl size="small" className="w-40">
+              <InputLabel>Status</InputLabel>
+              <Select
+                value={isActive}
+                label="Status"
+                onChange={(e) => {
+                  setIsActive(e.target.value);
+                  setPage(1);
+                }}
+              >
+                <MenuItem value="">All Status</MenuItem>
+                <MenuItem value="true">Active</MenuItem>
+                <MenuItem value="false">Inactive</MenuItem>
+              </Select>
+            </FormControl>
+
+            <FormControl size="small" className="w-44">
+              <InputLabel>Sort By</InputLabel>
+              <Select
+                value={sortBy}
+                label="Sort By"
+                onChange={(e) => setSortBy(e.target.value)}
+              >
+                <MenuItem value="createdAt">Created Date</MenuItem>
+                <MenuItem value="name">Name</MenuItem>
+                <MenuItem value="slug">Slug</MenuItem>
+              </Select>
+            </FormControl>
+
+            <FormControl size="small" className="w-36">
+              <InputLabel>Order</InputLabel>
+              <Select
+                value={sortOrder}
+                label="Order"
+                onChange={(e) => setSortOrder(e.target.value as "asc" | "desc")}
+              >
+                <MenuItem value="desc">Descending</MenuItem>
+                <MenuItem value="asc">Ascending</MenuItem>
+              </Select>
+            </FormControl>
+
+            <FormControl size="small" className="w-28">
+              <InputLabel>Per Page</InputLabel>
+              <Select
+                value={limit}
+                label="Per Page"
+                onChange={(e) => {
+                  setLimit(Number(e.target.value));
+                  setPage(1);
+                }}
+              >
+                <MenuItem value={5}>5</MenuItem>
+                <MenuItem value={10}>10</MenuItem>
+                <MenuItem value={25}>25</MenuItem>
+                <MenuItem value={50}>50</MenuItem>
+              </Select>
+            </FormControl>
           </div>
-          <div>
-            Page {data.meta.page} of {data.meta.totalPages}
+        </Paper>
+
+        {/* Table Component */}
+        <TableComponent
+          columns={columns}
+          data={data?.data || []}
+          currentPage={page}
+          setCurrentPage={setPage}
+          pageSize={limit}
+          totalItems={data?.meta?.totalItems || 0}
+          isLoading={isLoading}
+          onPageChange={handlePageChange}
+        />
+
+        {/* Pagination Info */}
+        {data?.meta && data.meta.totalItems > 0 && (
+          <div className="mt-4 text-sm text-gray-600 flex justify-between items-center">
+            <div>
+              Showing {(data.meta.page - 1) * data.meta.limit + 1} to{" "}
+              {Math.min(data.meta.page * data.meta.limit, data.meta.totalItems)} of{" "}
+              {data.meta.totalItems} entries
+            </div>
+            <div>
+              Page {data.meta.page} of {data.meta.totalPages}
+            </div>
           </div>
-        </div>
-      )}
-    </Box>
+        )}
+      </Box>
+    </ProtectedComponent>
   );
 }

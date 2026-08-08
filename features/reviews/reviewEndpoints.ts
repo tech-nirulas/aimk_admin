@@ -2,9 +2,16 @@ import { EndpointBuilder } from "@reduxjs/toolkit/query/react";
 
 export const reviewEndpoints = (builder: EndpointBuilder<any, any, any>) => ({
   getAdminReviews: builder.query({
-    query: ({ page = 1, limit = 10 }: { page?: number; limit?: number }) => ({
-      url: `/review/admin?page=${page}&limit=${limit}`,
+    query: (params: {
+      page?: number;
+      limit?: number;
+      search?: string;
+      sortBy?: string;
+      sortOrder?: "asc" | "desc";
+    }) => ({
+      url: `/review/admin`,
       method: "GET",
+      params,
     }),
     providesTags: ["Review"],
   }),

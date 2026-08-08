@@ -25,9 +25,10 @@ import {
   Select,
   TextField,
   Typography,
+  debounce,
 } from "@mui/material";
 import { useMemo, useState } from "react";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaSearch } from "react-icons/fa";
 
 const STATUS_COLORS: Record<string, { bg: string; color: string; label: string }> = {
   NEW: { bg: "#FEF3C7", color: "#D97706", label: "NEW" },
@@ -40,7 +41,49 @@ const STATUS_COLORS: Record<string, { bg: string; color: string; label: string }
 export default function CakeCustomizationsPage() {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
-  const [statusFilter, setStatusFilter] = useState<string>("");
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+  const [sortBy, setSortBy] = useState("createdAt");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+
+  // Debounced search
+  const debouncedSearch = useMemo(
+    () =>
+      debounce((value: string) => {
+        setSearch(value);
+        setPage(1);
+      }, 500),
+    [setSearch, setPage]
+  );
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    debouncedSearch(e.target.value);
+  };
+
+  const handleFilterChange = (field: string, value: any) => {
+    if (field === "status") setStatusFilter(value);
+    if (field === "limit") setLimit(value);
+    if (field === "sortBy") setSortBy(value);
+    if (field === "sortOrder") setSortOrder(value);
+    setPage(1);
+  };
+
+  const handleClearFilters = () => {
+    setSearch("");
+    setStatusFilter("");
+    setSortBy("createdAt");
+    setSortOrder("desc");
+    setLimit(10);
+    setPage(1);
+    debouncedSearch("");
+  };
+
+  const handlePageChange = (newPage: number, newPageSize: number) => {
+    setPage(newPage);
+    if (newPageSize !== limit) {
+      setLimit(newPageSize);
+    }
+  };
 
   // Detail Modal State
   const [selectedRequest, setSelectedRequest] = useState<any>(null);
@@ -53,6 +96,9 @@ export default function CakeCustomizationsPage() {
     page,
     limit,
     status: statusFilter || undefined,
+    search: search || undefined,
+    sortBy,
+    sortOrder,
   });
 
   const { data: outletsData } = useGetAllOutletsQuery({ page: 1, limit: 100 });
@@ -215,13 +261,29 @@ export default function CakeCustomizationsPage() {
 
       {/* Filter Section */}
       <Paper className="mb-4 p-4">
-        <div className="flex gap-4 items-center">
+        <div className="flex gap-4 items-end flex-wrap">
+          <div className="flex-1 min-w-[200px]">
+            <TextField
+              label="Search"
+              variant="outlined"
+              size="small"
+              fullWidth
+              onChange={handleSearchChange}
+              placeholder="Search by ref number, customer name, or phone..."
+              slotProps={{
+                input: {
+                  startAdornment: <FaSearch className="mr-2 text-gray-400" />,
+                },
+              }}
+            />
+          </div>
+
           <FormControl size="small" sx={{ minWidth: 160 }}>
             <InputLabel>Status</InputLabel>
             <Select
               value={statusFilter}
               label="Status"
-              onChange={(e) => setStatusFilter(e.target.value)}
+              onChange={(e) => handleFilterChange("status", e.target.value)}
             >
               <MenuItem value="">All Statuses</MenuItem>
               <MenuItem value="NEW">NEW</MenuItem>
@@ -237,7 +299,7 @@ export default function CakeCustomizationsPage() {
             <Select
               value={limit}
               label="Items per page"
-              onChange={(e) => setLimit(Number(e.target.value))}
+              onChange={(e) => handleFilterChange("limit", e.target.value)}
             >
               <MenuItem value={5}>5</MenuItem>
               <MenuItem value={10}>10</MenuItem>
@@ -246,11 +308,33 @@ export default function CakeCustomizationsPage() {
             </Select>
           </FormControl>
 
-          {statusFilter && (
-            <Button variant="text" color="secondary" onClick={() => setStatusFilter("")}>
-              Clear Filter
-            </Button>
-          )}
+          <FormControl size="small" sx={{ minWidth: 120 }}>
+            <InputLabel>Sort By</InputLabel>
+            <Select
+              value={sortBy}
+              label="Sort By"
+              onChange={(e) => handleFilterChange("sortBy", e.target.value)}
+            >
+              <MenuItem value="createdAt">Date</MenuItem>
+              <MenuItem value="refNumber">Ref Number</MenuItem>
+            </Select>
+          </FormControl>
+
+          <FormControl size="small" sx={{ minWidth: 100 }}>
+            <InputLabel>Order</InputLabel>
+            <Select
+              value={sortOrder}
+              label="Order"
+              onChange={(e) => handleFilterChange("sortOrder", e.target.value)}
+            >
+              <MenuItem value="asc">Ascending</MenuItem>
+              <MenuItem value="desc">Descending</MenuItem>
+            </Select>
+          </FormControl>
+
+          <Button variant="outlined" onClick={handleClearFilters}>
+            Clear Filters
+          </Button>
         </div>
       </Paper>
 
@@ -263,7 +347,22 @@ export default function CakeCustomizationsPage() {
         pageSize={limit}
         totalItems={data?.meta?.totalItems || 0}
         isLoading={isLoading}
+        onPageChange={handlePageChange}
       />
+
+      {/* Pagination Info */}
+      {data?.meta && data.meta.totalItems > 0 && (
+        <div className="mt-4 text-sm text-gray-600 flex justify-between items-center">
+          <div>
+            Showing {(data.meta.page - 1) * data.meta.limit + 1} to{" "}
+            {Math.min(data.meta.page * data.meta.limit, data.meta.totalItems)} of{" "}
+            {data.meta.totalItems} entries
+          </div>
+          <div>
+            Page {data.meta.page} of {data.meta.totalPages}
+          </div>
+        </div>
+      )}
 
       {/* Detail & Management Dialog */}
       <Dialog open={Boolean(selectedRequest)} onClose={handleCloseDetail} maxWidth="md" fullWidth>

@@ -19,4 +19,5 @@ export const {
   useCreateAdminUserMutation,
   useUpdateAdminUserMutation,
   useUpdateUserRoleMutation,
+  useGetSidebarModulesQuery,
 } = userApiService;

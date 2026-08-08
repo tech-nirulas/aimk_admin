@@ -1,10 +1,14 @@
 "use client";
 
-import { Alert, AlertColor, Slide, SlideProps, Snackbar } from '@mui/material';
+import { Alert, AlertColor, Slide, Snackbar } from '@mui/material';
 import React, { createContext, ReactNode, useState } from 'react';
 
 interface ToastContextType {
   showToast: (message: string, type: AlertColor) => void;
+  showSuccess: (message: string) => void;
+  showError: (message: string) => void;
+  showInfo: (message: string) => void;
+  showWarning: (message: string) => void;
 }
 
 export const ToastContext = createContext<ToastContextType | undefined>(undefined);
@@ -24,20 +28,26 @@ export const ToastProvider: React.FC<ToastProviderProps> = ({ children }) => {
     setOpen(true);
   };
 
+  const showSuccess = (msg: string) => showToast(msg, 'success');
+  const showError = (msg: string) => showToast(msg, 'error');
+  const showInfo = (msg: string) => showToast(msg, 'info');
+  const showWarning = (msg: string) => showToast(msg, 'warning');
+
   const handleClose = (_event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') return;
     setOpen(false);
   };
 
   return (
-    <ToastContext.Provider value={{ showToast }}>
+    <ToastContext.Provider value={{ showToast, showSuccess, showError, showInfo, showWarning }}>
       {children}
       <Snackbar
         open={open}
         autoHideDuration={3500}
         onClose={handleClose}
         anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-        TransitionComponent={(props: SlideProps) => <Slide {...props} direction="up" />}
+        slots={{ transition: Slide }}
+        slotProps={{ transition: { direction: 'up' } }}
       >
         <Alert
           onClose={handleClose}

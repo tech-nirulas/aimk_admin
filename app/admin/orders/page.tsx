@@ -8,32 +8,80 @@ import {
   MenuItem,
   Paper,
   Select,
-  Typography
+  TextField,
+  Typography,
+  debounce,
 } from "@mui/material";
-import { useMemo, useState } from "react";
-
+import { useCallback, useMemo, useState } from "react";
+import { FaSearch } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 import TableComponent from "@/components/common/DataTable";
 import {
   useGetAllAdminOrdersQuery,
-  useUpdateOrderStatusMutation
+  useUpdateOrderStatusMutation,
 } from "@/features/order/orderApiService";
 
 export default function OrdersPage() {
   const router = useRouter();
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
+  const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
+  const [sortBy, setSortBy] = useState("placedAt");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+
+  // Debounced search
+  const debouncedSearch = useMemo(
+    () =>
+      debounce((value: string) => {
+        setSearch(value);
+        setPage(1);
+      }, 500),
+    [setSearch, setPage]
+  );
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    debouncedSearch(e.target.value);
+  };
+
+  const handleFilterChange = (field: string, value: any) => {
+    if (field === "status") setStatus(value);
+    if (field === "limit") setLimit(value);
+    if (field === "sortBy") setSortBy(value);
+    if (field === "sortOrder") setSortOrder(value);
+    setPage(1);
+  };
+
+  const handleClearFilters = () => {
+    setSearch("");
+    setStatus("");
+    setSortBy("placedAt");
+    setSortOrder("desc");
+    setLimit(10);
+    setPage(1);
+    debouncedSearch("");
+  };
 
   const { data, isLoading } = useGetAllAdminOrdersQuery({
     page,
     limit,
+    search: search || undefined,
+    status: status || undefined,
+    sortBy,
+    sortOrder,
   });
 
   const [updateStatus] = useUpdateOrderStatusMutation();
 
   const handleStatusChange = async (orderId: string, newStatus: string) => {
     await updateStatus({ id: orderId, status: newStatus });
+  };
+
+  const handlePageChange = (newPage: number, newPageSize: number) => {
+    setPage(newPage);
+    if (newPageSize !== limit) {
+      setLimit(newPageSize);
+    }
   };
 
   const columns = useMemo(
@@ -47,6 +95,20 @@ export default function OrdersPage() {
             {row.orderNumber}
           </Typography>
         ),
+      },
+      {
+        field: "customer",
+        headerName: "Customer",
+        flex: 1,
+        renderCell: ({ row }: any) => {
+          const u = row.customer?.user || {};
+          const name = `${u.firstName || ""} ${u.lastName || ""}`.trim() || "Customer";
+          return (
+            <Typography variant="body2" sx={{ fontWeight: 600 }}>
+              {name}
+            </Typography>
+          );
+        },
       },
       {
         field: "outlet",
@@ -74,6 +136,7 @@ export default function OrdersPage() {
             <MenuItem value="confirmed">Confirmed</MenuItem>
             <MenuItem value="completed">Completed</MenuItem>
             <MenuItem value="payment_failed">Failed</MenuItem>
+            <MenuItem value="cancelled">Cancelled</MenuItem>
           </Select>
         ),
       },
@@ -117,22 +180,83 @@ export default function OrdersPage() {
         <Typography variant="h2">Orders</Typography>
       </div>
 
-      {/* Filters */}
+      {/* Filters Section */}
       <Paper className="mb-4 p-4">
-        <div className="flex gap-4">
-          <FormControl size="small">
+        <div className="flex gap-4 items-end flex-wrap">
+          <div className="flex-1 min-w-[200px]">
+            <TextField
+              label="Search"
+              variant="outlined"
+              size="small"
+              fullWidth
+              onChange={handleSearchChange}
+              placeholder="Search by order ID or customer name..."
+              slotProps={{
+                input: {
+                  startAdornment: <FaSearch className="mr-2 text-gray-400" />,
+                },
+              }}
+            />
+          </div>
+
+          <FormControl size="small" sx={{ minWidth: 120 }}>
             <InputLabel>Status</InputLabel>
             <Select
               value={status}
               label="Status"
-              onChange={(e) => setStatus(e.target.value)}
+              onChange={(e) => handleFilterChange("status", e.target.value)}
             >
               <MenuItem value="">All</MenuItem>
               <MenuItem value="pending">Pending</MenuItem>
               <MenuItem value="confirmed">Confirmed</MenuItem>
               <MenuItem value="completed">Completed</MenuItem>
+              <MenuItem value="payment_failed">Failed</MenuItem>
+              <MenuItem value="cancelled">Cancelled</MenuItem>
             </Select>
           </FormControl>
+
+          <FormControl size="small" sx={{ minWidth: 120 }}>
+            <InputLabel>Items per page</InputLabel>
+            <Select
+              value={limit}
+              label="Items per page"
+              onChange={(e) => handleFilterChange("limit", e.target.value)}
+            >
+              <MenuItem value={5}>5</MenuItem>
+              <MenuItem value={10}>10</MenuItem>
+              <MenuItem value={25}>25</MenuItem>
+              <MenuItem value={50}>50</MenuItem>
+            </Select>
+          </FormControl>
+
+          <FormControl size="small" sx={{ minWidth: 120 }}>
+            <InputLabel>Sort By</InputLabel>
+            <Select
+              value={sortBy}
+              label="Sort By"
+              onChange={(e) => handleFilterChange("sortBy", e.target.value)}
+            >
+              <MenuItem value="placedAt">Placed Date</MenuItem>
+              <MenuItem value="grandTotal">Amount</MenuItem>
+              <MenuItem value="status">Status</MenuItem>
+            </Select>
+          </FormControl>
+
+          <FormControl size="small" sx={{ minWidth: 100 }}>
+            <InputLabel>Order</InputLabel>
+            <Select
+              value={sortOrder}
+              label="Order"
+              onChange={(e) => handleFilterChange("sortOrder", e.target.value)}
+            >
+              <MenuItem value="asc">Ascending</MenuItem>
+              <MenuItem value="desc">Descending</MenuItem>
+            </Select>
+          </FormControl>
+
+          <Button variant="outlined" onClick={handleClearFilters}>
+            Clear Filters
+          </Button>
         </div>
       </Paper>
 
@@ -145,7 +269,22 @@ export default function OrdersPage() {
         pageSize={limit}
         totalItems={data?.meta?.totalItems || 0}
         isLoading={isLoading}
+        onPageChange={handlePageChange}
       />
+
+      {/* Pagination Info */}
+      {data?.meta && data.meta.totalItems > 0 && (
+        <div className="mt-4 text-sm text-gray-600 flex justify-between items-center">
+          <div>
+            Showing {(data.meta.page - 1) * data.meta.limit + 1} to{" "}
+            {Math.min(data.meta.page * data.meta.limit, data.meta.totalItems)} of{" "}
+            {data.meta.totalItems} entries
+          </div>
+          <div>
+            Page {data.meta.page} of {data.meta.totalPages}
+          </div>
+        </div>
+      )}
     </Box>
   );
 }

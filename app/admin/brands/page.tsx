@@ -216,8 +216,10 @@ export default function BrandsPage() {
               fullWidth
               onChange={handleSearchChange}
               placeholder="Search by name or description..."
-              InputProps={{
-                startAdornment: <FaSearch className="mr-2 text-gray-400" />,
+              slotProps={{
+                input: {
+                  startAdornment: <FaSearch className="mr-2 text-gray-400" />,
+                },
               }}
             />
           </div>

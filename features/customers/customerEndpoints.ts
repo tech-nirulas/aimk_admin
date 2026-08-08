@@ -6,15 +6,21 @@ export const customerEndpoints = (builder: EndpointBuilder<any, any, any>) => ({
       page = 1,
       limit = 10,
       search = "",
+      sortBy,
+      sortOrder,
     }: {
       page?: number;
       limit?: number;
       search?: string;
+      sortBy?: string;
+      sortOrder?: "asc" | "desc";
     }) => {
       const params = new URLSearchParams();
       params.append("page", String(page));
       params.append("limit", String(limit));
       if (search) params.append("search", search);
+      if (sortBy) params.append("sortBy", sortBy);
+      if (sortOrder) params.append("sortOrder", sortOrder);
 
       return {
         url: `/user/admin/customers?${params.toString()}`,

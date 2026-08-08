@@ -79,7 +79,7 @@ export const orderEndpoints = (builder: EndpointDefinitions) => ({
       page: number;
       limit: number;
       search?: string;
-      isActive?: boolean;
+      status?: string;
       sortBy?: string;
       sortOrder?: "asc" | "desc";
     }
@@ -90,6 +90,8 @@ export const orderEndpoints = (builder: EndpointDefinitions) => ({
       params: {
         page: params.page,
         limit: params.limit,
+        ...(params.search && { search: params.search }),
+        ...(params.status && { status: params.status }),
         ...(params.sortBy && { sortBy: params.sortBy }),
         ...(params.sortOrder && { sortOrder: params.sortOrder }),
       },

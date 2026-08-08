@@ -8,12 +8,18 @@ export const inventoryEndpoints = (builder: EndpointBuilder<any, any, any>) => (
       outletId,
       productId,
       status,
+      search,
+      sortBy,
+      sortOrder,
     }: {
       page?: number;
       limit?: number;
       outletId?: string;
       productId?: string;
       status?: string;
+      search?: string;
+      sortBy?: string;
+      sortOrder?: "asc" | "desc";
     }) => {
       const params = new URLSearchParams();
       params.append("page", String(page));
@@ -21,6 +27,9 @@ export const inventoryEndpoints = (builder: EndpointBuilder<any, any, any>) => (
       if (outletId) params.append("outletId", outletId);
       if (productId) params.append("productId", productId);
       if (status) params.append("status", status);
+      if (search) params.append("search", search);
+      if (sortBy) params.append("sortBy", sortBy);
+      if (sortOrder) params.append("sortOrder", sortOrder);
 
       return {
         url: `/inventory/batch?${params.toString()}`,
