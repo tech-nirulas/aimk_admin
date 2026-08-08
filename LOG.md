@@ -1,5 +1,10 @@
 # AIMK Admin Panel — Development Log
 
+## [2026-08-08] Vercel Build Fix for Shared Permissions Package (@aimk/permissions)
+- Bundled `@aimk/permissions` package inside `packages/aimk-permissions` within the `aimk_admin` repository.
+- Updated [package.json](file:///home/ujjwal/Desktop/angels_projects/aimk_admin/package.json#L12) dependency from `"file:../aimk-permissions"` to `"file:./packages/aimk-permissions"`.
+- This ensures Vercel and Next.js Turbopack can build `aimk_admin` self-contained without referencing parent directories outside the git repository.
+
 ## [2026-08-08] Enterprise Authentication & Silent Re-Auth Lifecycle
 - Added `saveRefreshToken`, `getRefreshToken`, and `clearTokens` helpers to `helpers/encryptToken.helper.ts`.
 - Created `features/api/baseQuery.ts` introducing `baseQueryWithReauth` with concurrent refresh request deduplication via singleton Promise (`refreshPromise`).
