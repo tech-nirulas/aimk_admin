@@ -1,9 +1,10 @@
 // lib/AuthProvider.tsx
 "use client";
 
-import { useLazyFetchUserQuery } from '@/features/auth/authApiService';
+import { useLazyFetchUserQuery, useLogoutBackendMutation, useRefreshTokenMutation } from '@/features/auth/authApiService';
 import { logout, setLoading, setUser } from '@/features/auth/authSlice';
 import getDecryptedToken from '@/helpers/decryptToken.helper';
+import { getRefreshToken, saveEncryptedToken, saveRefreshToken } from '@/helpers/encryptToken.helper';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { createContext, useContext, useEffect, useMemo } from 'react';
 import { CircularProgress } from '@mui/material';
@@ -32,12 +33,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const router = useRouter();
   const pathname = usePathname();
 
-  // Fix: Access the correct path in your Redux store
-  // Since your reducer is exported as authReducer, it will be at state.authReducer
   const authState = useAppSelector((state: any) => state.authReducer);
   const { isAuthenticated = false, isLoading = true, user = null } = authState || {};
 
   const [fetchUser, { isLoading: isFetchingUser }] = useLazyFetchUserQuery();
+  const [refreshTokenMutation] = useRefreshTokenMutation();
+  const [logoutBackendMutation] = useLogoutBackendMutation();
 
   const publicRoutes = ['/login'];
   const isPublicRoute = publicRoutes.includes(pathname);
@@ -45,7 +46,26 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const checkAuth = async () => {
     try {
       dispatch(setLoading(true));
-      const token = await getDecryptedToken();
+      let token = await getDecryptedToken();
+
+      if (!token) {
+        // Attempt silent re-authentication via refresh token if present
+        const refreshToken = getRefreshToken();
+        if (refreshToken) {
+          try {
+            const refreshRes = await refreshTokenMutation(refreshToken).unwrap();
+            if (refreshRes?.accessToken) {
+              token = refreshRes.accessToken;
+              await saveEncryptedToken(refreshRes.accessToken);
+              if (refreshRes.refreshToken) {
+                saveRefreshToken(refreshRes.refreshToken);
+              }
+            }
+          } catch (_err) {
+            token = null;
+          }
+        }
+      }
 
       if (!token) {
         dispatch(logout());
@@ -58,8 +78,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // Fetch user data with token
       const userData = await fetchUser(token).unwrap();
       dispatch(setUser(userData));
-    } catch (error) {
-      console.error('Auth check failed:', error);
+    } catch (error: any) {
+      // Access token expired - attempt silent refresh before giving up
+      const refreshToken = getRefreshToken();
+      if (refreshToken) {
+        try {
+          const refreshRes = await refreshTokenMutation(refreshToken).unwrap();
+          if (refreshRes?.accessToken) {
+            await saveEncryptedToken(refreshRes.accessToken);
+            if (refreshRes.refreshToken) {
+              saveRefreshToken(refreshRes.refreshToken);
+            }
+            const userData = await fetchUser(refreshRes.accessToken).unwrap();
+            dispatch(setUser(userData));
+            return;
+          }
+        } catch (_err) {
+          // Refresh failed
+        }
+      }
+
+      // Session expired or invalid token - log out cleanly
       dispatch(logout());
       if (!isPublicRoute) {
         router.push('/login');
@@ -71,15 +110,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const handleLogout = async () => {
     try {
-      // Clear encrypted storage
-      localStorage.removeItem('encryptionKey');
-      localStorage.removeItem('iv');
-      localStorage.removeItem('encryptedToken');
-
-      dispatch(logout());
-      router.push('/login');
+      const refreshToken = getRefreshToken();
+      if (refreshToken) {
+        logoutBackendMutation(refreshToken).catch(() => {});
+      }
     } catch (error) {
       console.error('Logout error:', error);
+    } finally {
+      dispatch(logout());
+      router.push('/login');
     }
   };
 

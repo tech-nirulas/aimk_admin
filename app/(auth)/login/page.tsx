@@ -5,7 +5,7 @@
 import { MaterialPasswordField, MaterialTextField } from '@/components/common/CustomFields';
 import { useLazyFetchUserQuery, useLoginMutation } from '@/features/auth/authApiService';
 import { setCredentials } from '@/features/auth/authSlice';
-import { saveEncryptedToken } from '@/helpers/encryptToken.helper';
+import { saveEncryptedToken, saveRefreshToken } from '@/helpers/encryptToken.helper';
 import { useToast } from '@/hooks/useToast';
 import { ErrorResponse } from '@/interfaces/root.interface';
 import { useAppDispatch } from '@/lib/store';
@@ -81,10 +81,20 @@ function Login() {
     }
   }, [isLoginSuccess, loginData, fetchUser]);
 
+
   useEffect(() => {
     if (userSuccess && userData && loginData) {
-      dispatch(setCredentials({ user: userData, token: loginData?.data?.accessToken }));
+      dispatch(
+        setCredentials({
+          user: userData,
+          token: loginData?.data?.accessToken,
+          refreshToken: loginData?.data?.refreshToken,
+        })
+      );
       saveEncryptedToken(loginData?.data?.accessToken);
+      if (loginData?.data?.refreshToken) {
+        saveRefreshToken(loginData?.data?.refreshToken);
+      }
       showToast('Login Successful', 'success');
       router.push('/admin');
     }
