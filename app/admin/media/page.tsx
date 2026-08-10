@@ -1,5 +1,6 @@
 "use client";
 
+import { ImageSpecReference } from "@/components/common/ImageSpecHint";
 import {
   useBulkDeleteMediaMutation,
   useDeleteMediaMutation,
@@ -211,6 +212,12 @@ function UploadZone({
           <CloudUploadIcon sx={{ color: "primary.main" }} />
           Upload Media
         </Typography>
+
+        {/*
+          The destination slot isn't known here (this is the generic library),
+          so show the full reference table from @aimk/image-spec.
+        */}
+        <ImageSpecReference />
 
         {/* Drop zone — only show when no files staged */}
         {stagedFiles.length === 0 && (

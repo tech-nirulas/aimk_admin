@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  transpilePackages: ["@aimk/permissions"],
+  transpilePackages: ["@aimk/permissions", "@aimk/image-spec"],
   typescript: {
     ignoreBuildErrors: true,
   },

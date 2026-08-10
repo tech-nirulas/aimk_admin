@@ -1,6 +1,7 @@
 "use client";
 
 import { MaterialDateField, MaterialSelectField, MaterialTextField } from "@/components/common/CustomFields";
+import ImageSpecHint from "@/components/common/ImageSpecHint";
 import SectionHeader from "@/components/common/SectionHeader";
 import MediaPickerModal, { MediaItem } from "@/components/ui/Media/MediaPickerModal";
 import { useGetAllCategoriesQuery } from "@/features/categories/categoriesApiService";
@@ -8,10 +9,8 @@ import { useCreateOfferMutation, useUpdateOfferMutation } from "@/features/offer
 import { useGetAllProductsQuery } from "@/features/products/productApiService";
 import { useToast } from "@/hooks/useToast";
 import { useFormDrawer } from "@/lib/FormDrawerProvider";
-import AspectRatioIcon from "@mui/icons-material/AspectRatio";
 import CollectionsIcon from "@mui/icons-material/Collections";
 import {
-  Alert,
   Box,
   Button,
   CircularProgress,
@@ -187,18 +186,17 @@ export default function OfferForm({ refetch }: { refetch?: () => void }) {
           <Form className="flex flex-col" style={{ height: "100%" }}>
             <Box sx={{ flex: 1, overflow: "auto" }}>
               <Box className="p-4">
-                {/* Specs Guidance Box */}
-                <Alert severity="info" icon={<AspectRatioIcon />} sx={{ borderRadius: 2, mb: 3 }}>
-                  <Typography variant="subtitle2" sx={{ fontWeight: 800 }}>
-                    📐 Recommended Hero Banner Specs:
-                  </Typography>
-                  <Typography variant="caption" component="div">
-                    • <strong>Desktop Hero:</strong> 1920 × 600 px (16:5 ratio, max 2MB)
-                  </Typography>
-                  <Typography variant="caption" component="div">
-                    • <strong>Mobile Square:</strong> 800 × 800 px (1:1 ratio, max 1MB)
-                  </Typography>
-                </Alert>
+                {/*
+                  Hero banner requirements, read from the shared @aimk/image-spec
+                  package — the same source the storefront and IMAGE_GUIDELINES.md
+                  consume. This replaced a hardcoded block whose dimensions and
+                  ratio did not match the storefront, and which advertised a
+                  separate mobile asset that the storefront does not render.
+                  Never hardcode dimensions here again.
+                */}
+                <Box sx={{ mb: 3 }}>
+                  <ImageSpecHint slot="heroBanner" dimensions={selectedMedia} />
+                </Box>
 
                 <Box className="mb-4" sx={{ bgcolor: theme.palette.primary.main, padding: 1, borderRadius: 1 }}>
                   <Typography variant="subtitle1" sx={{ color: theme.palette.primary.contrastText, fontWeight: 700 }}>

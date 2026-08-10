@@ -1,6 +1,8 @@
 "use client";
 
+import ImageSpecHint from "@/components/common/ImageSpecHint";
 import MediaPickerModal, { MediaItem } from "@/components/ui/Media/MediaPickerModal";
+import type { ImageSlotName } from "@aimk/image-spec";
 import { useToast } from "@/hooks/useToast";
 import { useFormDrawer } from "@/lib/FormDrawerProvider";
 import { Add, Close as CloseIcon, Image as ImageIcon } from "@mui/icons-material";
@@ -273,6 +275,9 @@ const GalleryPickerInput = ({ name }: { name: string }) => {
 
   return (
     <Box>
+      <Box sx={{ mb: 1.5 }}>
+        <ImageSpecHint slot="productGallery" />
+      </Box>
       <Button
         variant="outlined"
         startIcon={<ImageIcon />}
@@ -327,6 +332,7 @@ const GalleryPickerInput = ({ name }: { name: string }) => {
         multiple
         allowedTypes={["image"]}
         title="Select Gallery Images"
+        slot="productGallery"
       />
     </Box>
   );
@@ -337,13 +343,21 @@ const SingleImagePicker = ({
   urlField,
   label,
   helperText,
+  slot,
 }: {
   idField: string;
   urlField: string;
   label: string;
   helperText?: string;
+  /** Image slot from @aimk/image-spec; shows requirements + advisory warnings. */
+  slot?: ImageSlotName;
 }) => {
   const [pickerOpen, setPickerOpen] = useState(false);
+  // Dimensions of the currently selected media, captured on select so the
+  // requirements panel can warn about resolution/ratio without a refetch.
+  const [selectedDims, setSelectedDims] = useState<
+    { width?: number | null; height?: number | null } | null
+  >(null);
   return (
     <Field name={idField}>
       {({ field, form }: any) => (
@@ -352,6 +366,11 @@ const SingleImagePicker = ({
             <Typography variant="caption" color="text.secondary" display="block" gutterBottom>
               {helperText}
             </Typography>
+          )}
+          {slot && (
+            <Box sx={{ mb: 1.5 }}>
+              <ImageSpecHint slot={slot} dimensions={field.value ? selectedDims : null} />
+            </Box>
           )}
           {field.value && (
             <Box
@@ -405,10 +424,12 @@ const SingleImagePicker = ({
             onClose={() => setPickerOpen(false)}
             allowedTypes={["image"]}
             title={`Select ${label}`}
+            slot={slot}
             onSelect={(media) => {
               const m = media as MediaItem;
               form.setFieldValue(idField, m.id);
               form.setFieldValue(urlField, m.url);
+              setSelectedDims({ width: m.width, height: m.height });
               setPickerOpen(false);
             }}
           />
@@ -723,6 +744,7 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
               urlField="_mainImageUrl"
               label="Main Image"
               helperText="Primary product photo shown on the product detail page"
+              slot="productCard"
             />
           </Grid>
           <Grid size={{ xs: 12, md: 6 }}>
@@ -732,6 +754,7 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
               urlField="_thumbnailUrl"
               label="Thumbnail"
               helperText="Smaller image used in listing cards (falls back to main image)"
+              slot="productCard"
             />
           </Grid>
           <Grid size={{ xs: 12 }}>

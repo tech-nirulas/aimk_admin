@@ -1,5 +1,6 @@
 "use client";
 
+import ImageSpecHint from "@/components/common/ImageSpecHint";
 import MediaPickerModal, { MediaItem } from "@/components/ui/Media/MediaPickerModal";
 import { useToast } from "@/hooks/useToast";
 import { useFormDrawer } from "@/lib/FormDrawerProvider";
@@ -98,6 +99,11 @@ export default function CategoryForm() {
   }, [isCreateSuccess, isUpdateSuccess, isCreateCategoryError, isUpdateCategoryError, createCategoryError, updateCategoryError, showToast, closeDrawer])
 
   const [pickerOpen, setPickerOpen] = useState(false);
+  // Dimensions of the selected media, captured on select so the requirements
+  // panel can raise advisory resolution/ratio warnings without a refetch.
+  const [selectedDims, setSelectedDims] = useState<
+    { width?: number | null; height?: number | null } | null
+  >(null);
 
   return (
     <Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={CategoryValidator.createCategorySchema}>
@@ -135,6 +141,13 @@ export default function CategoryForm() {
                   <Field name="categoryImageId">
                     {({ field, form }: any) => (
                       <Box>
+                        <Box sx={{ mb: 1.5 }}>
+                          <ImageSpecHint
+                            slot="categoryAvatar"
+                            dimensions={field.value ? selectedDims : null}
+                          />
+                        </Box>
+
                         {/* Preview */}
                         {field.value && (
                           <Box
@@ -190,11 +203,13 @@ export default function CategoryForm() {
                           onClose={() => setPickerOpen(false)}
                           allowedTypes={["image"]}
                           title="Select Category Image"
+                          slot="categoryAvatar"
                           onSelect={(media) => {
                             const m = media as MediaItem;
 
                             form.setFieldValue("categoryImageId", m.id);
                             form.setFieldValue("categoryImageUrl", m.url);
+                            setSelectedDims({ width: m.width, height: m.height });
 
                             setPickerOpen(false);
                           }}

@@ -1,9 +1,11 @@
 "use client";
 
+import ImageSpecHint from "@/components/common/ImageSpecHint";
 import {
   useGetAllMediaQuery,
   useGetMediaFoldersQuery,
 } from "@/features/media/mediaApiService";
+import type { ImageSlotName } from "@aimk/image-spec";
 import {
   AudioFile as AudioIcon,
   CheckCircle as CheckCircleIcon,
@@ -67,6 +69,12 @@ export interface MediaPickerModalProps {
   allowedTypes?: ("image" | "video" | "audio" | "document")[];
   title?: string;
   maxSelection?: number;
+  /**
+   * Optional image slot from @aimk/image-spec. When supplied, the picker shows
+   * that slot's requirements and advisory warnings for the current selection.
+   * Omit it for generic media-library selection — the picker works unchanged.
+   */
+  slot?: ImageSlotName;
 }
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -336,6 +344,7 @@ export default function MediaPickerModal({
   allowedTypes,
   title = "Select Media",
   maxSelection,
+  slot,
 }: MediaPickerModalProps) {
   const [search, setSearch] = useState("");
   const [typeFilter, setTypeFilter] = useState<string>("all");
@@ -550,6 +559,25 @@ export default function MediaPickerModal({
 
       {/* Content */}
       <DialogContent sx={{ flex: 1, overflow: "auto", p: 2.5 }}>
+        {/*
+          Slot requirements + advisory warnings for the current selection.
+          Only rendered when a caller supplies `slot`; generic media-library
+          selection is unaffected.
+        */}
+        {slot && (
+          <Box sx={{ mb: 2 }}>
+            <ImageSpecHint
+              slot={slot}
+              dense
+              dimensions={
+                selected.length === 1
+                  ? { width: selected[0].width, height: selected[0].height }
+                  : null
+              }
+            />
+          </Box>
+        )}
+
         {isLoading || isFetching ? (
           <Box
             sx={{
