@@ -4,7 +4,7 @@ import ImageSpecHint from "@/components/common/ImageSpecHint";
 import MediaPickerModal, { MediaItem } from "@/components/ui/Media/MediaPickerModal";
 import { useToast } from "@/hooks/useToast";
 import { useFormDrawer } from "@/lib/FormDrawerProvider";
-import { Box, Button, CircularProgress, Grid, IconButton, Typography, useTheme } from "@mui/material";
+import { Box, Button, CircularProgress, FormControlLabel, Grid, IconButton, Switch, Typography, useTheme } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -51,6 +51,8 @@ export default function CategoryForm() {
     displayOrder: selectedCategory?.displayOrder || 0,
     brandId: selectedCategory?.brandId || "",
     parentId: selectedCategory?.parentId || "",
+    // New categories are opt-in: false unless the admin turns it on.
+    showInSubNavbar: selectedCategory?.showInSubNavbar ?? false,
   };
 
   const handleSubmit = async (values: CreateCategoryPayload) => {
@@ -62,6 +64,10 @@ export default function CategoryForm() {
         ...rest,
         categoryImageId: rest.categoryImageId || null,
         parentId: rest.parentId || null,
+        // Guard: a child category can never be a Sub Navbar entry. Force false
+        // so a category that previously had the flag and is then re-parented
+        // cannot linger as eligible.
+        showInSubNavbar: rest.parentId ? false : Boolean(rest.showInSubNavbar),
       };
 
       if (isEditing) {
@@ -233,6 +239,44 @@ export default function CategoryForm() {
                         })) || []),
                     ]}
                   />
+                </Grid>
+
+                {/*
+                  Sub Navbar visibility. Only top-level categories are eligible,
+                  so the switch is disabled (with an explanation) once a parent
+                  category is selected — matching the existing form conventions.
+                */}
+                <Grid size={{ xs: 12 }}>
+                  <Field name="showInSubNavbar">
+                    {({ field, form }: any) => {
+                      const isChild = Boolean(form.values.parentId);
+                      return (
+                        <Box>
+                          <FormControlLabel
+                            control={
+                              <Switch
+                                checked={!isChild && Boolean(field.value)}
+                                disabled={isChild}
+                                onChange={(e) =>
+                                  form.setFieldValue("showInSubNavbar", e.target.checked)
+                                }
+                              />
+                            }
+                            label="Show in Sub Navbar"
+                          />
+                          <Typography
+                            variant="caption"
+                            color="text.secondary"
+                            sx={{ display: "block" }}
+                          >
+                            {isChild
+                              ? "Only top-level categories can appear in the Sub Navbar. Clear the parent category to enable this."
+                              : "Controls whether this parent category appears in the customer Sub Navbar. Ordering follows Display Order."}
+                          </Typography>
+                        </Box>
+                      );
+                    }}
+                  </Field>
                 </Grid>
 
                 <Grid size={{ xs: 12 }}>

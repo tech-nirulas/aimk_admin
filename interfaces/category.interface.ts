@@ -12,6 +12,8 @@ export interface Category {
   categoryImageId: string | null;
   displayOrder: number;
   isActive: boolean;
+  /** Parent categories only — controls appearance in the consumer Sub Navbar. */
+  showInSubNavbar: boolean;
   parentId: string | null;
   typicalConsumption: string;
   preparationTime: string;

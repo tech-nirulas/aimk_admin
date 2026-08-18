@@ -1,16 +1,16 @@
 # Graph Report - aimk_admin  (2026-08-10)
 
 ## Corpus Check
-- 157 files · ~54,594 words
+- 159 files · ~55,591 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 682 nodes · 1208 edges · 77 communities (39 shown, 38 thin omitted)
+- 707 nodes · 1238 edges · 76 communities (39 shown, 37 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `f107a8da`
+- Built from commit: `14828448`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -72,7 +72,6 @@
 - [[_COMMUNITY_paymentApiService.ts|paymentApiService.ts]]
 - [[_COMMUNITY_Workspace Rules AIMK Admin Panel (Next.js)|Workspace Rules: AIMK Admin Panel (Next.js)]]
 - [[_COMMUNITY_Documentation Maintenance Policy AIMK Admin Panel|Documentation Maintenance Policy: AIMK Admin Panel]]
-- [[_COMMUNITY_customerApiService.ts|customerApiService.ts]]
 - [[_COMMUNITY_inventoryApiService.ts|inventoryApiService.ts]]
 - [[_COMMUNITY_analytics.interface.ts|analytics.interface.ts]]
 - [[_COMMUNITY_README|README.md]]
@@ -137,46 +136,46 @@
   components/ui/Customer/CustomerDetailModal.tsx → hooks/useToast.ts
 - `UserForm()` --references--> `yup`  [EXTRACTED]
   components/ui/User/UserForm.tsx → package.json
+- `AuthState` --references--> `User`  [EXTRACTED]
+  features/auth/authSlice.ts → interfaces/user.interface.ts
 - `Login()` --calls--> `useToast()`  [EXTRACTED]
   app/(auth)/login/page.tsx → hooks/useToast.ts
-- `BrandsPage()` --calls--> `useConfirmDialog()`  [EXTRACTED]
-  app/admin/brands/page.tsx → lib/DialogProvider.tsx
-- `CategoriesPage()` --calls--> `useFormDrawer()`  [EXTRACTED]
-  app/admin/categories/page.tsx → lib/FormDrawerProvider.tsx
+- `BrandsPage()` --calls--> `useFormDrawer()`  [EXTRACTED]
+  app/admin/brands/page.tsx → lib/FormDrawerProvider.tsx
 
 ## Import Cycles
 - 3-file cycle: `features/cart/cartSlice.ts -> lib/store.ts -> redux/reducer.ts -> features/cart/cartSlice.ts`
 - 3-file cycle: `features/api/baseQuery.ts -> features/auth/authSlice.ts -> features/auth/authApiService.ts -> features/api/baseQuery.ts`
 
-## Communities (77 total, 38 thin omitted)
+## Communities (76 total, 37 thin omitted)
 
 ### Community 0 - "Admin Pages & Routing"
-Cohesion: 0.05
-Nodes (51): BrandsPage(), DiscountsPage(), InventoryPage(), LegalEntitiesPage(), MaterialDateField(), MaterialDateFieldProps, MaterialFreeInputMultiSelectProps, MaterialMultiSelectField() (+43 more)
+Cohesion: 0.06
+Nodes (31): MaterialDateField(), MaterialDateFieldProps, MaterialFreeInputMultiSelectProps, MaterialMultiSelectField(), MaterialMultiSelectFieldProps, MaterialPasswordField(), MaterialPasswordFieldProps, MaterialSelectField() (+23 more)
 
 ### Community 1 - "API Endpoints Definitions"
-Cohesion: 0.06
-Nodes (54): brandEndpoints(), EndpointDefinitions, categoryEndpoints(), EndpointDefinitions, discountEndpoints(), EndpointDefinitions, EndpointDefinitions, legalEntitiesEndpoints() (+46 more)
+Cohesion: 0.10
+Nodes (35): EndpointDefinitions, categoryEndpoints(), EndpointDefinitions, EndpointDefinitions, EndpointDefinitions, Brand, CreateBrandPayload, GetAllBrandsPaginatedResponse (+27 more)
 
 ### Community 2 - "Cake Customizations & Offers"
-Cohesion: 0.08
-Nodes (23): CategoriesPage(), OffersPage(), CategoriesPage(), OutletsPage(), STATUS_CHIPS, ReviewsPage(), NAV_LINKS, Navbar() (+15 more)
+Cohesion: 0.07
+Nodes (26): BrandsPage(), CategoriesPage(), DiscountsPage(), OffersPage(), CategoriesPage(), OutletsPage(), STATUS_CHIPS, ReviewsPage() (+18 more)
 
 ### Community 3 - "Admin Layout & Typography"
 Cohesion: 0.07
-Nodes (24): cormorant, dmMono, lato, metadata, playfair, FormDrawerProvider(), ModalContext, ModalContextValue (+16 more)
+Nodes (23): cormorant, dmMono, lato, metadata, playfair, FormDrawerProvider(), ModalContext, ModalContextValue (+15 more)
 
 ### Community 4 - "Discount Redux & API Service"
-Cohesion: 0.19
-Nodes (11): ProductsPage(), UsersPage(), ProtectedComponent(), ProtectedComponentProps, UnauthorizedAccess(), baseQuery, productApiService, productsEndpoints() (+3 more)
+Cohesion: 0.09
+Nodes (30): InventoryPage(), ProductsPage(), UsersPage(), ProtectedComponent(), ProtectedComponentProps, UnauthorizedAccess(), BrandForm(), CategoryActions() (+22 more)
 
 ### Community 5 - "Authentication & Login Flow"
-Cohesion: 0.07
-Nodes (33): Login(), LoginValues, AdminLayout(), ICON_MAP, baseQuery, baseQueryWithReauth(), performRefresh(), authApiService (+25 more)
+Cohesion: 0.06
+Nodes (36): Login(), LoginValues, AdminLayout(), ICON_MAP, baseQuery, baseQueryWithReauth(), performRefresh(), authApiService (+28 more)
 
 ### Community 6 - "Media Picker & Grid Components"
-Cohesion: 0.05
-Nodes (43): dependencies, @aimk/permissions, dayjs, @emotion/cache, @emotion/react, @emotion/server, @emotion/styled, formik (+35 more)
+Cohesion: 0.04
+Nodes (44): dependencies, @aimk/image-spec, @aimk/permissions, dayjs, @emotion/cache, @emotion/react, @emotion/server, @emotion/styled (+36 more)
 
 ### Community 7 - "TypeScript Build Configuration"
 Cohesion: 0.10
@@ -187,20 +186,20 @@ Cohesion: 0.05
 Nodes (41): default, description, devDependencies, @nestjs/common, @nestjs/core, react, reflect-metadata, ts-node (+33 more)
 
 ### Community 9 - "Legal Entities API Service"
-Cohesion: 0.40
-Nodes (4): baseQuery, legalEntityApiService, initialState, legalEntitySlice
+Cohesion: 0.08
+Nodes (26): LegalEntitiesPage(), STATUS_CHIPS, baseQuery, legalEntityApiService, EndpointDefinitions, legalEntitiesEndpoints(), initialState, legalEntitySlice (+18 more)
 
 ### Community 10 - "Users Management & RBAC Permissions"
-Cohesion: 0.25
-Nodes (6): baseQuery, mediaApiService, EndpointDefinitions, mediaEndpoints(), userApiService, userEndpoints()
+Cohesion: 0.23
+Nodes (7): customerApiService, customerEndpoints(), baseQuery, mediaApiService, EndpointDefinitions, mediaEndpoints(), userApiService
 
 ### Community 11 - "Product Forms & Allergen Inputs"
 Cohesion: 0.09
 Nodes (21): [2026-07-31] Milestone 4: Customize Cake (Step 4 - Admin Panel Page), [2026-07-31] Milestone 5: Offers System & Hero Carousel (FormDrawer & MediaPicker Update), [2026-07-31] Milestone 6: Payment Service + COD (Step 4 - Admin Payments & Refunds), [2026-07-31] Milestone 7: Outlet Auto-Assignment & Order Detail View (Steps 3 & 4), [2026-07-31] Milestone 8: Product Reviews & Ratings System, [2026-07-31] Milestone 9: Role-Based Access Control (RBAC), Edit User & Permissions Matrix, [2026-07-31] Project Rules & Milestone Initialization, [2026-08-01] Milestone 10: Inventory & Batch Management System (+13 more)
 
 ### Community 12 - "Auth State & Localization"
-Cohesion: 0.37
-Nodes (9): ACTIONS, RolePermissionsModal(), SUBJECTS, SYSTEM_MODULES, AuthState, Localization, Permission, Role (+1 more)
+Cohesion: 0.44
+Nodes (8): ACTIONS, RolePermissionsModal(), SUBJECTS, SYSTEM_MODULES, Localization, Permission, Role, User
 
 ### Community 13 - "Media Viewer & Detail Dialogs"
 Cohesion: 0.26
@@ -239,8 +238,8 @@ Cohesion: 0.20
 Nodes (9): compilerOptions, declaration, esModuleInterop, jsx, module, outDir, strict, target (+1 more)
 
 ### Community 35 - "Auth RTK Query Hooks"
-Cohesion: 0.25
-Nodes (5): STATUS_CHIPS, baseQuery, orderApiService, EndpointDefinitions, orderEndpoints()
+Cohesion: 0.40
+Nodes (4): baseQuery, orderApiService, EndpointDefinitions, orderEndpoints()
 
 ### Community 49 - "Admin Users & Roles RTK Hooks"
 Cohesion: 0.36
@@ -251,20 +250,20 @@ Cohesion: 0.36
 Nodes (4): CustomerDetailModal(), Customer, CustomerAddress, CustomerOrder
 
 ### Community 52 - "MediaPickerModal.tsx"
-Cohesion: 0.29
-Nodes (5): formatBytes(), MediaListItem(), MediaPickerModalProps, TYPE_COLORS, TYPE_ICONS
+Cohesion: 0.11
+Nodes (18): default, description, devDependencies, @types/node, typescript, exports, import, main (+10 more)
 
 ### Community 53 - "brandApiService.ts"
-Cohesion: 0.40
-Nodes (4): baseQuery, brandApiService, brandSlice, initialState
+Cohesion: 0.33
+Nodes (5): baseQuery, brandApiService, brandEndpoints(), brandSlice, initialState
 
 ### Community 54 - "discountApiService.ts"
-Cohesion: 0.40
-Nodes (4): baseQuery, discountApiService, discountSlice, initialState
+Cohesion: 0.32
+Nodes (5): offerApiService, EndpointDefinitions, offerEndpoints(), initialState, offerSlice
 
 ### Community 55 - "outletsApiService.ts"
-Cohesion: 0.40
-Nodes (4): baseQuery, outletApiService, initialState, outletSlice
+Cohesion: 0.33
+Nodes (5): baseQuery, productApiService, productsEndpoints(), initialState, productSlice
 
 ### Community 56 - "Architecture Reference: AIMK Admin Panel"
 Cohesion: 0.40
@@ -291,24 +290,24 @@ Cohesion: 0.50
 Nodes (3): Deploy on Vercel, Getting Started, Learn More
 
 ## Knowledge Gaps
-- **283 isolated node(s):** `LoginValues`, `STATUS_COLORS`, `MediaItem`, `TYPE_ICONS`, `TYPE_COLORS` (+278 more)
+- **299 isolated node(s):** `LoginValues`, `STATUS_COLORS`, `MediaItem`, `TYPE_ICONS`, `TYPE_COLORS` (+294 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **38 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **37 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `UserForm()` connect `Admin Pages & Routing` to `Discount Redux & API Service`, `Auth State & Localization`, `Media Picker & Grid Components`?**
-  _High betweenness centrality (0.085) - this node is a cross-community bridge._
-- **Why does `yup` connect `Media Picker & Grid Components` to `Admin Pages & Routing`?**
-  _High betweenness centrality (0.083) - this node is a cross-community bridge._
+- **Why does `UserForm()` connect `Discount Redux & API Service` to `Media Picker & Grid Components`?**
+  _High betweenness centrality (0.082) - this node is a cross-community bridge._
+- **Why does `yup` connect `Media Picker & Grid Components` to `Discount Redux & API Service`?**
+  _High betweenness centrality (0.080) - this node is a cross-community bridge._
 - **What connects `LoginValues`, `STATUS_COLORS`, `MediaItem` to the rest of the system?**
-  _287 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _303 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Admin Pages & Routing` be split into smaller, more focused modules?**
-  _Cohesion score 0.05378151260504202 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05660377358490566 - nodes in this community are weakly interconnected._
 - **Should `API Endpoints Definitions` be split into smaller, more focused modules?**
-  _Cohesion score 0.0639386189258312 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.09951690821256039 - nodes in this community are weakly interconnected._
 - **Should `Cake Customizations & Offers` be split into smaller, more focused modules?**
-  _Cohesion score 0.07549361207897794 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06938020351526364 - nodes in this community are weakly interconnected._
 - **Should `Admin Layout & Typography` be split into smaller, more focused modules?**
-  _Cohesion score 0.07196969696969698 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.07459677419354839 - nodes in this community are weakly interconnected._

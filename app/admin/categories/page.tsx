@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Button, FormControl, IconButton, InputLabel, MenuItem, Paper, Select, Switch, TextField, Typography, debounce } from "@mui/material";
+import { Box, Button, FormControl, IconButton, InputLabel, MenuItem, Paper, Select, Switch, TextField, Tooltip, Typography, debounce } from "@mui/material";
 import { useCallback, useMemo, useState } from "react";
 import { FaEdit, FaSearch, FaTrash } from "react-icons/fa";
 import { useDispatch } from "react-redux";
@@ -119,6 +119,12 @@ export default function CategoriesPage() {
     await updateCategory({ id: row.id, body: { isActive: newStatus } });
   }, [updateCategory]);
 
+  // Sub Navbar visibility — parent categories only. Child categories are never
+  // independent navbar entries, so the switch is disabled for them.
+  const handleChangeSubNavbar = useCallback(async (row: Category, newStatus: boolean) => {
+    await updateCategory({ id: row.id, body: { showInSubNavbar: newStatus } });
+  }, [updateCategory]);
+
   const columns = useMemo(() => [
     {
       field: "displayOrder",
@@ -170,6 +176,26 @@ export default function CategoriesPage() {
       ),
     },
     {
+      field: "showInSubNavbar",
+      headerName: "Sub Navbar",
+      flex: 0.6,
+      renderCell: ({ row }: { row: Category }) =>
+        row.parentId ? (
+          <Tooltip title="Only top-level categories can appear in the Sub Navbar">
+            <span>
+              <Switch checked={false} disabled />
+            </span>
+          </Tooltip>
+        ) : (
+          <Tooltip title="Show this parent category in the customer Sub Navbar">
+            <Switch
+              checked={Boolean(row.showInSubNavbar)}
+              onChange={(e) => handleChangeSubNavbar(row, e.target.checked)}
+            />
+          </Tooltip>
+        ),
+    },
+    {
       field: "createdAt",
       headerName: "Created At",
       flex: 1,
@@ -196,7 +222,7 @@ export default function CategoriesPage() {
         </div>
       ),
     },
-  ], [handleDelete, handleEdit, handleChangeActiveStatus]);
+  ], [handleDelete, handleEdit, handleChangeActiveStatus, handleChangeSubNavbar]);
 
   return (
     <Box className="p-4">

@@ -40,8 +40,8 @@
     "semantic_hash": ""
   },
   "app/admin/media/page.tsx": {
-    "mtime": 1786172331.8830137,
-    "ast_hash": "d2fa6e56b24fd5766cdea43024971bdd",
+    "mtime": 1786361046.6953042,
+    "ast_hash": "3fb1d20d6a08e73c48b476624e4ae0f2",
     "semantic_hash": ""
   },
   "app/admin/offers/page.tsx": {
@@ -135,8 +135,8 @@
     "semantic_hash": "e702d9a2f23242262b0871db081a0a8a"
   },
   "components/ui/Category/CategoryForm.tsx": {
-    "mtime": 1786172331.8880138,
-    "ast_hash": "60b6398e2a0845fcf18870ba98cb70f9",
+    "mtime": 1786361046.7023041,
+    "ast_hash": "0e29cb06341feb7795f2c768d80dbdcb",
     "semantic_hash": ""
   },
   "components/ui/Discount/DiscountForm.tsx": {
@@ -155,8 +155,8 @@
     "semantic_hash": "fac19aaf18af21b9824985e01893a08a"
   },
   "components/ui/Media/MediaPickerModal.tsx": {
-    "mtime": 1786172331.889014,
-    "ast_hash": "4b87564ee88cb5756905186a02589a54",
+    "mtime": 1786361046.703304,
+    "ast_hash": "902c68cdc7b522c0614379dd67c6beae",
     "semantic_hash": ""
   },
   "components/ui/Outlet/CoordinatesInput.tsx": {
@@ -175,9 +175,9 @@
     "semantic_hash": "880bf309def8ef324c451b2c9bd4a7b9"
   },
   "components/ui/Product/ProductForm.tsx": {
-    "mtime": 1786172331.890014,
-    "ast_hash": "81ba2c0ee3654a6c08b59a96ba856096",
-    "semantic_hash": "81ba2c0ee3654a6c08b59a96ba856096"
+    "mtime": 1786361046.7062912,
+    "ast_hash": "d925989ad00b44d646725ddfdb600698",
+    "semantic_hash": ""
   },
   "eslint.config.mjs": {
     "mtime": 1775561803.2035215,
@@ -480,13 +480,13 @@
     "semantic_hash": "695d7bad5f040fa67ddb733e5a1b848e"
   },
   "next.config.ts": {
-    "mtime": 1786172331.909014,
-    "ast_hash": "545bdaaaed6c4fd948380e9ce366cf13",
+    "mtime": 1786361046.7623048,
+    "ast_hash": "681890be5d22815a3e0187a5788b44c9",
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1786174419.7438717,
-    "ast_hash": "2854d385663f26ab896fd2b808bf7c5c",
+    "mtime": 1786361046.7673047,
+    "ast_hash": "d33bb7e8bd4956661511fd2dba028392",
     "semantic_hash": ""
   },
   "postcss.config.mjs": {
@@ -640,9 +640,9 @@
     "semantic_hash": ""
   },
   "components/ui/Offer/OfferForm.tsx": {
-    "mtime": 1786172331.889014,
-    "ast_hash": "b0d06476388f1202ea08c7f3f96aab92",
-    "semantic_hash": "b0d06476388f1202ea08c7f3f96aab92"
+    "mtime": 1786361046.705598,
+    "ast_hash": "8a94c96512e2c26f091d1790072c2b92",
+    "semantic_hash": ""
   },
   "components/ui/User/RoleForm.tsx": {
     "mtime": 1786172331.890014,
@@ -807,6 +807,16 @@
   "packages/aimk-permissions/tsconfig.json": {
     "mtime": 1786174419.8299074,
     "ast_hash": "2d23bafaa7250b0588a4c29f6f2fe670",
+    "semantic_hash": ""
+  },
+  "components/common/ImageSpecHint.tsx": {
+    "mtime": 1786361046.6983042,
+    "ast_hash": "cf9d2c0cdaa6f7f680db8562091fc094",
+    "semantic_hash": ""
+  },
+  "packages/aimk-image-spec/package.json": {
+    "mtime": 1786361047.0643075,
+    "ast_hash": "dda87cf1e58ac29f6cb9577e826dd426",
     "semantic_hash": ""
   }
 }

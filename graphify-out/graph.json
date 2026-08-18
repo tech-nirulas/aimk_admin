@@ -60,7 +60,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_admin_brands_page",
-      "community": 0,
+      "community": 2,
       "norm_label": "page.tsx"
     },
     {
@@ -70,7 +70,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "app_admin_brands_page_brandspage",
-      "community": 0,
+      "community": 2,
       "norm_label": "brandspage()"
     },
     {
@@ -150,7 +150,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_admin_discounts_page",
-      "community": 0,
+      "community": 2,
       "norm_label": "page.tsx"
     },
     {
@@ -160,7 +160,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "app_admin_discounts_page_discountspage",
-      "community": 0,
+      "community": 2,
       "norm_label": "discountspage()"
     },
     {
@@ -170,7 +170,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_admin_inventory_page",
-      "community": 0,
+      "community": 4,
       "norm_label": "page.tsx"
     },
     {
@@ -180,7 +180,7 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "app_admin_inventory_page_inventorypage",
-      "community": 0,
+      "community": 4,
       "norm_label": "inventorypage()"
     },
     {
@@ -210,7 +210,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_admin_legal_entities_page",
-      "community": 0,
+      "community": 9,
       "norm_label": "page.tsx"
     },
     {
@@ -220,7 +220,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "app_admin_legal_entities_page_legalentitiespage",
-      "community": 0,
+      "community": 9,
       "norm_label": "legalentitiespage()"
     },
     {
@@ -237,7 +237,7 @@
       "label": "MediaItem",
       "file_type": "code",
       "source_file": "app/admin/media/page.tsx",
-      "source_location": "L77",
+      "source_location": "L78",
       "_origin": "ast",
       "id": "app_admin_media_page_mediaitem",
       "community": 13,
@@ -247,7 +247,7 @@
       "label": "TYPE_ICONS",
       "file_type": "code",
       "source_file": "app/admin/media/page.tsx",
-      "source_location": "L99",
+      "source_location": "L100",
       "_origin": "ast",
       "id": "app_admin_media_page_type_icons",
       "community": 13,
@@ -257,7 +257,7 @@
       "label": "TYPE_COLORS",
       "file_type": "code",
       "source_file": "app/admin/media/page.tsx",
-      "source_location": "L106",
+      "source_location": "L107",
       "_origin": "ast",
       "id": "app_admin_media_page_type_colors",
       "community": 13,
@@ -267,7 +267,7 @@
       "label": "formatBytes()",
       "file_type": "code",
       "source_file": "app/admin/media/page.tsx",
-      "source_location": "L113",
+      "source_location": "L114",
       "_origin": "ast",
       "id": "app_admin_media_page_formatbytes",
       "community": 13,
@@ -277,7 +277,7 @@
       "label": "timeAgo()",
       "file_type": "code",
       "source_file": "app/admin/media/page.tsx",
-      "source_location": "L120",
+      "source_location": "L121",
       "_origin": "ast",
       "id": "app_admin_media_page_timeago",
       "community": 13,
@@ -287,7 +287,7 @@
       "label": "UploadZone()",
       "file_type": "code",
       "source_file": "app/admin/media/page.tsx",
-      "source_location": "L132",
+      "source_location": "L133",
       "_origin": "ast",
       "id": "app_admin_media_page_uploadzone",
       "community": 13,
@@ -297,7 +297,7 @@
       "label": "ImageViewer()",
       "file_type": "code",
       "source_file": "app/admin/media/page.tsx",
-      "source_location": "L502",
+      "source_location": "L509",
       "_origin": "ast",
       "id": "app_admin_media_page_imageviewer",
       "community": 13,
@@ -307,7 +307,7 @@
       "label": "MediaDetailDialog()",
       "file_type": "code",
       "source_file": "app/admin/media/page.tsx",
-      "source_location": "L635",
+      "source_location": "L642",
       "_origin": "ast",
       "id": "app_admin_media_page_mediadetaildialog",
       "community": 13,
@@ -317,7 +317,7 @@
       "label": "MediaCard()",
       "file_type": "code",
       "source_file": "app/admin/media/page.tsx",
-      "source_location": "L969",
+      "source_location": "L976",
       "_origin": "ast",
       "id": "app_admin_media_page_mediacard",
       "community": 13,
@@ -327,7 +327,7 @@
       "label": "MediaListRow()",
       "file_type": "code",
       "source_file": "app/admin/media/page.tsx",
-      "source_location": "L1212",
+      "source_location": "L1219",
       "_origin": "ast",
       "id": "app_admin_media_page_medialistrow",
       "community": 13,
@@ -337,7 +337,7 @@
       "label": "MediaPage()",
       "file_type": "code",
       "source_file": "app/admin/media/page.tsx",
-      "source_location": "L1345",
+      "source_location": "L1352",
       "_origin": "ast",
       "id": "app_admin_media_page_mediapage",
       "community": 13,
@@ -370,7 +370,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_admin_orders_id_page",
-      "community": 35,
+      "community": 9,
       "norm_label": "page.tsx"
     },
     {
@@ -380,7 +380,7 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "app_admin_orders_id_page_status_chips",
-      "community": 35,
+      "community": 9,
       "norm_label": "status_chips"
     },
     {
@@ -390,7 +390,7 @@
       "source_location": "L50",
       "_origin": "ast",
       "id": "app_admin_orders_id_page_orderdetailpage",
-      "community": 35,
+      "community": 9,
       "norm_label": "orderdetailpage()"
     },
     {
@@ -440,7 +440,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "app_admin_outlets_page",
-      "community": 2,
+      "community": 9,
       "norm_label": "page.tsx"
     },
     {
@@ -884,6 +884,56 @@
       "norm_label": "tablecomponent()"
     },
     {
+      "label": "ImageSpecHint.tsx",
+      "file_type": "code",
+      "source_file": "components/common/ImageSpecHint.tsx",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "components_common_imagespechint",
+      "community": 0,
+      "norm_label": "imagespechint.tsx"
+    },
+    {
+      "label": "ImageSpecHintProps",
+      "file_type": "code",
+      "source_file": "components/common/ImageSpecHint.tsx",
+      "source_location": "L38",
+      "_origin": "ast",
+      "id": "components_common_imagespechint_imagespechintprops",
+      "community": 0,
+      "norm_label": "imagespechintprops"
+    },
+    {
+      "label": "Row()",
+      "file_type": "code",
+      "source_file": "components/common/ImageSpecHint.tsx",
+      "source_location": "L51",
+      "_origin": "ast",
+      "id": "components_common_imagespechint_row",
+      "community": 0,
+      "norm_label": "row()"
+    },
+    {
+      "label": "ImageSpecHint()",
+      "file_type": "code",
+      "source_file": "components/common/ImageSpecHint.tsx",
+      "source_location": "L57",
+      "_origin": "ast",
+      "id": "components_common_imagespechint_imagespechint",
+      "community": 0,
+      "norm_label": "imagespechint()"
+    },
+    {
+      "label": "ImageSpecReference()",
+      "file_type": "code",
+      "source_file": "components/common/ImageSpecHint.tsx",
+      "source_location": "L131",
+      "_origin": "ast",
+      "id": "components_common_imagespechint_imagespecreference",
+      "community": 0,
+      "norm_label": "imagespecreference()"
+    },
+    {
       "label": "ProtectedComponent.tsx",
       "file_type": "code",
       "source_file": "components/common/ProtectedComponent.tsx",
@@ -1040,7 +1090,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_ui_brand_brandform",
-      "community": 0,
+      "community": 4,
       "norm_label": "brandform.tsx"
     },
     {
@@ -1050,7 +1100,7 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "components_ui_brand_brandform_brandform",
-      "community": 0,
+      "community": 4,
       "norm_label": "brandform()"
     },
     {
@@ -1060,7 +1110,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_ui_category_categoryactions",
-      "community": 0,
+      "community": 4,
       "norm_label": "categoryactions.tsx"
     },
     {
@@ -1070,7 +1120,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "components_ui_category_categoryactions_categoryactions",
-      "community": 0,
+      "community": 4,
       "norm_label": "categoryactions()"
     },
     {
@@ -1080,17 +1130,17 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_ui_category_categoryform",
-      "community": 0,
+      "community": 2,
       "norm_label": "categoryform.tsx"
     },
     {
       "label": "CategoryForm()",
       "file_type": "code",
       "source_file": "components/ui/Category/CategoryForm.tsx",
-      "source_location": "L27",
+      "source_location": "L28",
       "_origin": "ast",
       "id": "components_ui_category_categoryform_categoryform",
-      "community": 0,
+      "community": 4,
       "norm_label": "categoryform()"
     },
     {
@@ -1130,7 +1180,7 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "components_ui_discount_discountform_discountform",
-      "community": 0,
+      "community": 4,
       "norm_label": "discountform()"
     },
     {
@@ -1140,7 +1190,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_ui_formdrawer",
-      "community": 0,
+      "community": 4,
       "norm_label": "formdrawer.tsx"
     },
     {
@@ -1150,7 +1200,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "components_ui_formdrawer_formdrawer",
-      "community": 0,
+      "community": 4,
       "norm_label": "formdrawer()"
     },
     {
@@ -1160,7 +1210,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_ui_inventory_batchform",
-      "community": 0,
+      "community": 4,
       "norm_label": "batchform.tsx"
     },
     {
@@ -1170,7 +1220,7 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "components_ui_inventory_batchform_batchschema",
-      "community": 0,
+      "community": 4,
       "norm_label": "batchschema"
     },
     {
@@ -1180,7 +1230,7 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "components_ui_inventory_batchform_batchform",
-      "community": 0,
+      "community": 4,
       "norm_label": "batchform()"
     },
     {
@@ -1190,7 +1240,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_ui_legalentity_legalentityform",
-      "community": 0,
+      "community": 4,
       "norm_label": "legalentityform.tsx"
     },
     {
@@ -1200,7 +1250,7 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "components_ui_legalentity_legalentityform_legalentityform",
-      "community": 0,
+      "community": 4,
       "norm_label": "legalentityform()"
     },
     {
@@ -1210,14 +1260,14 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_ui_media_mediapickermodal",
-      "community": 52,
+      "community": 0,
       "norm_label": "mediapickermodal.tsx"
     },
     {
       "label": "MediaItem",
       "file_type": "code",
       "source_file": "components/ui/Media/MediaPickerModal.tsx",
-      "source_location": "L45",
+      "source_location": "L47",
       "_origin": "ast",
       "id": "components_ui_media_mediapickermodal_mediaitem",
       "community": 0,
@@ -1227,70 +1277,70 @@
       "label": "MediaPickerModalProps",
       "file_type": "code",
       "source_file": "components/ui/Media/MediaPickerModal.tsx",
-      "source_location": "L62",
+      "source_location": "L64",
       "_origin": "ast",
       "id": "components_ui_media_mediapickermodal_mediapickermodalprops",
-      "community": 52,
+      "community": 0,
       "norm_label": "mediapickermodalprops"
     },
     {
       "label": "TYPE_ICONS",
       "file_type": "code",
       "source_file": "components/ui/Media/MediaPickerModal.tsx",
-      "source_location": "L74",
+      "source_location": "L82",
       "_origin": "ast",
       "id": "components_ui_media_mediapickermodal_type_icons",
-      "community": 52,
+      "community": 0,
       "norm_label": "type_icons"
     },
     {
       "label": "TYPE_COLORS",
       "file_type": "code",
       "source_file": "components/ui/Media/MediaPickerModal.tsx",
-      "source_location": "L81",
+      "source_location": "L89",
       "_origin": "ast",
       "id": "components_ui_media_mediapickermodal_type_colors",
-      "community": 52,
+      "community": 0,
       "norm_label": "type_colors"
     },
     {
       "label": "formatBytes()",
       "file_type": "code",
       "source_file": "components/ui/Media/MediaPickerModal.tsx",
-      "source_location": "L88",
+      "source_location": "L96",
       "_origin": "ast",
       "id": "components_ui_media_mediapickermodal_formatbytes",
-      "community": 52,
+      "community": 0,
       "norm_label": "formatbytes()"
     },
     {
       "label": "MediaGridItem()",
       "file_type": "code",
       "source_file": "components/ui/Media/MediaPickerModal.tsx",
-      "source_location": "L96",
+      "source_location": "L104",
       "_origin": "ast",
       "id": "components_ui_media_mediapickermodal_mediagriditem",
-      "community": 52,
+      "community": 0,
       "norm_label": "mediagriditem()"
     },
     {
       "label": "MediaListItem()",
       "file_type": "code",
       "source_file": "components/ui/Media/MediaPickerModal.tsx",
-      "source_location": "L229",
+      "source_location": "L237",
       "_origin": "ast",
       "id": "components_ui_media_mediapickermodal_medialistitem",
-      "community": 52,
+      "community": 0,
       "norm_label": "medialistitem()"
     },
     {
       "label": "MediaPickerModal()",
       "file_type": "code",
       "source_file": "components/ui/Media/MediaPickerModal.tsx",
-      "source_location": "L331",
+      "source_location": "L339",
       "_origin": "ast",
       "id": "components_ui_media_mediapickermodal_mediapickermodal",
-      "community": 52,
+      "community": 0,
       "norm_label": "mediapickermodal()"
     },
     {
@@ -1307,10 +1357,10 @@
       "label": "OfferForm()",
       "file_type": "code",
       "source_file": "components/ui/Offer/OfferForm.tsx",
-      "source_location": "L30",
+      "source_location": "L29",
       "_origin": "ast",
       "id": "components_ui_offer_offerform_offerform",
-      "community": 0,
+      "community": 4,
       "norm_label": "offerform()"
     },
     {
@@ -1520,7 +1570,7 @@
       "source_location": "L73",
       "_origin": "ast",
       "id": "components_ui_outlet_outletform_outletform",
-      "community": 0,
+      "community": 4,
       "norm_label": "outletform()"
     },
     {
@@ -1537,7 +1587,7 @@
       "label": "STEPS",
       "file_type": "code",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L43",
+      "source_location": "L45",
       "_origin": "ast",
       "id": "components_ui_product_productform_steps",
       "community": 0,
@@ -1547,7 +1597,7 @@
       "label": "DIETARY_OPTIONS",
       "file_type": "code",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L53",
+      "source_location": "L55",
       "_origin": "ast",
       "id": "components_ui_product_productform_dietary_options",
       "community": 0,
@@ -1557,7 +1607,7 @@
       "label": "COMMON_ALLERGENS",
       "file_type": "code",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L65",
+      "source_location": "L67",
       "_origin": "ast",
       "id": "components_ui_product_productform_common_allergens",
       "community": 0,
@@ -1567,7 +1617,7 @@
       "label": "PRODUCT_UNITS",
       "file_type": "code",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L77",
+      "source_location": "L79",
       "_origin": "ast",
       "id": "components_ui_product_productform_product_units",
       "community": 0,
@@ -1577,7 +1627,7 @@
       "label": "GST_RATES",
       "file_type": "code",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L89",
+      "source_location": "L91",
       "_origin": "ast",
       "id": "components_ui_product_productform_gst_rates",
       "community": 0,
@@ -1587,7 +1637,7 @@
       "label": "DietaryTagsInput()",
       "file_type": "code",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L98",
+      "source_location": "L100",
       "_origin": "ast",
       "id": "components_ui_product_productform_dietarytagsinput",
       "community": 0,
@@ -1597,7 +1647,7 @@
       "label": "AllergenInfoInput()",
       "file_type": "code",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L126",
+      "source_location": "L128",
       "_origin": "ast",
       "id": "components_ui_product_productform_allergeninfoinput",
       "community": 0,
@@ -1607,7 +1657,7 @@
       "label": "NutritionalInfoInput()",
       "file_type": "code",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L172",
+      "source_location": "L174",
       "_origin": "ast",
       "id": "components_ui_product_productform_nutritionalinfoinput",
       "community": 0,
@@ -1617,7 +1667,7 @@
       "label": "AvailableUnitsInput()",
       "file_type": "code",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L191",
+      "source_location": "L193",
       "_origin": "ast",
       "id": "components_ui_product_productform_availableunitsinput",
       "community": 0,
@@ -1627,7 +1677,7 @@
       "label": "GalleryPickerInput()",
       "file_type": "code",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L252",
+      "source_location": "L254",
       "_origin": "ast",
       "id": "components_ui_product_productform_gallerypickerinput",
       "community": 0,
@@ -1637,7 +1687,7 @@
       "label": "SingleImagePicker()",
       "file_type": "code",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L335",
+      "source_location": "L341",
       "_origin": "ast",
       "id": "components_ui_product_productform_singleimagepicker",
       "community": 0,
@@ -1647,7 +1697,7 @@
       "label": "renderStep()",
       "file_type": "code",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L423",
+      "source_location": "L444",
       "_origin": "ast",
       "id": "components_ui_product_productform_renderstep",
       "community": 0,
@@ -1657,7 +1707,7 @@
       "label": "ProductForm()",
       "file_type": "code",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L884",
+      "source_location": "L907",
       "_origin": "ast",
       "id": "components_ui_product_productform_productform",
       "community": 0,
@@ -1670,7 +1720,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_ui_user_roleform",
-      "community": 0,
+      "community": 4,
       "norm_label": "roleform.tsx"
     },
     {
@@ -1680,7 +1730,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "components_ui_user_roleform_roleschema",
-      "community": 0,
+      "community": 4,
       "norm_label": "roleschema"
     },
     {
@@ -1690,7 +1740,7 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "components_ui_user_roleform_roleform",
-      "community": 0,
+      "community": 4,
       "norm_label": "roleform()"
     },
     {
@@ -1750,7 +1800,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "components_ui_user_userform",
-      "community": 12,
+      "community": 4,
       "norm_label": "userform.tsx"
     },
     {
@@ -1760,7 +1810,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "components_ui_user_userform_userform",
-      "community": 0,
+      "community": 4,
       "norm_label": "userform()"
     },
     {
@@ -1900,7 +1950,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "features_auth_authslice_authstate",
-      "community": 12,
+      "community": 5,
       "norm_label": "authstate"
     },
     {
@@ -1990,7 +2040,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "features_brand_brandendpoints_brandendpoints",
-      "community": 1,
+      "community": 53,
       "norm_label": "brandendpoints()"
     },
     {
@@ -2280,7 +2330,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "features_customers_customerapiservice",
-      "community": 60,
+      "community": 10,
       "norm_label": "customerapiservice.ts"
     },
     {
@@ -2290,7 +2340,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "features_customers_customerapiservice_customerapiservice",
-      "community": 60,
+      "community": 10,
       "norm_label": "customerapiservice"
     },
     {
@@ -2300,7 +2350,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "features_customers_customerendpoints",
-      "community": 60,
+      "community": 10,
       "norm_label": "customerendpoints.ts"
     },
     {
@@ -2310,7 +2360,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "features_customers_customerendpoints_customerendpoints",
-      "community": 60,
+      "community": 10,
       "norm_label": "customerendpoints()"
     },
     {
@@ -2320,7 +2370,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "features_discounts_discountapiservice",
-      "community": 54,
+      "community": 2,
       "norm_label": "discountapiservice.ts"
     },
     {
@@ -2330,7 +2380,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "features_discounts_discountapiservice_basequery",
-      "community": 54,
+      "community": 2,
       "norm_label": "basequery"
     },
     {
@@ -2340,7 +2390,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "features_discounts_discountapiservice_discountapiservice",
-      "community": 54,
+      "community": 2,
       "norm_label": "discountapiservice"
     },
     {
@@ -2370,7 +2420,7 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "features_discounts_discountendpoints_discountendpoints",
-      "community": 1,
+      "community": 2,
       "norm_label": "discountendpoints()"
     },
     {
@@ -2380,7 +2430,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "features_discounts_discountslice",
-      "community": 54,
+      "community": 2,
       "norm_label": "discountslice.ts"
     },
     {
@@ -2390,7 +2440,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "features_discounts_discountslice_initialstate",
-      "community": 54,
+      "community": 2,
       "norm_label": "initialstate"
     },
     {
@@ -2400,7 +2450,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "features_discounts_discountslice_discountslice",
-      "community": 54,
+      "community": 2,
       "norm_label": "discountslice"
     },
     {
@@ -2480,7 +2530,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "features_legal_entity_legalentitiesendpoints",
-      "community": 1,
+      "community": 9,
       "norm_label": "legalentitiesendpoints.ts"
     },
     {
@@ -2490,7 +2540,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "features_legal_entity_legalentitiesendpoints_endpointdefinitions",
-      "community": 1,
+      "community": 9,
       "norm_label": "endpointdefinitions"
     },
     {
@@ -2500,7 +2550,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "features_legal_entity_legalentitiesendpoints_legalentitiesendpoints",
-      "community": 1,
+      "community": 9,
       "norm_label": "legalentitiesendpoints()"
     },
     {
@@ -2610,7 +2660,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "features_offers_offerapiservice",
-      "community": 2,
+      "community": 54,
       "norm_label": "offerapiservice.ts"
     },
     {
@@ -2620,7 +2670,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "features_offers_offerapiservice_offerapiservice",
-      "community": 2,
+      "community": 54,
       "norm_label": "offerapiservice"
     },
     {
@@ -2630,7 +2680,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "features_offers_offerendpoints",
-      "community": 2,
+      "community": 54,
       "norm_label": "offerendpoints.ts"
     },
     {
@@ -2640,7 +2690,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "features_offers_offerendpoints_endpointdefinitions",
-      "community": 2,
+      "community": 54,
       "norm_label": "endpointdefinitions"
     },
     {
@@ -2650,7 +2700,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "features_offers_offerendpoints_offerendpoints",
-      "community": 2,
+      "community": 54,
       "norm_label": "offerendpoints()"
     },
     {
@@ -2660,7 +2710,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "features_offers_offerslice",
-      "community": 2,
+      "community": 54,
       "norm_label": "offerslice.ts"
     },
     {
@@ -2670,7 +2720,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "features_offers_offerslice_initialstate",
-      "community": 2,
+      "community": 54,
       "norm_label": "initialstate"
     },
     {
@@ -2680,7 +2730,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "features_offers_offerslice_offerslice",
-      "community": 2,
+      "community": 54,
       "norm_label": "offerslice"
     },
     {
@@ -2750,7 +2800,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "features_outlets_outletsapiservice",
-      "community": 55,
+      "community": 9,
       "norm_label": "outletsapiservice.ts"
     },
     {
@@ -2760,7 +2810,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "features_outlets_outletsapiservice_basequery",
-      "community": 55,
+      "community": 9,
       "norm_label": "basequery"
     },
     {
@@ -2770,7 +2820,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "features_outlets_outletsapiservice_outletapiservice",
-      "community": 55,
+      "community": 9,
       "norm_label": "outletapiservice"
     },
     {
@@ -2780,7 +2830,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "features_outlets_outletsendpoints",
-      "community": 1,
+      "community": 9,
       "norm_label": "outletsendpoints.ts"
     },
     {
@@ -2790,7 +2840,7 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "features_outlets_outletsendpoints_endpointdefinitions",
-      "community": 1,
+      "community": 9,
       "norm_label": "endpointdefinitions"
     },
     {
@@ -2800,7 +2850,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "features_outlets_outletsendpoints_outletendpoints",
-      "community": 1,
+      "community": 9,
       "norm_label": "outletendpoints()"
     },
     {
@@ -2810,7 +2860,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "features_outlets_outletsslice",
-      "community": 55,
+      "community": 9,
       "norm_label": "outletsslice.ts"
     },
     {
@@ -2820,7 +2870,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "features_outlets_outletsslice_initialstate",
-      "community": 55,
+      "community": 9,
       "norm_label": "initialstate"
     },
     {
@@ -2830,7 +2880,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "features_outlets_outletsslice_outletslice",
-      "community": 55,
+      "community": 9,
       "norm_label": "outletslice"
     },
     {
@@ -2890,7 +2940,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "features_products_productapiservice",
-      "community": 4,
+      "community": 55,
       "norm_label": "productapiservice.ts"
     },
     {
@@ -2900,7 +2950,7 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "features_products_productapiservice_basequery",
-      "community": 4,
+      "community": 55,
       "norm_label": "basequery"
     },
     {
@@ -2910,7 +2960,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "features_products_productapiservice_productapiservice",
-      "community": 4,
+      "community": 55,
       "norm_label": "productapiservice"
     },
     {
@@ -2920,7 +2970,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "features_products_productslice",
-      "community": 4,
+      "community": 55,
       "norm_label": "productslice.ts"
     },
     {
@@ -2930,7 +2980,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "features_products_productslice_initialstate",
-      "community": 4,
+      "community": 55,
       "norm_label": "initialstate"
     },
     {
@@ -2940,7 +2990,7 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "features_products_productslice_productslice",
-      "community": 4,
+      "community": 55,
       "norm_label": "productslice"
     },
     {
@@ -2970,7 +3020,7 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "features_products_productsendpoints_productsendpoints",
-      "community": 4,
+      "community": 55,
       "norm_label": "productsendpoints()"
     },
     {
@@ -3020,7 +3070,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "features_users_userapiservice",
-      "community": 10,
+      "community": 4,
       "norm_label": "userapiservice.ts"
     },
     {
@@ -3040,7 +3090,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "features_users_userendpoints",
-      "community": 10,
+      "community": 4,
       "norm_label": "userendpoints.ts"
     },
     {
@@ -3050,7 +3100,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "features_users_userendpoints_userendpoints",
-      "community": 10,
+      "community": 4,
       "norm_label": "userendpoints()"
     },
     {
@@ -3260,7 +3310,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "hooks_usetoast",
-      "community": 0,
+      "community": 4,
       "norm_label": "usetoast.ts"
     },
     {
@@ -3270,7 +3320,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "hooks_usetoast_usetoast",
-      "community": 0,
+      "community": 4,
       "norm_label": "usetoast()"
     },
     {
@@ -3620,7 +3670,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "interfaces_inventory_interface",
-      "community": 0,
+      "community": 4,
       "norm_label": "inventory.interface.ts"
     },
     {
@@ -3630,7 +3680,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "interfaces_inventory_interface_inventorybatch",
-      "community": 0,
+      "community": 4,
       "norm_label": "inventorybatch"
     },
     {
@@ -3640,7 +3690,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "interfaces_legal_entity_interface",
-      "community": 1,
+      "community": 9,
       "norm_label": "legal-entity.interface.ts"
     },
     {
@@ -3650,7 +3700,7 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "interfaces_legal_entity_interface_legalentity",
-      "community": 1,
+      "community": 9,
       "norm_label": "legalentity"
     },
     {
@@ -3660,7 +3710,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "interfaces_legal_entity_interface_getlegalentitiesresponse",
-      "community": 1,
+      "community": 9,
       "norm_label": "getlegalentitiesresponse"
     },
     {
@@ -3670,7 +3720,7 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "interfaces_legal_entity_interface_getlegalentityresponse",
-      "community": 1,
+      "community": 9,
       "norm_label": "getlegalentityresponse"
     },
     {
@@ -3680,7 +3730,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "interfaces_legal_entity_interface_paginatedlegalentitiesresponse",
-      "community": 1,
+      "community": 9,
       "norm_label": "paginatedlegalentitiesresponse"
     },
     {
@@ -3690,7 +3740,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "interfaces_legal_entity_interface_createlegalentitypayload",
-      "community": 1,
+      "community": 9,
       "norm_label": "createlegalentitypayload"
     },
     {
@@ -3700,7 +3750,7 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "interfaces_legal_entity_interface_updatelegalentitypayload",
-      "community": 1,
+      "community": 9,
       "norm_label": "updatelegalentitypayload"
     },
     {
@@ -3750,7 +3800,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "interfaces_outlet_interface",
-      "community": 1,
+      "community": 9,
       "norm_label": "outlet.interface.ts"
     },
     {
@@ -3760,7 +3810,7 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "interfaces_outlet_interface_outlet",
-      "community": 1,
+      "community": 9,
       "norm_label": "outlet"
     },
     {
@@ -3770,7 +3820,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "interfaces_outlet_interface_getoutletsresponse",
-      "community": 1,
+      "community": 9,
       "norm_label": "getoutletsresponse"
     },
     {
@@ -3780,7 +3830,7 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "interfaces_outlet_interface_getoutletresponse",
-      "community": 1,
+      "community": 9,
       "norm_label": "getoutletresponse"
     },
     {
@@ -3790,7 +3840,7 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "interfaces_outlet_interface_paginatedoutletsresponse",
-      "community": 1,
+      "community": 9,
       "norm_label": "paginatedoutletsresponse"
     },
     {
@@ -3800,7 +3850,7 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "interfaces_outlet_interface_createoutletpayload",
-      "community": 1,
+      "community": 9,
       "norm_label": "createoutletpayload"
     },
     {
@@ -3810,7 +3860,7 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "interfaces_outlet_interface_updateoutletpayload",
-      "community": 1,
+      "community": 9,
       "norm_label": "updateoutletpayload"
     },
     {
@@ -4000,7 +4050,7 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "interfaces_root_interface_errorresponse",
-      "community": 1,
+      "community": 5,
       "norm_label": "errorresponse"
     },
     {
@@ -4140,7 +4190,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "lib_formdrawerprovider",
-      "community": 0,
+      "community": 4,
       "norm_label": "formdrawerprovider.tsx"
     },
     {
@@ -4150,7 +4200,7 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "lib_formdrawerprovider_formdrawercontextvalue",
-      "community": 0,
+      "community": 4,
       "norm_label": "formdrawercontextvalue"
     },
     {
@@ -4160,7 +4210,7 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "lib_formdrawerprovider_formdrawercontext",
-      "community": 0,
+      "community": 4,
       "norm_label": "formdrawercontext"
     },
     {
@@ -4170,7 +4220,7 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "lib_formdrawerprovider_useformdrawer",
-      "community": 0,
+      "community": 4,
       "norm_label": "useformdrawer()"
     },
     {
@@ -4180,7 +4230,7 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "lib_formdrawerprovider_formdrawerproviderprops",
-      "community": 0,
+      "community": 4,
       "norm_label": "formdrawerproviderprops"
     },
     {
@@ -4410,7 +4460,7 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "lib_store_store",
-      "community": 3,
+      "community": 5,
       "norm_label": "store"
     },
     {
@@ -4694,10 +4744,20 @@
       "norm_label": "dependencies"
     },
     {
-      "label": "@aimk/permissions",
+      "label": "@aimk/image-spec",
       "file_type": "code",
       "source_file": "package.json",
       "source_location": "L12",
+      "_origin": "ast",
+      "id": "package_dependencies_aimk_image_spec",
+      "community": 6,
+      "norm_label": "@aimk/image-spec"
+    },
+    {
+      "label": "@aimk/permissions",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L13",
       "_origin": "ast",
       "id": "package_dependencies_aimk_permissions",
       "community": 6,
@@ -4707,7 +4767,7 @@
       "label": "@emotion/cache",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L13",
+      "source_location": "L14",
       "_origin": "ast",
       "id": "package_dependencies_emotion_cache",
       "community": 6,
@@ -4717,7 +4777,7 @@
       "label": "@emotion/react",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L14",
+      "source_location": "L15",
       "_origin": "ast",
       "id": "package_dependencies_emotion_react",
       "community": 6,
@@ -4727,7 +4787,7 @@
       "label": "@emotion/server",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L15",
+      "source_location": "L16",
       "_origin": "ast",
       "id": "package_dependencies_emotion_server",
       "community": 6,
@@ -4737,7 +4797,7 @@
       "label": "@emotion/styled",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L16",
+      "source_location": "L17",
       "_origin": "ast",
       "id": "package_dependencies_emotion_styled",
       "community": 6,
@@ -4747,7 +4807,7 @@
       "label": "@mui/icons-material",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L17",
+      "source_location": "L18",
       "_origin": "ast",
       "id": "package_dependencies_mui_icons_material",
       "community": 6,
@@ -4757,7 +4817,7 @@
       "label": "@mui/material",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L18",
+      "source_location": "L19",
       "_origin": "ast",
       "id": "package_dependencies_mui_material",
       "community": 6,
@@ -4767,7 +4827,7 @@
       "label": "@mui/x-data-grid",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L19",
+      "source_location": "L20",
       "_origin": "ast",
       "id": "package_dependencies_mui_x_data_grid",
       "community": 6,
@@ -4777,7 +4837,7 @@
       "label": "@mui/x-date-pickers",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L20",
+      "source_location": "L21",
       "_origin": "ast",
       "id": "package_dependencies_mui_x_date_pickers",
       "community": 6,
@@ -4787,7 +4847,7 @@
       "label": "@reduxjs/toolkit",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L21",
+      "source_location": "L22",
       "_origin": "ast",
       "id": "package_dependencies_reduxjs_toolkit",
       "community": 6,
@@ -4797,7 +4857,7 @@
       "label": "dayjs",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L22",
+      "source_location": "L23",
       "_origin": "ast",
       "id": "package_dependencies_dayjs",
       "community": 6,
@@ -4807,7 +4867,7 @@
       "label": "formik",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L23",
+      "source_location": "L24",
       "_origin": "ast",
       "id": "package_dependencies_formik",
       "community": 6,
@@ -4817,7 +4877,7 @@
       "label": "framer-motion",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L24",
+      "source_location": "L25",
       "_origin": "ast",
       "id": "package_dependencies_framer_motion",
       "community": 6,
@@ -4827,7 +4887,7 @@
       "label": "gsap",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L25",
+      "source_location": "L26",
       "_origin": "ast",
       "id": "package_dependencies_gsap",
       "community": 6,
@@ -4837,7 +4897,7 @@
       "label": "lodash",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L26",
+      "source_location": "L27",
       "_origin": "ast",
       "id": "package_dependencies_lodash",
       "community": 6,
@@ -4847,7 +4907,7 @@
       "label": "next",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L27",
+      "source_location": "L28",
       "_origin": "ast",
       "id": "package_dependencies_next",
       "community": 6,
@@ -4857,7 +4917,7 @@
       "label": "prop-types",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L28",
+      "source_location": "L29",
       "_origin": "ast",
       "id": "package_dependencies_prop_types",
       "community": 6,
@@ -4867,7 +4927,7 @@
       "label": "react",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L29",
+      "source_location": "L30",
       "_origin": "ast",
       "id": "package_dependencies_react",
       "community": 6,
@@ -4877,7 +4937,7 @@
       "label": "react-dom",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L30",
+      "source_location": "L31",
       "_origin": "ast",
       "id": "package_dependencies_react_dom",
       "community": 6,
@@ -4887,7 +4947,7 @@
       "label": "react-icons",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L31",
+      "source_location": "L32",
       "_origin": "ast",
       "id": "package_dependencies_react_icons",
       "community": 6,
@@ -4897,7 +4957,7 @@
       "label": "react-redux",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L32",
+      "source_location": "L33",
       "_origin": "ast",
       "id": "package_dependencies_react_redux",
       "community": 6,
@@ -4907,7 +4967,7 @@
       "label": "react-slick",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L33",
+      "source_location": "L34",
       "_origin": "ast",
       "id": "package_dependencies_react_slick",
       "community": 6,
@@ -4917,7 +4977,7 @@
       "label": "slick-carousel",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L34",
+      "source_location": "L35",
       "_origin": "ast",
       "id": "package_dependencies_slick_carousel",
       "community": 6,
@@ -4927,7 +4987,7 @@
       "label": "yup",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L35",
+      "source_location": "L36",
       "_origin": "ast",
       "id": "package_dependencies_yup",
       "community": 6,
@@ -4937,7 +4997,7 @@
       "label": "devDependencies",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L37",
+      "source_location": "L38",
       "_origin": "ast",
       "id": "package_devdependencies",
       "community": 6,
@@ -4947,7 +5007,7 @@
       "label": "@tailwindcss/postcss",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L38",
+      "source_location": "L39",
       "_origin": "ast",
       "id": "package_devdependencies_tailwindcss_postcss",
       "community": 6,
@@ -4957,7 +5017,7 @@
       "label": "@types/node",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L39",
+      "source_location": "L40",
       "_origin": "ast",
       "id": "package_devdependencies_types_node",
       "community": 6,
@@ -4967,7 +5027,7 @@
       "label": "@types/react",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L40",
+      "source_location": "L41",
       "_origin": "ast",
       "id": "package_devdependencies_types_react",
       "community": 6,
@@ -4977,7 +5037,7 @@
       "label": "@types/react-dom",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L41",
+      "source_location": "L42",
       "_origin": "ast",
       "id": "package_devdependencies_types_react_dom",
       "community": 6,
@@ -4987,7 +5047,7 @@
       "label": "@types/react-slick",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L42",
+      "source_location": "L43",
       "_origin": "ast",
       "id": "package_devdependencies_types_react_slick",
       "community": 6,
@@ -4997,7 +5057,7 @@
       "label": "eslint",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L43",
+      "source_location": "L44",
       "_origin": "ast",
       "id": "package_devdependencies_eslint",
       "community": 6,
@@ -5007,7 +5067,7 @@
       "label": "eslint-config-next",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L44",
+      "source_location": "L45",
       "_origin": "ast",
       "id": "package_devdependencies_eslint_config_next",
       "community": 6,
@@ -5017,7 +5077,7 @@
       "label": "tailwindcss",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L45",
+      "source_location": "L46",
       "_origin": "ast",
       "id": "package_devdependencies_tailwindcss",
       "community": 6,
@@ -5027,10 +5087,200 @@
       "label": "typescript",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L46",
+      "source_location": "L47",
       "_origin": "ast",
       "id": "package_devdependencies_typescript",
       "community": 6,
+      "norm_label": "typescript"
+    },
+    {
+      "label": "package.json",
+      "file_type": "code",
+      "source_file": "packages/aimk-image-spec/package.json",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "packages_aimk_image_spec_package",
+      "community": 52,
+      "norm_label": "package.json"
+    },
+    {
+      "label": "name",
+      "file_type": "code",
+      "source_file": "packages/aimk-image-spec/package.json",
+      "source_location": "L2",
+      "_origin": "ast",
+      "id": "packages_aimk_image_spec_package_name",
+      "community": 52,
+      "norm_label": "name"
+    },
+    {
+      "label": "version",
+      "file_type": "code",
+      "source_file": "packages/aimk-image-spec/package.json",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "packages_aimk_image_spec_package_version",
+      "community": 52,
+      "norm_label": "version"
+    },
+    {
+      "label": "description",
+      "file_type": "code",
+      "source_file": "packages/aimk-image-spec/package.json",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "packages_aimk_image_spec_package_description",
+      "community": 52,
+      "norm_label": "description"
+    },
+    {
+      "label": "main",
+      "file_type": "code",
+      "source_file": "packages/aimk-image-spec/package.json",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "packages_aimk_image_spec_package_main",
+      "community": 52,
+      "norm_label": "main"
+    },
+    {
+      "label": "module",
+      "file_type": "code",
+      "source_file": "packages/aimk-image-spec/package.json",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "packages_aimk_image_spec_package_module",
+      "community": 52,
+      "norm_label": "module"
+    },
+    {
+      "label": "types",
+      "file_type": "code",
+      "source_file": "packages/aimk-image-spec/package.json",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "packages_aimk_image_spec_package_types",
+      "community": 52,
+      "norm_label": "types"
+    },
+    {
+      "label": "exports",
+      "file_type": "code",
+      "source_file": "packages/aimk-image-spec/package.json",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "packages_aimk_image_spec_package_exports",
+      "community": 52,
+      "norm_label": "exports"
+    },
+    {
+      "label": "import",
+      "file_type": "code",
+      "source_file": "packages/aimk-image-spec/package.json",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "packages_aimk_image_spec_package_import",
+      "community": 52,
+      "norm_label": "import"
+    },
+    {
+      "label": "require",
+      "file_type": "code",
+      "source_file": "packages/aimk-image-spec/package.json",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "packages_aimk_image_spec_package_require",
+      "community": 52,
+      "norm_label": "require"
+    },
+    {
+      "label": "default",
+      "file_type": "code",
+      "source_file": "packages/aimk-image-spec/package.json",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "packages_aimk_image_spec_package_default",
+      "community": 52,
+      "norm_label": "default"
+    },
+    {
+      "label": "scripts",
+      "file_type": "code",
+      "source_file": "packages/aimk-image-spec/package.json",
+      "source_location": "L22",
+      "_origin": "ast",
+      "id": "packages_aimk_image_spec_package_scripts",
+      "community": 52,
+      "norm_label": "scripts"
+    },
+    {
+      "label": "build",
+      "file_type": "code",
+      "source_file": "packages/aimk-image-spec/package.json",
+      "source_location": "L23",
+      "_origin": "ast",
+      "id": "packages_aimk_image_spec_package_scripts_build",
+      "community": 52,
+      "norm_label": "build"
+    },
+    {
+      "label": "sync",
+      "file_type": "code",
+      "source_file": "packages/aimk-image-spec/package.json",
+      "source_location": "L24",
+      "_origin": "ast",
+      "id": "packages_aimk_image_spec_package_scripts_sync",
+      "community": 52,
+      "norm_label": "sync"
+    },
+    {
+      "label": "docs",
+      "file_type": "code",
+      "source_file": "packages/aimk-image-spec/package.json",
+      "source_location": "L25",
+      "_origin": "ast",
+      "id": "packages_aimk_image_spec_package_scripts_docs",
+      "community": 52,
+      "norm_label": "docs"
+    },
+    {
+      "label": "typecheck",
+      "file_type": "code",
+      "source_file": "packages/aimk-image-spec/package.json",
+      "source_location": "L26",
+      "_origin": "ast",
+      "id": "packages_aimk_image_spec_package_scripts_typecheck",
+      "community": 52,
+      "norm_label": "typecheck"
+    },
+    {
+      "label": "devDependencies",
+      "file_type": "code",
+      "source_file": "packages/aimk-image-spec/package.json",
+      "source_location": "L28",
+      "_origin": "ast",
+      "id": "packages_aimk_image_spec_package_devdependencies",
+      "community": 52,
+      "norm_label": "devdependencies"
+    },
+    {
+      "label": "@types/node",
+      "file_type": "code",
+      "source_file": "packages/aimk-image-spec/package.json",
+      "source_location": "L29",
+      "_origin": "ast",
+      "id": "packages_aimk_image_spec_package_devdependencies_types_node",
+      "community": 52,
+      "norm_label": "@types/node"
+    },
+    {
+      "label": "typescript",
+      "file_type": "code",
+      "source_file": "packages/aimk-image-spec/package.json",
+      "source_location": "L30",
+      "_origin": "ast",
+      "id": "packages_aimk_image_spec_package_devdependencies_typescript",
+      "community": 52,
       "norm_label": "typescript"
     },
     {
@@ -5820,7 +6070,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "types_form_drawer_props_type",
-      "community": 0,
+      "community": 4,
       "norm_label": "form_drawer_props.type.ts"
     },
     {
@@ -5830,7 +6080,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "types_form_drawer_props_type_formdrawerprops",
-      "community": 0,
+      "community": 4,
       "norm_label": "formdrawerprops"
     },
     {
@@ -5890,7 +6140,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_validators_brand_validator",
-      "community": 0,
+      "community": 4,
       "norm_label": "brand.validator.ts"
     },
     {
@@ -5900,7 +6150,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "utils_validators_brand_validator_brandvalidator",
-      "community": 0,
+      "community": 4,
       "norm_label": "brandvalidator"
     },
     {
@@ -5910,7 +6160,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_validators_category_validator",
-      "community": 0,
+      "community": 2,
       "norm_label": "category.validator.ts"
     },
     {
@@ -5920,7 +6170,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "utils_validators_category_validator_categoryvalidator",
-      "community": 0,
+      "community": 2,
       "norm_label": "categoryvalidator"
     },
     {
@@ -5950,7 +6200,7 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "utils_validators_legal_entity_validator",
-      "community": 0,
+      "community": 4,
       "norm_label": "legal-entity.validator.ts"
     },
     {
@@ -5960,7 +6210,7 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "utils_validators_legal_entity_validator_legalentityvalidator",
-      "community": 0,
+      "community": 4,
       "norm_label": "legalentityvalidator"
     },
     {
@@ -7948,7 +8198,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/admin/media/page.tsx",
-      "source_location": "L113",
+      "source_location": "L114",
       "weight": 1.0,
       "source": "app_admin_media_page",
       "target": "app_admin_media_page_formatbytes",
@@ -7958,7 +8208,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/admin/media/page.tsx",
-      "source_location": "L502",
+      "source_location": "L509",
       "weight": 1.0,
       "source": "app_admin_media_page",
       "target": "app_admin_media_page_imageviewer",
@@ -7968,7 +8218,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/admin/media/page.tsx",
-      "source_location": "L969",
+      "source_location": "L976",
       "weight": 1.0,
       "source": "app_admin_media_page",
       "target": "app_admin_media_page_mediacard",
@@ -7978,7 +8228,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/admin/media/page.tsx",
-      "source_location": "L635",
+      "source_location": "L642",
       "weight": 1.0,
       "source": "app_admin_media_page",
       "target": "app_admin_media_page_mediadetaildialog",
@@ -7988,7 +8238,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/admin/media/page.tsx",
-      "source_location": "L77",
+      "source_location": "L78",
       "weight": 1.0,
       "source": "app_admin_media_page",
       "target": "app_admin_media_page_mediaitem",
@@ -7998,7 +8248,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/admin/media/page.tsx",
-      "source_location": "L1212",
+      "source_location": "L1219",
       "weight": 1.0,
       "source": "app_admin_media_page",
       "target": "app_admin_media_page_medialistrow",
@@ -8008,7 +8258,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/admin/media/page.tsx",
-      "source_location": "L1345",
+      "source_location": "L1352",
       "weight": 1.0,
       "source": "app_admin_media_page",
       "target": "app_admin_media_page_mediapage",
@@ -8018,7 +8268,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/admin/media/page.tsx",
-      "source_location": "L120",
+      "source_location": "L121",
       "weight": 1.0,
       "source": "app_admin_media_page",
       "target": "app_admin_media_page_timeago",
@@ -8028,7 +8278,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/admin/media/page.tsx",
-      "source_location": "L106",
+      "source_location": "L107",
       "weight": 1.0,
       "source": "app_admin_media_page",
       "target": "app_admin_media_page_type_colors",
@@ -8038,7 +8288,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/admin/media/page.tsx",
-      "source_location": "L99",
+      "source_location": "L100",
       "weight": 1.0,
       "source": "app_admin_media_page",
       "target": "app_admin_media_page_type_icons",
@@ -8048,7 +8298,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/admin/media/page.tsx",
-      "source_location": "L132",
+      "source_location": "L133",
       "weight": 1.0,
       "source": "app_admin_media_page",
       "target": "app_admin_media_page_uploadzone",
@@ -8062,6 +8312,28 @@
       "source_location": "L3",
       "weight": 1.0,
       "source": "app_admin_media_page",
+      "target": "components_common_imagespechint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/media/page.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "app_admin_media_page",
+      "target": "components_common_imagespechint_imagespecreference",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "app/admin/media/page.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "app_admin_media_page",
       "target": "features_media_mediaapiservice",
       "confidence_score": 1.0
     },
@@ -8070,7 +8342,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app/admin/media/page.tsx",
-      "source_location": "L1083",
+      "source_location": "L1090",
       "weight": 1.0,
       "source": "app_admin_media_page_mediacard",
       "target": "app_admin_media_page_formatbytes",
@@ -8081,7 +8353,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app/admin/media/page.tsx",
-      "source_location": "L836",
+      "source_location": "L843",
       "weight": 1.0,
       "source": "app_admin_media_page_mediadetaildialog",
       "target": "app_admin_media_page_formatbytes",
@@ -8092,7 +8364,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app/admin/media/page.tsx",
-      "source_location": "L1310",
+      "source_location": "L1317",
       "weight": 1.0,
       "source": "app_admin_media_page_medialistrow",
       "target": "app_admin_media_page_formatbytes",
@@ -8103,7 +8375,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app/admin/media/page.tsx",
-      "source_location": "L380",
+      "source_location": "L387",
       "weight": 1.0,
       "source": "app_admin_media_page_uploadzone",
       "target": "app_admin_media_page_formatbytes",
@@ -8114,7 +8386,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app/admin/media/page.tsx",
-      "source_location": "L842",
+      "source_location": "L849",
       "weight": 1.0,
       "source": "app_admin_media_page_mediadetaildialog",
       "target": "app_admin_media_page_timeago",
@@ -8125,7 +8397,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app/admin/media/page.tsx",
-      "source_location": "L1313",
+      "source_location": "L1320",
       "weight": 1.0,
       "source": "app_admin_media_page_medialistrow",
       "target": "app_admin_media_page_timeago",
@@ -9462,7 +9734,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Category/CategoryForm.tsx",
-      "source_location": "L17",
+      "source_location": "L18",
       "weight": 1.0,
       "source": "components_ui_category_categoryform",
       "target": "components_common_customfields",
@@ -9517,7 +9789,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L31",
+      "source_location": "L33",
       "weight": 1.0,
       "source": "components_ui_product_productform",
       "target": "components_common_customfields",
@@ -9539,7 +9811,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Category/CategoryForm.tsx",
-      "source_location": "L17",
+      "source_location": "L18",
       "weight": 1.0,
       "source": "components_ui_category_categoryform",
       "target": "components_common_customfields_materialtextfield",
@@ -9594,7 +9866,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L31",
+      "source_location": "L33",
       "weight": 1.0,
       "source": "components_ui_product_productform",
       "target": "components_common_customfields_materialtextfield",
@@ -9616,7 +9888,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Category/CategoryForm.tsx",
-      "source_location": "L17",
+      "source_location": "L18",
       "weight": 1.0,
       "source": "components_ui_category_categoryform",
       "target": "components_common_customfields_materialselectfield",
@@ -9671,7 +9943,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L31",
+      "source_location": "L33",
       "weight": 1.0,
       "source": "components_ui_product_productform",
       "target": "components_common_customfields_materialselectfield",
@@ -9756,6 +10028,90 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "components/common/ImageSpecHint.tsx",
+      "source_location": "L57",
+      "weight": 1.0,
+      "source": "components_common_imagespechint",
+      "target": "components_common_imagespechint_imagespechint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/ImageSpecHint.tsx",
+      "source_location": "L38",
+      "weight": 1.0,
+      "source": "components_common_imagespechint",
+      "target": "components_common_imagespechint_imagespechintprops",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/ImageSpecHint.tsx",
+      "source_location": "L131",
+      "weight": 1.0,
+      "source": "components_common_imagespechint",
+      "target": "components_common_imagespechint_imagespecreference",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "components/common/ImageSpecHint.tsx",
+      "source_location": "L51",
+      "weight": 1.0,
+      "source": "components_common_imagespechint",
+      "target": "components_common_imagespechint_row",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/ui/Category/CategoryForm.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "components_ui_category_categoryform",
+      "target": "components_common_imagespechint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/ui/Media/MediaPickerModal.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "components_ui_media_mediapickermodal",
+      "target": "components_common_imagespechint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/ui/Offer/OfferForm.tsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "components_ui_offer_offerform",
+      "target": "components_common_imagespechint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "components/ui/Product/ProductForm.tsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "components_ui_product_productform",
+      "target": "components_common_imagespechint",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "components/common/ProtectedComponent.tsx",
       "source_location": "L12",
       "weight": 1.0,
@@ -9799,7 +10155,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Offer/OfferForm.tsx",
-      "source_location": "L4",
+      "source_location": "L5",
       "weight": 1.0,
       "source": "components_ui_offer_offerform",
       "target": "components_common_sectionheader",
@@ -9810,7 +10166,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L39",
+      "source_location": "L41",
       "weight": 1.0,
       "source": "components_ui_product_productform",
       "target": "components_common_sectionheader",
@@ -9832,7 +10188,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Offer/OfferForm.tsx",
-      "source_location": "L4",
+      "source_location": "L5",
       "weight": 1.0,
       "source": "components_ui_offer_offerform",
       "target": "components_common_sectionheader_sectionheader",
@@ -9843,7 +10199,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L39",
+      "source_location": "L41",
       "weight": 1.0,
       "source": "components_ui_product_productform",
       "target": "components_common_sectionheader_sectionheader",
@@ -10263,7 +10619,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Category/CategoryForm.tsx",
-      "source_location": "L27",
+      "source_location": "L28",
       "weight": 1.0,
       "source": "components_ui_category_categoryform",
       "target": "components_ui_category_categoryform_categoryform",
@@ -10274,7 +10630,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Category/CategoryForm.tsx",
-      "source_location": "L3",
+      "source_location": "L4",
       "weight": 1.0,
       "source": "components_ui_category_categoryform",
       "target": "components_ui_media_mediapickermodal",
@@ -10285,7 +10641,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Category/CategoryForm.tsx",
-      "source_location": "L3",
+      "source_location": "L4",
       "weight": 1.0,
       "source": "components_ui_category_categoryform",
       "target": "components_ui_media_mediapickermodal_mediaitem",
@@ -10296,7 +10652,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Category/CategoryForm.tsx",
-      "source_location": "L18",
+      "source_location": "L19",
       "weight": 1.0,
       "source": "components_ui_category_categoryform",
       "target": "features_brand_brandapiservice",
@@ -10307,7 +10663,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Category/CategoryForm.tsx",
-      "source_location": "L11",
+      "source_location": "L12",
       "weight": 1.0,
       "source": "components_ui_category_categoryform",
       "target": "features_categories_categoriesapiservice",
@@ -10318,7 +10674,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Category/CategoryForm.tsx",
-      "source_location": "L4",
+      "source_location": "L5",
       "weight": 1.0,
       "source": "components_ui_category_categoryform",
       "target": "hooks_usetoast",
@@ -10329,7 +10685,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Category/CategoryForm.tsx",
-      "source_location": "L4",
+      "source_location": "L5",
       "weight": 1.0,
       "source": "components_ui_category_categoryform",
       "target": "hooks_usetoast_usetoast",
@@ -10340,7 +10696,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Category/CategoryForm.tsx",
-      "source_location": "L19",
+      "source_location": "L20",
       "weight": 1.0,
       "source": "components_ui_category_categoryform",
       "target": "interfaces_brand_interface",
@@ -10351,7 +10707,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Category/CategoryForm.tsx",
-      "source_location": "L19",
+      "source_location": "L20",
       "weight": 1.0,
       "source": "components_ui_category_categoryform",
       "target": "interfaces_brand_interface_brand",
@@ -10362,7 +10718,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Category/CategoryForm.tsx",
-      "source_location": "L20",
+      "source_location": "L21",
       "weight": 1.0,
       "source": "components_ui_category_categoryform",
       "target": "interfaces_category_interface",
@@ -10373,7 +10729,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Category/CategoryForm.tsx",
-      "source_location": "L20",
+      "source_location": "L21",
       "weight": 1.0,
       "source": "components_ui_category_categoryform",
       "target": "interfaces_category_interface_category",
@@ -10384,7 +10740,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Category/CategoryForm.tsx",
-      "source_location": "L20",
+      "source_location": "L21",
       "weight": 1.0,
       "source": "components_ui_category_categoryform",
       "target": "interfaces_category_interface_createcategorypayload",
@@ -10395,7 +10751,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Category/CategoryForm.tsx",
-      "source_location": "L5",
+      "source_location": "L6",
       "weight": 1.0,
       "source": "components_ui_category_categoryform",
       "target": "lib_formdrawerprovider",
@@ -10406,7 +10762,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Category/CategoryForm.tsx",
-      "source_location": "L5",
+      "source_location": "L6",
       "weight": 1.0,
       "source": "components_ui_category_categoryform",
       "target": "lib_formdrawerprovider_useformdrawer",
@@ -10417,7 +10773,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Category/CategoryForm.tsx",
-      "source_location": "L21",
+      "source_location": "L22",
       "weight": 1.0,
       "source": "components_ui_category_categoryform",
       "target": "utils_validators_category_validator",
@@ -10428,7 +10784,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Category/CategoryForm.tsx",
-      "source_location": "L21",
+      "source_location": "L22",
       "weight": 1.0,
       "source": "components_ui_category_categoryform",
       "target": "utils_validators_category_validator_categoryvalidator",
@@ -10440,7 +10796,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "components/ui/Category/CategoryForm.tsx",
-      "source_location": "L29",
+      "source_location": "L30",
       "weight": 1.0,
       "source": "components_ui_category_categoryform_categoryform",
       "target": "hooks_usetoast_usetoast"
@@ -10451,7 +10807,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "components/ui/Category/CategoryForm.tsx",
-      "source_location": "L28",
+      "source_location": "L29",
       "weight": 1.0,
       "source": "components_ui_category_categoryform_categoryform",
       "target": "lib_formdrawerprovider_useformdrawer"
@@ -11125,7 +11481,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Media/MediaPickerModal.tsx",
-      "source_location": "L88",
+      "source_location": "L96",
       "weight": 1.0,
       "source": "components_ui_media_mediapickermodal",
       "target": "components_ui_media_mediapickermodal_formatbytes",
@@ -11135,7 +11491,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Media/MediaPickerModal.tsx",
-      "source_location": "L96",
+      "source_location": "L104",
       "weight": 1.0,
       "source": "components_ui_media_mediapickermodal",
       "target": "components_ui_media_mediapickermodal_mediagriditem",
@@ -11145,7 +11501,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Media/MediaPickerModal.tsx",
-      "source_location": "L45",
+      "source_location": "L47",
       "weight": 1.0,
       "source": "components_ui_media_mediapickermodal",
       "target": "components_ui_media_mediapickermodal_mediaitem",
@@ -11155,7 +11511,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Media/MediaPickerModal.tsx",
-      "source_location": "L229",
+      "source_location": "L237",
       "weight": 1.0,
       "source": "components_ui_media_mediapickermodal",
       "target": "components_ui_media_mediapickermodal_medialistitem",
@@ -11165,7 +11521,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Media/MediaPickerModal.tsx",
-      "source_location": "L331",
+      "source_location": "L339",
       "weight": 1.0,
       "source": "components_ui_media_mediapickermodal",
       "target": "components_ui_media_mediapickermodal_mediapickermodal",
@@ -11175,7 +11531,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Media/MediaPickerModal.tsx",
-      "source_location": "L62",
+      "source_location": "L64",
       "weight": 1.0,
       "source": "components_ui_media_mediapickermodal",
       "target": "components_ui_media_mediapickermodal_mediapickermodalprops",
@@ -11185,7 +11541,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Media/MediaPickerModal.tsx",
-      "source_location": "L81",
+      "source_location": "L89",
       "weight": 1.0,
       "source": "components_ui_media_mediapickermodal",
       "target": "components_ui_media_mediapickermodal_type_colors",
@@ -11195,7 +11551,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Media/MediaPickerModal.tsx",
-      "source_location": "L74",
+      "source_location": "L82",
       "weight": 1.0,
       "source": "components_ui_media_mediapickermodal",
       "target": "components_ui_media_mediapickermodal_type_icons",
@@ -11206,7 +11562,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Media/MediaPickerModal.tsx",
-      "source_location": "L3",
+      "source_location": "L4",
       "weight": 1.0,
       "source": "components_ui_media_mediapickermodal",
       "target": "features_media_mediaapiservice",
@@ -11217,7 +11573,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Offer/OfferForm.tsx",
-      "source_location": "L5",
+      "source_location": "L6",
       "weight": 1.0,
       "source": "components_ui_offer_offerform",
       "target": "components_ui_media_mediapickermodal",
@@ -11228,7 +11584,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L3",
+      "source_location": "L4",
       "weight": 1.0,
       "source": "components_ui_product_productform",
       "target": "components_ui_media_mediapickermodal",
@@ -11239,7 +11595,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Offer/OfferForm.tsx",
-      "source_location": "L5",
+      "source_location": "L6",
       "weight": 1.0,
       "source": "components_ui_offer_offerform",
       "target": "components_ui_media_mediapickermodal_mediaitem",
@@ -11250,7 +11606,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L3",
+      "source_location": "L4",
       "weight": 1.0,
       "source": "components_ui_product_productform",
       "target": "components_ui_media_mediapickermodal_mediaitem",
@@ -11261,7 +11617,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Media/MediaPickerModal.tsx",
-      "source_location": "L301",
+      "source_location": "L309",
       "weight": 1.0,
       "source": "components_ui_media_mediapickermodal_medialistitem",
       "target": "components_ui_media_mediapickermodal_formatbytes",
@@ -11271,7 +11627,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Offer/OfferForm.tsx",
-      "source_location": "L30",
+      "source_location": "L29",
       "weight": 1.0,
       "source": "components_ui_offer_offerform",
       "target": "components_ui_offer_offerform_offerform",
@@ -11282,7 +11638,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Offer/OfferForm.tsx",
-      "source_location": "L6",
+      "source_location": "L7",
       "weight": 1.0,
       "source": "components_ui_offer_offerform",
       "target": "features_categories_categoriesapiservice",
@@ -11293,7 +11649,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Offer/OfferForm.tsx",
-      "source_location": "L7",
+      "source_location": "L8",
       "weight": 1.0,
       "source": "components_ui_offer_offerform",
       "target": "features_offers_offerapiservice",
@@ -11304,7 +11660,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Offer/OfferForm.tsx",
-      "source_location": "L8",
+      "source_location": "L9",
       "weight": 1.0,
       "source": "components_ui_offer_offerform",
       "target": "features_products_productapiservice",
@@ -11315,7 +11671,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Offer/OfferForm.tsx",
-      "source_location": "L9",
+      "source_location": "L10",
       "weight": 1.0,
       "source": "components_ui_offer_offerform",
       "target": "hooks_usetoast",
@@ -11326,7 +11682,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Offer/OfferForm.tsx",
-      "source_location": "L9",
+      "source_location": "L10",
       "weight": 1.0,
       "source": "components_ui_offer_offerform",
       "target": "hooks_usetoast_usetoast",
@@ -11337,7 +11693,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Offer/OfferForm.tsx",
-      "source_location": "L10",
+      "source_location": "L11",
       "weight": 1.0,
       "source": "components_ui_offer_offerform",
       "target": "lib_formdrawerprovider",
@@ -11348,7 +11704,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Offer/OfferForm.tsx",
-      "source_location": "L10",
+      "source_location": "L11",
       "weight": 1.0,
       "source": "components_ui_offer_offerform",
       "target": "lib_formdrawerprovider_useformdrawer",
@@ -11360,7 +11716,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "components/ui/Offer/OfferForm.tsx",
-      "source_location": "L32",
+      "source_location": "L31",
       "weight": 1.0,
       "source": "components_ui_offer_offerform_offerform",
       "target": "hooks_usetoast_usetoast"
@@ -11371,7 +11727,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "components/ui/Offer/OfferForm.tsx",
-      "source_location": "L31",
+      "source_location": "L30",
       "weight": 1.0,
       "source": "components_ui_offer_offerform_offerform",
       "target": "lib_formdrawerprovider_useformdrawer"
@@ -11769,7 +12125,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L126",
+      "source_location": "L128",
       "weight": 1.0,
       "source": "components_ui_product_productform",
       "target": "components_ui_product_productform_allergeninfoinput",
@@ -11779,7 +12135,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L191",
+      "source_location": "L193",
       "weight": 1.0,
       "source": "components_ui_product_productform",
       "target": "components_ui_product_productform_availableunitsinput",
@@ -11789,7 +12145,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L65",
+      "source_location": "L67",
       "weight": 1.0,
       "source": "components_ui_product_productform",
       "target": "components_ui_product_productform_common_allergens",
@@ -11799,7 +12155,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L53",
+      "source_location": "L55",
       "weight": 1.0,
       "source": "components_ui_product_productform",
       "target": "components_ui_product_productform_dietary_options",
@@ -11809,7 +12165,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L98",
+      "source_location": "L100",
       "weight": 1.0,
       "source": "components_ui_product_productform",
       "target": "components_ui_product_productform_dietarytagsinput",
@@ -11819,7 +12175,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L252",
+      "source_location": "L254",
       "weight": 1.0,
       "source": "components_ui_product_productform",
       "target": "components_ui_product_productform_gallerypickerinput",
@@ -11829,7 +12185,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L89",
+      "source_location": "L91",
       "weight": 1.0,
       "source": "components_ui_product_productform",
       "target": "components_ui_product_productform_gst_rates",
@@ -11839,7 +12195,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L172",
+      "source_location": "L174",
       "weight": 1.0,
       "source": "components_ui_product_productform",
       "target": "components_ui_product_productform_nutritionalinfoinput",
@@ -11849,7 +12205,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L77",
+      "source_location": "L79",
       "weight": 1.0,
       "source": "components_ui_product_productform",
       "target": "components_ui_product_productform_product_units",
@@ -11859,7 +12215,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L884",
+      "source_location": "L907",
       "weight": 1.0,
       "source": "components_ui_product_productform",
       "target": "components_ui_product_productform_productform",
@@ -11869,7 +12225,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L423",
+      "source_location": "L444",
       "weight": 1.0,
       "source": "components_ui_product_productform",
       "target": "components_ui_product_productform_renderstep",
@@ -11879,7 +12235,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L335",
+      "source_location": "L341",
       "weight": 1.0,
       "source": "components_ui_product_productform",
       "target": "components_ui_product_productform_singleimagepicker",
@@ -11889,7 +12245,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L43",
+      "source_location": "L45",
       "weight": 1.0,
       "source": "components_ui_product_productform",
       "target": "components_ui_product_productform_steps",
@@ -11900,7 +12256,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L38",
+      "source_location": "L40",
       "weight": 1.0,
       "source": "components_ui_product_productform",
       "target": "features_brand_brandapiservice",
@@ -11911,7 +12267,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L32",
+      "source_location": "L34",
       "weight": 1.0,
       "source": "components_ui_product_productform",
       "target": "features_categories_categoriesapiservice",
@@ -11922,7 +12278,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L33",
+      "source_location": "L35",
       "weight": 1.0,
       "source": "components_ui_product_productform",
       "target": "features_products_productapiservice",
@@ -11933,7 +12289,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L4",
+      "source_location": "L6",
       "weight": 1.0,
       "source": "components_ui_product_productform",
       "target": "hooks_usetoast",
@@ -11944,7 +12300,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L4",
+      "source_location": "L6",
       "weight": 1.0,
       "source": "components_ui_product_productform",
       "target": "hooks_usetoast_usetoast",
@@ -11955,7 +12311,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L37",
+      "source_location": "L39",
       "weight": 1.0,
       "source": "components_ui_product_productform",
       "target": "interfaces_product_interface",
@@ -11966,7 +12322,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L37",
+      "source_location": "L39",
       "weight": 1.0,
       "source": "components_ui_product_productform",
       "target": "interfaces_product_interface_createproductpayload",
@@ -11977,7 +12333,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L5",
+      "source_location": "L7",
       "weight": 1.0,
       "source": "components_ui_product_productform",
       "target": "lib_formdrawerprovider",
@@ -11988,7 +12344,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L5",
+      "source_location": "L7",
       "weight": 1.0,
       "source": "components_ui_product_productform",
       "target": "lib_formdrawerprovider_useformdrawer",
@@ -11999,7 +12355,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L1048",
+      "source_location": "L1071",
       "weight": 1.0,
       "source": "components_ui_product_productform_productform",
       "target": "components_ui_product_productform_renderstep",
@@ -12011,7 +12367,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L886",
+      "source_location": "L909",
       "weight": 1.0,
       "source": "components_ui_product_productform_productform",
       "target": "hooks_usetoast_usetoast"
@@ -12022,7 +12378,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "components/ui/Product/ProductForm.tsx",
-      "source_location": "L885",
+      "source_location": "L908",
       "weight": 1.0,
       "source": "components_ui_product_productform_productform",
       "target": "lib_formdrawerprovider_useformdrawer"
@@ -17984,7 +18340,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L37",
+      "source_location": "L38",
       "weight": 1.0,
       "source": "package",
       "target": "package_devdependencies",
@@ -18077,17 +18433,7 @@
       "source_location": "L12",
       "weight": 1.0,
       "source": "package_dependencies",
-      "target": "package_dependencies_aimk_permissions",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L22",
-      "weight": 1.0,
-      "source": "package_dependencies",
-      "target": "package_dependencies_dayjs",
+      "target": "package_dependencies_aimk_image_spec",
       "confidence_score": 1.0
     },
     {
@@ -18097,37 +18443,7 @@
       "source_location": "L13",
       "weight": 1.0,
       "source": "package_dependencies",
-      "target": "package_dependencies_emotion_cache",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L14",
-      "weight": 1.0,
-      "source": "package_dependencies",
-      "target": "package_dependencies_emotion_react",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L15",
-      "weight": 1.0,
-      "source": "package_dependencies",
-      "target": "package_dependencies_emotion_server",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L16",
-      "weight": 1.0,
-      "source": "package_dependencies",
-      "target": "package_dependencies_emotion_styled",
+      "target": "package_dependencies_aimk_permissions",
       "confidence_score": 1.0
     },
     {
@@ -18137,37 +18453,37 @@
       "source_location": "L23",
       "weight": 1.0,
       "source": "package_dependencies",
-      "target": "package_dependencies_formik",
+      "target": "package_dependencies_dayjs",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L24",
+      "source_location": "L14",
       "weight": 1.0,
       "source": "package_dependencies",
-      "target": "package_dependencies_framer_motion",
+      "target": "package_dependencies_emotion_cache",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L25",
+      "source_location": "L15",
       "weight": 1.0,
       "source": "package_dependencies",
-      "target": "package_dependencies_gsap",
+      "target": "package_dependencies_emotion_react",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L26",
+      "source_location": "L16",
       "weight": 1.0,
       "source": "package_dependencies",
-      "target": "package_dependencies_lodash",
+      "target": "package_dependencies_emotion_server",
       "confidence_score": 1.0
     },
     {
@@ -18177,37 +18493,37 @@
       "source_location": "L17",
       "weight": 1.0,
       "source": "package_dependencies",
-      "target": "package_dependencies_mui_icons_material",
+      "target": "package_dependencies_emotion_styled",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L18",
+      "source_location": "L24",
       "weight": 1.0,
       "source": "package_dependencies",
-      "target": "package_dependencies_mui_material",
+      "target": "package_dependencies_formik",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L19",
+      "source_location": "L25",
       "weight": 1.0,
       "source": "package_dependencies",
-      "target": "package_dependencies_mui_x_data_grid",
+      "target": "package_dependencies_framer_motion",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L20",
+      "source_location": "L26",
       "weight": 1.0,
       "source": "package_dependencies",
-      "target": "package_dependencies_mui_x_date_pickers",
+      "target": "package_dependencies_gsap",
       "confidence_score": 1.0
     },
     {
@@ -18217,67 +18533,37 @@
       "source_location": "L27",
       "weight": 1.0,
       "source": "package_dependencies",
-      "target": "package_dependencies_next",
+      "target": "package_dependencies_lodash",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L28",
+      "source_location": "L18",
       "weight": 1.0,
       "source": "package_dependencies",
-      "target": "package_dependencies_prop_types",
+      "target": "package_dependencies_mui_icons_material",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L29",
+      "source_location": "L19",
       "weight": 1.0,
       "source": "package_dependencies",
-      "target": "package_dependencies_react",
+      "target": "package_dependencies_mui_material",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L30",
+      "source_location": "L20",
       "weight": 1.0,
       "source": "package_dependencies",
-      "target": "package_dependencies_react_dom",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L31",
-      "weight": 1.0,
-      "source": "package_dependencies",
-      "target": "package_dependencies_react_icons",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L32",
-      "weight": 1.0,
-      "source": "package_dependencies",
-      "target": "package_dependencies_react_redux",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L33",
-      "weight": 1.0,
-      "source": "package_dependencies",
-      "target": "package_dependencies_react_slick",
+      "target": "package_dependencies_mui_x_data_grid",
       "confidence_score": 1.0
     },
     {
@@ -18287,7 +18573,67 @@
       "source_location": "L21",
       "weight": 1.0,
       "source": "package_dependencies",
-      "target": "package_dependencies_reduxjs_toolkit",
+      "target": "package_dependencies_mui_x_date_pickers",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L28",
+      "weight": 1.0,
+      "source": "package_dependencies",
+      "target": "package_dependencies_next",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "package_dependencies",
+      "target": "package_dependencies_prop_types",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L30",
+      "weight": 1.0,
+      "source": "package_dependencies",
+      "target": "package_dependencies_react",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L31",
+      "weight": 1.0,
+      "source": "package_dependencies",
+      "target": "package_dependencies_react_dom",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L32",
+      "weight": 1.0,
+      "source": "package_dependencies",
+      "target": "package_dependencies_react_icons",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L33",
+      "weight": 1.0,
+      "source": "package_dependencies",
+      "target": "package_dependencies_react_redux",
       "confidence_score": 1.0
     },
     {
@@ -18297,7 +18643,17 @@
       "source_location": "L34",
       "weight": 1.0,
       "source": "package_dependencies",
-      "target": "package_dependencies_slick_carousel",
+      "target": "package_dependencies_react_slick",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "package_dependencies",
+      "target": "package_dependencies_reduxjs_toolkit",
       "confidence_score": 1.0
     },
     {
@@ -18307,17 +18663,17 @@
       "source_location": "L35",
       "weight": 1.0,
       "source": "package_dependencies",
-      "target": "package_dependencies_yup",
+      "target": "package_dependencies_slick_carousel",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L43",
+      "source_location": "L36",
       "weight": 1.0,
-      "source": "package_devdependencies",
-      "target": "package_devdependencies_eslint",
+      "source": "package_dependencies",
+      "target": "package_dependencies_yup",
       "confidence_score": 1.0
     },
     {
@@ -18327,7 +18683,7 @@
       "source_location": "L44",
       "weight": 1.0,
       "source": "package_devdependencies",
-      "target": "package_devdependencies_eslint_config_next",
+      "target": "package_devdependencies_eslint",
       "confidence_score": 1.0
     },
     {
@@ -18337,57 +18693,7 @@
       "source_location": "L45",
       "weight": 1.0,
       "source": "package_devdependencies",
-      "target": "package_devdependencies_tailwindcss",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L38",
-      "weight": 1.0,
-      "source": "package_devdependencies",
-      "target": "package_devdependencies_tailwindcss_postcss",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L39",
-      "weight": 1.0,
-      "source": "package_devdependencies",
-      "target": "package_devdependencies_types_node",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L40",
-      "weight": 1.0,
-      "source": "package_devdependencies",
-      "target": "package_devdependencies_types_react",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L41",
-      "weight": 1.0,
-      "source": "package_devdependencies",
-      "target": "package_devdependencies_types_react_dom",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "package.json",
-      "source_location": "L42",
-      "weight": 1.0,
-      "source": "package_devdependencies",
-      "target": "package_devdependencies_types_react_slick",
+      "target": "package_devdependencies_eslint_config_next",
       "confidence_score": 1.0
     },
     {
@@ -18397,7 +18703,257 @@
       "source_location": "L46",
       "weight": 1.0,
       "source": "package_devdependencies",
+      "target": "package_devdependencies_tailwindcss",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L39",
+      "weight": 1.0,
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_tailwindcss_postcss",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L40",
+      "weight": 1.0,
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_types_node",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L41",
+      "weight": 1.0,
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_types_react",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L42",
+      "weight": 1.0,
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_types_react_dom",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L43",
+      "weight": 1.0,
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_types_react_slick",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L47",
+      "weight": 1.0,
+      "source": "package_devdependencies",
       "target": "package_devdependencies_typescript",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/aimk-image-spec/package.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "source": "packages_aimk_image_spec_package",
+      "target": "packages_aimk_image_spec_package_description",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/aimk-image-spec/package.json",
+      "source_location": "L28",
+      "weight": 1.0,
+      "source": "packages_aimk_image_spec_package",
+      "target": "packages_aimk_image_spec_package_devdependencies",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/aimk-image-spec/package.json",
+      "source_location": "L8",
+      "weight": 1.0,
+      "source": "packages_aimk_image_spec_package",
+      "target": "packages_aimk_image_spec_package_exports",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/aimk-image-spec/package.json",
+      "source_location": "L5",
+      "weight": 1.0,
+      "source": "packages_aimk_image_spec_package",
+      "target": "packages_aimk_image_spec_package_main",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/aimk-image-spec/package.json",
+      "source_location": "L6",
+      "weight": 1.0,
+      "source": "packages_aimk_image_spec_package",
+      "target": "packages_aimk_image_spec_package_module",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/aimk-image-spec/package.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "source": "packages_aimk_image_spec_package",
+      "target": "packages_aimk_image_spec_package_name",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/aimk-image-spec/package.json",
+      "source_location": "L22",
+      "weight": 1.0,
+      "source": "packages_aimk_image_spec_package",
+      "target": "packages_aimk_image_spec_package_scripts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/aimk-image-spec/package.json",
+      "source_location": "L7",
+      "weight": 1.0,
+      "source": "packages_aimk_image_spec_package",
+      "target": "packages_aimk_image_spec_package_types",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/aimk-image-spec/package.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "source": "packages_aimk_image_spec_package",
+      "target": "packages_aimk_image_spec_package_version",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/aimk-image-spec/package.json",
+      "source_location": "L16",
+      "weight": 1.0,
+      "source": "packages_aimk_image_spec_package_exports",
+      "target": "packages_aimk_image_spec_package_types",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/aimk-image-spec/package.json",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "packages_aimk_image_spec_package_exports",
+      "target": "packages_aimk_image_spec_package_default",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/aimk-image-spec/package.json",
+      "source_location": "L17",
+      "weight": 1.0,
+      "source": "packages_aimk_image_spec_package_exports",
+      "target": "packages_aimk_image_spec_package_import",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/aimk-image-spec/package.json",
+      "source_location": "L18",
+      "weight": 1.0,
+      "source": "packages_aimk_image_spec_package_exports",
+      "target": "packages_aimk_image_spec_package_require",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/aimk-image-spec/package.json",
+      "source_location": "L23",
+      "weight": 1.0,
+      "source": "packages_aimk_image_spec_package_scripts",
+      "target": "packages_aimk_image_spec_package_scripts_build",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/aimk-image-spec/package.json",
+      "source_location": "L25",
+      "weight": 1.0,
+      "source": "packages_aimk_image_spec_package_scripts",
+      "target": "packages_aimk_image_spec_package_scripts_docs",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/aimk-image-spec/package.json",
+      "source_location": "L24",
+      "weight": 1.0,
+      "source": "packages_aimk_image_spec_package_scripts",
+      "target": "packages_aimk_image_spec_package_scripts_sync",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/aimk-image-spec/package.json",
+      "source_location": "L26",
+      "weight": 1.0,
+      "source": "packages_aimk_image_spec_package_scripts",
+      "target": "packages_aimk_image_spec_package_scripts_typecheck",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/aimk-image-spec/package.json",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "packages_aimk_image_spec_package_devdependencies",
+      "target": "packages_aimk_image_spec_package_devdependencies_types_node",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/aimk-image-spec/package.json",
+      "source_location": "L30",
+      "weight": 1.0,
+      "source": "packages_aimk_image_spec_package_devdependencies",
+      "target": "packages_aimk_image_spec_package_devdependencies_typescript",
       "confidence_score": 1.0
     },
     {
@@ -19672,5 +20228,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "f107a8dab5a7946e62c0dbcf732f1c6f07442382"
+  "built_at_commit": "14828448ffb244e4f27f5bf3b2455eccdde7ed3b"
 }

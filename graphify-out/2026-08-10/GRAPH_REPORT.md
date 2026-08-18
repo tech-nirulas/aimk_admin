@@ -1,13 +1,18 @@
-# Graph Report - .  (2026-08-01)
+# Graph Report - aimk_admin  (2026-08-10)
 
 ## Corpus Check
-- 33 files · ~44,710 words
+- 157 files · ~54,594 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 524 nodes · 829 edges · 51 communities (26 shown, 25 thin omitted)
-- Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 3 edges (avg confidence: 0.85)
-- Token cost: 150 input · 100 output
+- 682 nodes · 1208 edges · 77 communities (39 shown, 38 thin omitted)
+- Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS
+- Token cost: 0 input · 0 output
+
+## Graph Freshness
+- Built from commit: `f107a8da`
+- Run `git rev-parse HEAD` and compare to check if the graph is stale.
+- Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - [[_COMMUNITY_Admin Pages & Routing|Admin Pages & Routing]]
@@ -30,8 +35,11 @@
 - [[_COMMUNITY_GSAP Animation Hooks|GSAP Animation Hooks]]
 - [[_COMMUNITY_Architecture Rules & UI Patterns|Architecture Rules & UI Patterns]]
 - [[_COMMUNITY_Environment Scripts & Variables|Environment Scripts & Variables]]
+- [[_COMMUNITY_Discounts Management Forms|Discounts Management Forms]]
 - [[_COMMUNITY_Development Logs & Agent Specs|Development Logs & Agent Specs]]
 - [[_COMMUNITY_Data Flow & Reducers|Data Flow & Reducers]]
+- [[_COMMUNITY_Generic Admin Subpages|Generic Admin Subpages]]
+- [[_COMMUNITY_Section Header UI Component|Section Header UI Component]]
 - [[_COMMUNITY_ESLint Rules Configuration|ESLint Rules Configuration]]
 - [[_COMMUNITY_Parameters Type Definitions|Parameters Type Definitions]]
 - [[_COMMUNITY_Next.js Configuration|Next.js Configuration]]
@@ -55,87 +63,144 @@
 - [[_COMMUNITY_Reviews RTK Query Hooks|Reviews RTK Query Hooks]]
 - [[_COMMUNITY_Admin Users & Roles RTK Hooks|Admin Users & Roles RTK Hooks]]
 - [[_COMMUNITY_Next.js Framework Metadata|Next.js Framework Metadata]]
+- [[_COMMUNITY_CustomerDetailModal.tsx|CustomerDetailModal.tsx]]
+- [[_COMMUNITY_MediaPickerModal.tsx|MediaPickerModal.tsx]]
+- [[_COMMUNITY_brandApiService.ts|brandApiService.ts]]
+- [[_COMMUNITY_discountApiService.ts|discountApiService.ts]]
+- [[_COMMUNITY_outletsApiService.ts|outletsApiService.ts]]
+- [[_COMMUNITY_Architecture Reference AIMK Admin Panel|Architecture Reference: AIMK Admin Panel]]
+- [[_COMMUNITY_paymentApiService.ts|paymentApiService.ts]]
+- [[_COMMUNITY_Workspace Rules AIMK Admin Panel (Next.js)|Workspace Rules: AIMK Admin Panel (Next.js)]]
+- [[_COMMUNITY_Documentation Maintenance Policy AIMK Admin Panel|Documentation Maintenance Policy: AIMK Admin Panel]]
+- [[_COMMUNITY_customerApiService.ts|customerApiService.ts]]
+- [[_COMMUNITY_inventoryApiService.ts|inventoryApiService.ts]]
+- [[_COMMUNITY_analytics.interface.ts|analytics.interface.ts]]
+- [[_COMMUNITY_README|README.md]]
+- [[_COMMUNITY_AGENTS|AGENTS.md]]
+- [[_COMMUNITY_Dynamic Redux Reducers|Dynamic Redux Reducers]]
+- [[_COMMUNITY_Formik & Yup Forms|Formik & Yup Forms]]
+- [[_COMMUNITY_Documentation Maintenance Policy|Documentation Maintenance Policy]]
+- [[_COMMUNITY_Designing UI Changes|Designing UI Changes]]
+- [[_COMMUNITY_Form Component Pattern|Form Component Pattern]]
+- [[_COMMUNITY_Workspace Rules (AGENTS.md)|Workspace Rules (AGENTS.md)]]
+- [[_COMMUNITY_Development Log (LOG.md)|Development Log (LOG.md)]]
+- [[_COMMUNITY_{   useLoginMutation,   useFetchUserQuery,   useLazyFetchUserQuery,   useVerifyTokenMutation,   useRefreshTokenMutation,   useLogoutBackendMutation,   useLogoutAllMutation,   useGetSessionsQuery,   useLazyGetSessionsQuery,   useRevokeSessionMutation, }|{
+  useLoginMutation,
+  useFetchUserQuery,
+  useLazyFetchUserQuery,
+  useVerifyTokenMutation,
+  useRefreshTokenMutation,
+  useLogoutBackendMutation,
+  useLogoutAllMutation,
+  useGetSessionsQuery,
+  useLazyGetSessionsQuery,
+  useRevokeSessionMutation,
+}]]
+- [[_COMMUNITY_{   useGetCustomersQuery,   useGetCustomerByIdQuery,   useUpdateCustomerLoyaltyMutation, }|{
+  useGetCustomersQuery,
+  useGetCustomerByIdQuery,
+  useUpdateCustomerLoyaltyMutation,
+}]]
+- [[_COMMUNITY_{   useGetBatchesQuery,   useCreateBatchMutation,   useUpdateBatchMutation,   useDeleteBatchMutation, }|{
+  useGetBatchesQuery,
+  useCreateBatchMutation,
+  useUpdateBatchMutation,
+  useDeleteBatchMutation,
+}]]
+- [[_COMMUNITY_{   useGetAdminUsersQuery,   useGetRolesQuery,   useCreateRoleMutation,   useDeleteRoleMutation,   useGetRolePermissionsQuery,   useUpdateRolePermissionsMutation,   useCreateAdminUserMutation,   useUpdateAdminUserMutation,   useUpdateUserRoleMutation,   useGetSidebarModulesQuery, }|{
+  useGetAdminUsersQuery,
+  useGetRolesQuery,
+  useCreateRoleMutation,
+  useDeleteRoleMutation,
+  useGetRolePermissionsQuery,
+  useUpdateRolePermissionsMutation,
+  useCreateAdminUserMutation,
+  useUpdateAdminUserMutation,
+  useUpdateUserRoleMutation,
+  useGetSidebarModulesQuery,
+}]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `useFormDrawer()` - 25 edges
-2. `compilerOptions` - 16 edges
-3. `useConfirmDialog()` - 15 edges
-4. `useToast()` - 11 edges
-5. `Brand` - 11 edges
-6. `Category` - 10 edges
-7. `Root` - 9 edges
-8. `createBaseQuery()` - 9 edges
-9. `Product` - 8 edges
-10. `User` - 8 edges
+1. `useFormDrawer()` - 45 edges
+2. `useToast()` - 31 edges
+3. `useConfirmDialog()` - 21 edges
+4. `AIMK Admin Panel — Development Log` - 21 edges
+5. `createBaseQuery()` - 17 edges
+6. `compilerOptions` - 16 edges
+7. `Brand` - 12 edges
+8. `Category` - 12 edges
+9. `MaterialTextField()` - 9 edges
+10. `saveEncryptedToken()` - 9 edges
 
 ## Surprising Connections (you probably didn't know these)
+- `CustomerDetailModal()` --calls--> `useToast()`  [EXTRACTED]
+  components/ui/Customer/CustomerDetailModal.tsx → hooks/useToast.ts
+- `UserForm()` --references--> `yup`  [EXTRACTED]
+  components/ui/User/UserForm.tsx → package.json
 - `Login()` --calls--> `useToast()`  [EXTRACTED]
   app/(auth)/login/page.tsx → hooks/useToast.ts
-- `Navbar()` --calls--> `useConfirmDialog()`  [EXTRACTED]
-  components/layout/Navbar.tsx → lib/DialogProvider.tsx
-- `CategoryActions()` --calls--> `useFormDrawer()`  [EXTRACTED]
-  components/ui/Category/CategoryActions.tsx → lib/FormDrawerProvider.tsx
-- `FormDrawer()` --calls--> `useFormDrawer()`  [EXTRACTED]
-  components/ui/FormDrawer.tsx → lib/FormDrawerProvider.tsx
-- `AuthState` --references--> `User`  [EXTRACTED]
-  features/auth/authSlice.ts → interfaces/user.interface.ts
+- `BrandsPage()` --calls--> `useConfirmDialog()`  [EXTRACTED]
+  app/admin/brands/page.tsx → lib/DialogProvider.tsx
+- `CategoriesPage()` --calls--> `useFormDrawer()`  [EXTRACTED]
+  app/admin/categories/page.tsx → lib/FormDrawerProvider.tsx
 
 ## Import Cycles
-- None detected.
+- 3-file cycle: `features/cart/cartSlice.ts -> lib/store.ts -> redux/reducer.ts -> features/cart/cartSlice.ts`
+- 3-file cycle: `features/api/baseQuery.ts -> features/auth/authSlice.ts -> features/auth/authApiService.ts -> features/api/baseQuery.ts`
 
-## Communities (51 total, 25 thin omitted)
+## Communities (77 total, 38 thin omitted)
 
 ### Community 0 - "Admin Pages & Routing"
 Cohesion: 0.05
-Nodes (50): BrandsPage(), CategoriesPage(), LegalEntitiesPage(), CategoriesPage(), OutletsPage(), ProductsPage(), MaterialDateFieldProps, MaterialFreeInputMultiSelectProps (+42 more)
+Nodes (51): BrandsPage(), DiscountsPage(), InventoryPage(), LegalEntitiesPage(), MaterialDateField(), MaterialDateFieldProps, MaterialFreeInputMultiSelectProps, MaterialMultiSelectField() (+43 more)
 
 ### Community 1 - "API Endpoints Definitions"
-Cohesion: 0.09
-Nodes (41): EndpointDefinitions, categoryEndpoints(), EndpointDefinitions, EndpointDefinitions, EndpointDefinitions, EndpointDefinitions, Brand, CreateBrandPayload (+33 more)
+Cohesion: 0.06
+Nodes (54): brandEndpoints(), EndpointDefinitions, categoryEndpoints(), EndpointDefinitions, discountEndpoints(), EndpointDefinitions, EndpointDefinitions, legalEntitiesEndpoints() (+46 more)
 
 ### Community 2 - "Cake Customizations & Offers"
-Cohesion: 0.05
-Nodes (21): STATUS_COLORS, STATUS_CHIPS, STATUS_CHIPS, baseQuery, cakeApiService, cakeEndpoints(), EndpointDefinitions, offerApiService (+13 more)
+Cohesion: 0.08
+Nodes (23): CategoriesPage(), OffersPage(), CategoriesPage(), OutletsPage(), STATUS_CHIPS, ReviewsPage(), NAV_LINKS, Navbar() (+15 more)
 
 ### Community 3 - "Admin Layout & Typography"
-Cohesion: 0.06
-Nodes (25): cormorant, dmMono, lato, metadata, playfair, MENU_ITEMS, FormDrawerProvider(), ModalContext (+17 more)
+Cohesion: 0.07
+Nodes (24): cormorant, dmMono, lato, metadata, playfair, FormDrawerProvider(), ModalContext, ModalContextValue (+16 more)
 
 ### Community 4 - "Discount Redux & API Service"
-Cohesion: 0.07
-Nodes (26): baseQuery, discountApiService, discountEndpoints(), discountSlice, initialState, baseQuery, mediaApiService, EndpointDefinitions (+18 more)
+Cohesion: 0.19
+Nodes (11): ProductsPage(), UsersPage(), ProtectedComponent(), ProtectedComponentProps, UnauthorizedAccess(), baseQuery, productApiService, productsEndpoints() (+3 more)
 
 ### Community 5 - "Authentication & Login Flow"
-Cohesion: 0.09
-Nodes (20): Login(), LoginValues, MaterialPasswordField(), baseQuery, CartItem, cartSlice, CartState, initialState (+12 more)
+Cohesion: 0.07
+Nodes (33): Login(), LoginValues, AdminLayout(), ICON_MAP, baseQuery, baseQueryWithReauth(), performRefresh(), authApiService (+25 more)
 
 ### Community 6 - "Media Picker & Grid Components"
-Cohesion: 0.06
-Nodes (32): formatBytes(), MediaGridItem(), MediaItem, MediaListItem(), MediaPickerModalProps, TYPE_COLORS, TYPE_ICONS, dependencies (+24 more)
+Cohesion: 0.05
+Nodes (43): dependencies, @aimk/permissions, dayjs, @emotion/cache, @emotion/react, @emotion/server, @emotion/styled, formik (+35 more)
 
 ### Community 7 - "TypeScript Build Configuration"
 Cohesion: 0.10
 Nodes (19): compilerOptions, allowJs, esModuleInterop, incremental, isolatedModules, jsx, lib, module (+11 more)
 
 ### Community 8 - "Package Dependencies & Tailwind CSS"
-Cohesion: 0.11
-Nodes (18): devDependencies, eslint, eslint-config-next, tailwindcss, @tailwindcss/postcss, @types/node, @types/react, @types/react-dom (+10 more)
+Cohesion: 0.05
+Nodes (41): default, description, devDependencies, @nestjs/common, @nestjs/core, react, reflect-metadata, ts-node (+33 more)
 
 ### Community 9 - "Legal Entities API Service"
-Cohesion: 0.20
-Nodes (11): baseQuery, legalEntityApiService, EndpointDefinitions, legalEntitiesEndpoints(), initialState, legalEntitySlice, CreateLegalEntityPayload, GetLegalEntitiesResponse (+3 more)
+Cohesion: 0.40
+Nodes (4): baseQuery, legalEntityApiService, initialState, legalEntitySlice
 
 ### Community 10 - "Users Management & RBAC Permissions"
-Cohesion: 0.19
-Nodes (7): RoleForm(), roleSchema, ACTIONS, SUBJECTS, UserForm(), userApiService, userEndpoints()
+Cohesion: 0.25
+Nodes (6): baseQuery, mediaApiService, EndpointDefinitions, mediaEndpoints(), userApiService, userEndpoints()
 
 ### Community 11 - "Product Forms & Allergen Inputs"
-Cohesion: 0.15
-Nodes (7): COMMON_ALLERGENS, DIETARY_OPTIONS, GST_RATES, PRODUCT_UNITS, ProductForm(), renderStep(), STEPS
+Cohesion: 0.09
+Nodes (21): [2026-07-31] Milestone 4: Customize Cake (Step 4 - Admin Panel Page), [2026-07-31] Milestone 5: Offers System & Hero Carousel (FormDrawer & MediaPicker Update), [2026-07-31] Milestone 6: Payment Service + COD (Step 4 - Admin Payments & Refunds), [2026-07-31] Milestone 7: Outlet Auto-Assignment & Order Detail View (Steps 3 & 4), [2026-07-31] Milestone 8: Product Reviews & Ratings System, [2026-07-31] Milestone 9: Role-Based Access Control (RBAC), Edit User & Permissions Matrix, [2026-07-31] Project Rules & Milestone Initialization, [2026-08-01] Milestone 10: Inventory & Batch Management System (+13 more)
 
 ### Community 12 - "Auth State & Localization"
-Cohesion: 0.40
-Nodes (8): authApiService, authSlice, AuthState, initialState, Localization, Permission, Role, User
+Cohesion: 0.37
+Nodes (9): ACTIONS, RolePermissionsModal(), SUBJECTS, SYSTEM_MODULES, AuthState, Localization, Permission, Role (+1 more)
 
 ### Community 13 - "Media Viewer & Detail Dialogs"
 Cohesion: 0.26
@@ -153,37 +218,97 @@ Nodes (5): fadeInUp, float, pulse, rotate, shimmer
 Cohesion: 0.53
 Nodes (5): buildGoogleMapsUrl(), Coordinates, CoordinatesInput(), isValidLat(), isValidLng()
 
-### Community 18 - "Architecture Rules & UI Patterns"
-Cohesion: 0.40
-Nodes (5): MUI X-Data-Grid Wrapper, Formik & Yup Forms, Documentation Maintenance Policy, Designing UI Changes, Form Component Pattern
-
 ### Community 19 - "Environment Scripts & Variables"
 Cohesion: 0.40
 Nodes (4): NEXT_PUBLIC_BASE_API_URL, NEXT_PUBLIC_ENV, NEXT_PUBLIC_MEDIA_BASE_URL, local.sh script
 
-### Community 21 - "Development Logs & Agent Specs"
-Cohesion: 0.67
-Nodes (3): Role-Based Access Control (RBAC), Workspace Rules (AGENTS.md), Development Log (LOG.md)
+### Community 20 - "Discounts Management Forms"
+Cohesion: 0.18
+Nodes (10): 1. Ask (Information Gathering), 2. Plan (Designing UI Changes), 3. Architect (Coding Patterns), 4. Orchestrate (Execution Steps), 5. Debug & Error Resolver, Agent Workflows: AIMK Admin Panel, MUI SSR / Hydration Warning, Port Collision (7070) (+2 more)
+
+### Community 23 - "Generic Admin Subpages"
+Cohesion: 0.33
+Nodes (3): analyticsApiService, { useGetDashboardMetricsQuery }, analyticsEndpoints()
+
+### Community 26 - "Section Header UI Component"
+Cohesion: 0.22
+Nodes (5): STATUS_COLORS, baseQuery, cakeApiService, cakeEndpoints(), EndpointDefinitions
+
+### Community 31 - "Discount Validator Logic"
+Cohesion: 0.20
+Nodes (9): compilerOptions, declaration, esModuleInterop, jsx, module, outDir, strict, target (+1 more)
+
+### Community 35 - "Auth RTK Query Hooks"
+Cohesion: 0.25
+Nodes (5): STATUS_CHIPS, baseQuery, orderApiService, EndpointDefinitions, orderEndpoints()
+
+### Community 49 - "Admin Users & Roles RTK Hooks"
+Cohesion: 0.36
+Nodes (5): reviewApiService, reviewEndpoints(), decryptToken(), getDecryptedToken(), createBaseQuery()
+
+### Community 51 - "CustomerDetailModal.tsx"
+Cohesion: 0.36
+Nodes (4): CustomerDetailModal(), Customer, CustomerAddress, CustomerOrder
+
+### Community 52 - "MediaPickerModal.tsx"
+Cohesion: 0.29
+Nodes (5): formatBytes(), MediaListItem(), MediaPickerModalProps, TYPE_COLORS, TYPE_ICONS
+
+### Community 53 - "brandApiService.ts"
+Cohesion: 0.40
+Nodes (4): baseQuery, brandApiService, brandSlice, initialState
+
+### Community 54 - "discountApiService.ts"
+Cohesion: 0.40
+Nodes (4): baseQuery, discountApiService, discountSlice, initialState
+
+### Community 55 - "outletsApiService.ts"
+Cohesion: 0.40
+Nodes (4): baseQuery, outletApiService, initialState, outletSlice
+
+### Community 56 - "Architecture Reference: AIMK Admin Panel"
+Cohesion: 0.40
+Nodes (4): 1. Directory Structure, 2. Core Concepts & Styling, 3. Data Flow & Integration, Architecture Reference: AIMK Admin Panel
+
+### Community 57 - "paymentApiService.ts"
+Cohesion: 0.50
+Nodes (3): paymentApiService, EndpointDefinitions, paymentEndpoints()
+
+### Community 58 - "Workspace Rules: AIMK Admin Panel (Next.js)"
+Cohesion: 0.50
+Nodes (3): Critical Rules & Guidelines, Workspace Directories & References, Workspace Rules: AIMK Admin Panel (Next.js)
+
+### Community 59 - "Documentation Maintenance Policy: AIMK Admin Panel"
+Cohesion: 0.50
+Nodes (3): 1. Trigger Events for Documentation Updates, 2. Synchronization Checklist, Documentation Maintenance Policy: AIMK Admin Panel
+
+### Community 62 - "analytics.interface.ts"
+Cohesion: 0.50
+Nodes (3): DashboardMetricsResponse, DashboardOverview, TopProductItem
+
+### Community 63 - "README.md"
+Cohesion: 0.50
+Nodes (3): Deploy on Vercel, Getting Started, Learn More
 
 ## Knowledge Gaps
-- **195 isolated node(s):** `LoginValues`, `metadata`, `playfair`, `lato`, `cormorant` (+190 more)
+- **283 isolated node(s):** `LoginValues`, `STATUS_COLORS`, `MediaItem`, `TYPE_ICONS`, `TYPE_COLORS` (+278 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **25 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **38 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `dependencies` connect `Media Picker & Grid Components` to `Package Dependencies & Tailwind CSS`?**
-  _High betweenness centrality (0.122) - this node is a cross-community bridge._
-- **What connects `LoginValues`, `metadata`, `playfair` to the rest of the system?**
-  _199 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Why does `UserForm()` connect `Admin Pages & Routing` to `Discount Redux & API Service`, `Auth State & Localization`, `Media Picker & Grid Components`?**
+  _High betweenness centrality (0.085) - this node is a cross-community bridge._
+- **Why does `yup` connect `Media Picker & Grid Components` to `Admin Pages & Routing`?**
+  _High betweenness centrality (0.083) - this node is a cross-community bridge._
+- **What connects `LoginValues`, `STATUS_COLORS`, `MediaItem` to the rest of the system?**
+  _287 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Admin Pages & Routing` be split into smaller, more focused modules?**
-  _Cohesion score 0.05246913580246913 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05378151260504202 - nodes in this community are weakly interconnected._
 - **Should `API Endpoints Definitions` be split into smaller, more focused modules?**
-  _Cohesion score 0.0859538784067086 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.0639386189258312 - nodes in this community are weakly interconnected._
 - **Should `Cake Customizations & Offers` be split into smaller, more focused modules?**
-  _Cohesion score 0.0545790934320074 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.07549361207897794 - nodes in this community are weakly interconnected._
 - **Should `Admin Layout & Typography` be split into smaller, more focused modules?**
-  _Cohesion score 0.057692307692307696 - nodes in this community are weakly interconnected._
-- **Should `Discount Redux & API Service` be split into smaller, more focused modules?**
-  _Cohesion score 0.07254623044096728 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.07196969696969698 - nodes in this community are weakly interconnected._
