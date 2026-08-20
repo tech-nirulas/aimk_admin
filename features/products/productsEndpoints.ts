@@ -17,10 +17,19 @@ export const productsEndpoints = (builder: EndpointDefinitions) => ({
     }),
     invalidatesTags: ["Product"],
   }),
-  getAllProducts: builder.query<GetProductsResponse, null>({
-    query: () => ({
+  getAllProducts: builder.query<
+    GetProductsResponse,
+    { isActive?: boolean; search?: string } | void
+  >({
+    query: (params) => ({
       url: "product",
       method: "GET",
+      params: params
+        ? {
+            ...(params.search && { search: params.search }),
+            ...(params.isActive !== undefined && { isActive: params.isActive }),
+          }
+        : undefined,
     }),
     providesTags: ["Product"],
   }),

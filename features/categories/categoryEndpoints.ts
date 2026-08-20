@@ -41,10 +41,19 @@ export const categoryEndpoints = (builder: EndpointDefinitions) => ({
     }),
     providesTags: ["Category"],
   }),
-  getAllCategories: builder.query<PaginatedCategoriesResponse, void>({
-    query: () => ({
+  getAllCategories: builder.query<
+    PaginatedCategoriesResponse,
+    { isActive?: boolean; search?: string } | void
+  >({
+    query: (params) => ({
       url: "category",
       method: "GET",
+      params: params
+        ? {
+            ...(params.isActive !== undefined && { isActive: params.isActive }),
+            ...(params.search && { search: params.search }),
+          }
+        : undefined,
     }),
     providesTags: ["Category"],
   }),

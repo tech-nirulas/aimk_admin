@@ -1,5 +1,15 @@
 # AIMK Admin Panel — Development Log
 
+## [2026-08-20] Product Query Filtering Endpoint Alignment
+
+- Updated `productsEndpoints.ts` (`features/products/productsEndpoints.ts`): Extended `getAllProducts` to accept `{ isActive?: boolean; search?: string } | void` so forms and dropdowns can optionally filter active or fetch all products.
+- Verified `app/admin/products/page.tsx` pagination query forwards `isActive: undefined` for "All" (now correctly returning all active & inactive products following backend update).
+
+## [2026-08-20] Category Query Filtering Endpoint Alignment
+
+- Updated `categoryEndpoints.ts` (`features/categories/categoryEndpoints.ts`): Extended `getAllCategories` to accept `{ isActive?: boolean; search?: string } | void` so forms and dropdowns can optionally filter active or fetch all categories.
+- Verified `app/admin/categories/page.tsx` pagination query properly forwards `isActive: undefined` for "All", `isActive: true` for "Active", and `isActive: false` for "Inactive".
+
 ## [2026-08-08] Vercel Build Fix for Shared Permissions Package (@aimk/permissions)
 - Bundled `@aimk/permissions` package inside `packages/aimk-permissions` within the `aimk_admin` repository.
 - Updated [package.json](file:///home/ujjwal/Desktop/angels_projects/aimk_admin/package.json#L12) dependency from `"file:../aimk-permissions"` to `"file:./packages/aimk-permissions"`.
