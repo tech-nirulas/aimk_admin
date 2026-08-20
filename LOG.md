@@ -1,5 +1,69 @@
 # AIMK Admin Panel — Development Log
 
+## [2026-08-20] Admin Orders Table Payment Column & Online Gateway Details
+
+- **Orders Table (`app/admin/orders/page.tsx`)**:
+  - Enhanced Payment column with method badge (`💵 COD` vs `💳 Online`), status chip (`Pending`, `Captured`, `Failed`, `Refunded`), and a quick action button ("Collect Cash") for pending COD orders.
+  - Added Snackbar toast notifications for status updates and instant cash collection feedback.
+- **Order Details (`app/admin/orders/[id]/page.tsx`)**:
+  - Added click-to-copy buttons for Razorpay Payment ID, Gateway Order ID, and Refund ID with toast notifications.
+  - Enhanced online payment display when awaiting gateway callbacks or when transactions are captured/refunded.
+
+## [2026-08-20] Order Status Alignment, Payment Details & COD Collection
+
+Three reported bugs, two of which were the same class of problem: hardcoded status lists that had drifted apart.
+
+**1. Order statuses now come from one place**
+
+The three screens each shipped a different list, and the admin grid's differed from the backend enum:
+
+| Screen | Statuses offered before |
+|---|---|
+| Prisma `OrderStatus` (truth) | pending, confirmed, payment_failed, processing, ready, out_for_delivery, delivered, cancelled, refunded |
+| Admin orders grid | pending, confirmed, **completed** *(not a valid enum value)*, payment_failed, cancelled |
+| Admin order detail | pending, confirmed, processing, delivered, cancelled |
+| Storefront (both screens) | all 9 — correct, but duplicated inline in two files |
+
+Selecting "Completed" in the grid sent an invalid enum value and the request failed with HTTP 500. Five valid statuses could not be set or filtered from the admin at all, and an order in one of them rendered with a blank status cell.
+
+- Added `utils/orderStatus.ts` — the canonical list plus `getOrderStatusConfig()` (labels + chip colours), with the Prisma enum named as the source of truth. `angels/utils/orderStatus.ts` is a byte-identical copy; the two must move together.
+- Added `components/common/OrderStatusSelect.tsx`, used by **both** the grid and the detail page so they cannot drift again. An unrecognised status renders as a disabled option instead of an empty box.
+- Storefront: deleted the two duplicated `STATUS_CONFIG` maps in favour of the shared helper, and dropped a dead `"completed"` check in the review gate.
+- Same treatment for payment statuses: `utils/paymentStatus.ts` now backs the Payments grid, which was also missing `PARTIALLY_REFUNDED` from both its chip map and its filter.
+
+**2. Payment details and COD collection on the order detail page**
+
+- The Payment card previously showed only the method and `order.paymentStatus`. It now lists every payment record for the order — amount, status, Razorpay **Payment ID** and Gateway Order ID, method/bank/wallet/VPA, captured/failed timestamps, gateway error, and refund id/amount — so an admin can tie a gateway transaction to the order without cross-referencing the Payments screen.
+- COD orders get a **Mark Cash Received** action (`useMarkCodCollectedMutation`), which is the only way a cash order's payment ever reaches `CAPTURED`. Once collected the panel switches to a confirmation with the timestamp.
+- Both payment mutations now invalidate the `Order` tag via `onQueryStarted`, because orders live in a separate api service with its own tag registry.
+
+**Verified in the browser**: both admin status dropdowns list the same 9 statuses; the COD panel flipped from "not recorded" to "Cash received on …" in place after one click; an online order shows its `pay_…` transaction id and UPI VPA directly on the order page.
+
+## [2026-08-20] Realtime Orders & Payments (Socket.IO → RTK Query cache)
+
+The admin Orders and Payments grids now update themselves when the backend emits an event — no page refresh, no polling, and no full list refetch. REST remains the only way data is loaded; the socket only patches caches that already exist.
+
+**New files**
+- `features/realtime/realtimeEvents.ts` — mirror of the backend contract (rooms, event names, envelope) plus `createEventDeduper()`, a bounded LRU of `eventId`s that discards redelivered events and the double-reporting of a payment capture by both the Razorpay webhook and the frontend verify-payment callback.
+- `features/realtime/socketClient.ts` — one shared `socket.io-client` connection to `${NEXT_PUBLIC_BASE_API_URL}/realtime`. Token is supplied via an `auth` **callback** so each reconnection attempt re-reads a freshly refreshed token. `autoConnect: false`; infinite retries with 1s→10s backoff.
+- `features/realtime/realtimeCache.ts` — the heart of the feature. Enumerates cached query entries with `api.util.selectCachedArgsForQuery(...)` and patches each one via `api.util.updateQueryData(...)`:
+  - Patching is **filter-aware**: `ORDER_LIST_SPEC` / `PAYMENT_LIST_SPEC` mirror the server-side `where` clauses (status filter + the search OR-clause), so a record is only spliced into a cached page it genuinely belongs to.
+  - Inserts happen only on page 1 under the default newest-first sort; on other pages/sorts only `meta.totalItems` / `totalPages` are corrected, so pagination stays honest without inventing row positions.
+  - A record that no longer matches a filter is removed and the total decremented. A record that *just entered* a filter is inserted — gated on `meta.previousStatus` differing from the filter, which is what prevents double-counting a record already sitting on another page.
+  - Creates are idempotent (id checked before insert), so a duplicate event cannot duplicate a row.
+  - Detail caches (`getAdminOrder`, `getPayment`) are patched too, so an open order-detail page stays live.
+- `features/realtime/refreshAccessToken.ts` — standalone token refresh. Access tokens last 15 minutes and the server closes the socket at `exp`; socket.io does not auto-reconnect after a server-initiated close, so the provider refreshes and reconnects manually (1s→15s backoff). **This helper deliberately does not import the RTK Query `baseQuery`**: doing so pulls it into the pre-existing `baseQuery → authSlice → authApiService` cycle and throws `Cannot access 'baseQueryWithReauth' before initialization` at page load.
+- `lib/RealtimeProvider.tsx` — connects only when authenticated, wires the four events to the cache patchers, tears the socket down on logout, and exposes `useRealtime()` (`status`, `isConnected`, `rooms`, `lastEventAt`). Distinguishes fatal auth failures (`FORBIDDEN`, `ACCOUNT_DISABLED`, …) which stop retrying, from retryable ones (`TOKEN_EXPIRED`, …) which refresh and reconnect. On *re*connect only, invalidates the `Order`/`Payment` tags once so RTK Query refetches just the mounted queries — recovering events missed while offline. This is the single intentional refetch.
+- `components/common/RealtimeStatus.tsx` — Live / Reconnecting / Offline chip, so the connection state is visible rather than silent.
+
+**Modified**
+- `lib/Providers.tsx` — `RealtimeProvider` mounted inside `AuthProvider` (it needs auth state).
+- `app/admin/orders/page.tsx`, `app/admin/payments/page.tsx` — added the status chip beside each title. No changes to how either page fetches data.
+- Dependency added: `socket.io-client`.
+
+**Verified in a real browser against the running backend**: a customer placing an order made the row appear at the top of the Orders grid with the count going 8→9 and **exactly one** network request in the whole session (the initial load); a refund triggered from outside the browser flipped a Payments row from PENDING to REFUNDED in place; under a `REFUNDED` filter a newly created PENDING payment was correctly ignored while a fresh refund correctly entered the view (1→2); under a `PENDING` filter a refund removed the row and dropped the count (8→7); two admin tabs updated simultaneously; killing the backend flipped the chip to "Reconnecting…" while the grid stayed usable, and restarting it restored "Live" and pulled in a change made directly in the database while the socket was down.
+
+
 ## [2026-08-20] Product Query Filtering Endpoint Alignment
 
 - Updated `productsEndpoints.ts` (`features/products/productsEndpoints.ts`): Extended `getAllProducts` to accept `{ isActive?: boolean; search?: string } | void` so forms and dropdowns can optionally filter active or fetch all products.

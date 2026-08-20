@@ -7,6 +7,7 @@ import ThemeRegistry from "@/lib/ThemeRegistry";
 import { ToastProvider } from "@/lib/ToastProvider";
 import { FormDrawerProvider } from "./FormDrawerProvider";
 import { AuthProvider } from "./AuthProvider";
+import { RealtimeProvider } from "./RealtimeProvider";
 import { ConfirmDialogProvider } from "./DialogProvider";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -18,13 +19,15 @@ export function Providers({ children }: { children: React.ReactNode }) {
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <ToastProvider>
             <AuthProvider>
-              <FormDrawerProvider>
-                <ModalProvider>
-                  <ConfirmDialogProvider>
-                    {children}
-                  </ConfirmDialogProvider>
-                </ModalProvider>
-              </FormDrawerProvider>
+              <RealtimeProvider>
+                <FormDrawerProvider>
+                  <ModalProvider>
+                    <ConfirmDialogProvider>
+                      {children}
+                    </ConfirmDialogProvider>
+                  </ModalProvider>
+                </FormDrawerProvider>
+              </RealtimeProvider>
             </AuthProvider>
           </ToastProvider>
         </LocalizationProvider>

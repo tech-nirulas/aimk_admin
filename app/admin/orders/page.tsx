@@ -1,25 +1,35 @@
 "use client";
 
 import {
+  Alert,
   Box,
   Button,
+  Chip,
   FormControl,
   InputLabel,
   MenuItem,
   Paper,
   Select,
+  Snackbar,
   TextField,
   Typography,
   debounce,
 } from "@mui/material";
 import { useCallback, useMemo, useState } from "react";
 import { FaSearch } from "react-icons/fa";
+import PaymentsIcon from "@mui/icons-material/Payments";
 import { useRouter } from "next/navigation";
 import TableComponent from "@/components/common/DataTable";
+import RealtimeStatus from "@/components/common/RealtimeStatus";
+import { REALTIME_ROOMS } from "@/features/realtime/realtimeEvents";
+import OrderStatusSelect from "@/components/common/OrderStatusSelect";
+import { ORDER_STATUSES, getOrderStatusConfig } from "@/utils/orderStatus";
+import { getPaymentStatusConfig, isCollectable } from "@/utils/paymentStatus";
 import {
   useGetAllAdminOrdersQuery,
   useUpdateOrderStatusMutation,
 } from "@/features/order/orderApiService";
+import { useMarkCodCollectedMutation } from "@/features/payments/paymentApiService";
 
 export default function OrdersPage() {
   const router = useRouter();
@@ -72,9 +82,37 @@ export default function OrdersPage() {
   });
 
   const [updateStatus] = useUpdateOrderStatusMutation();
+  const [markCodCollected] = useMarkCodCollectedMutation();
+
+  const [snackOpen, setSnackOpen] = useState(false);
+  const [snackMsg, setSnackMsg] = useState("");
+  const [snackSeverity, setSnackSeverity] = useState<"success" | "error">("success");
+
+  const showSnack = (msg: string, severity: "success" | "error" = "success") => {
+    setSnackMsg(msg);
+    setSnackSeverity(severity);
+    setSnackOpen(true);
+  };
 
   const handleStatusChange = async (orderId: string, newStatus: string) => {
-    await updateStatus({ id: orderId, status: newStatus });
+    try {
+      await updateStatus({ id: orderId, status: newStatus }).unwrap();
+      showSnack(`Order status updated to ${getOrderStatusConfig(newStatus).label}`);
+    } catch {
+      showSnack("Failed to update order status", "error");
+    }
+  };
+
+  const handleMarkCashReceived = async (orderId: string) => {
+    try {
+      await markCodCollected({ orderId }).unwrap();
+      showSnack("Cash collection recorded successfully");
+    } catch (err: any) {
+      showSnack(
+        err?.data?.message || "Failed to record cash payment. Please try again.",
+        "error"
+      );
+    }
   };
 
   const handlePageChange = (newPage: number, newPageSize: number) => {
@@ -91,7 +129,7 @@ export default function OrdersPage() {
         headerName: "Order ID",
         flex: 1,
         renderCell: ({ row }: any) => (
-          <Typography variant="body2" sx={{ fontWeight: 800, color: "#1E293B" }}>
+          <Typography variant="body2" sx={{ fontWeight: 800 }}>
             {row.orderNumber}
           </Typography>
         ),
@@ -115,7 +153,7 @@ export default function OrdersPage() {
         headerName: "Fulfilment Outlet",
         flex: 1.2,
         renderCell: ({ row }: any) => (
-          <Typography variant="caption" sx={{ fontWeight: 700, color: row.outlet ? "#0F172A" : "text.secondary" }}>
+          <Typography variant="caption" sx={{ fontWeight: 700 }}>
             {row.outlet?.name ? `🏪 ${row.outlet.name}` : "⚠️ Unassigned"}
           </Typography>
         ),
@@ -123,27 +161,18 @@ export default function OrdersPage() {
       {
         field: "status",
         headerName: "Status",
-        flex: 1,
+        flex: 1.1,
         renderCell: ({ row }: any) => (
-          <Select
-            size="small"
+          <OrderStatusSelect
             value={row.status}
-            onChange={(e) =>
-              handleStatusChange(row.id, e.target.value)
-            }
-          >
-            <MenuItem value="pending">Pending</MenuItem>
-            <MenuItem value="confirmed">Confirmed</MenuItem>
-            <MenuItem value="completed">Completed</MenuItem>
-            <MenuItem value="payment_failed">Failed</MenuItem>
-            <MenuItem value="cancelled">Cancelled</MenuItem>
-          </Select>
+            onChange={(next) => handleStatusChange(row.id, next)}
+          />
         ),
       },
       {
         field: "grandTotal",
         headerName: "Amount",
-        flex: 1,
+        flex: 0.9,
         renderCell: ({ row }: any) => (
           <Typography variant="body2" sx={{ fontWeight: 800 }}>
             ₹{Number(row.grandTotal).toFixed(2)}
@@ -153,12 +182,70 @@ export default function OrdersPage() {
       {
         field: "paymentStatus",
         headerName: "Payment",
-        flex: 1,
+        flex: 1.3,
+        renderCell: ({ row }: any) => {
+          const isCod =
+            row.paymentMethod === "COD" ||
+            (Array.isArray(row.payments) && row.payments[0]?.method?.toLowerCase() === "cod");
+          const payments: any[] = Array.isArray(row.payments) ? row.payments : [];
+          const primaryPayment = payments[0];
+          const payStatus = primaryPayment?.status || row.paymentStatus || "PENDING";
+          const payConfig = getPaymentStatusConfig(payStatus);
+          const canCollect = isCod && isCollectable(payStatus);
+
+          return (
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5, py: 0.5 }}>
+              <Box sx={{ display: "flex", alignItems: "center", gap: 0.5, flexWrap: "wrap" }}>
+                <Chip
+                  label={isCod ? "💵 COD" : "💳 Online"}
+                  size="small"
+                  sx={{
+                    height: 20,
+                    fontSize: "0.65rem",
+                    fontWeight: 800,
+                    bgcolor: isCod ? "#FEF3C7" : "#DBEAFE",
+                    color: isCod ? "#92400E" : "#1E40AF",
+                  }}
+                />
+                <Chip
+                  label={payConfig.label}
+                  size="small"
+                  sx={{
+                    height: 20,
+                    fontSize: "0.65rem",
+                    fontWeight: 800,
+                    bgcolor: payConfig.bg,
+                    color: payConfig.color,
+                  }}
+                />
+              </Box>
+              {canCollect && (
+                <Button
+                  size="small"
+                  variant="contained"
+                  color="success"
+                  startIcon={<PaymentsIcon sx={{ fontSize: "0.8rem !important" }} />}
+                  onClick={() => handleMarkCashReceived(row.id)}
+                  sx={{
+                    fontSize: "0.65rem",
+                    py: 0.2,
+                    px: 1,
+                    textTransform: "none",
+                    fontWeight: 800,
+                    borderRadius: 1.5,
+                  }}
+                >
+                  Collect Cash
+                </Button>
+              )}
+            </Box>
+          );
+        },
       },
       {
         field: "actions",
         headerName: "Action",
-        flex: 1,
+        flex: 0.9,
         renderCell: ({ row }: any) => (
           <Button
             size="small"
@@ -177,7 +264,10 @@ export default function OrdersPage() {
   return (
     <Box className="p-4">
       <div className="flex justify-between items-center mb-4">
-        <Typography variant="h2">Orders</Typography>
+        <div className="flex items-center gap-3">
+          <Typography variant="h2">Orders</Typography>
+          <RealtimeStatus room={REALTIME_ROOMS.ORDERS} />
+        </div>
       </div>
 
       {/* Filters Section */}
@@ -207,11 +297,11 @@ export default function OrdersPage() {
               onChange={(e) => handleFilterChange("status", e.target.value)}
             >
               <MenuItem value="">All</MenuItem>
-              <MenuItem value="pending">Pending</MenuItem>
-              <MenuItem value="confirmed">Confirmed</MenuItem>
-              <MenuItem value="completed">Completed</MenuItem>
-              <MenuItem value="payment_failed">Failed</MenuItem>
-              <MenuItem value="cancelled">Cancelled</MenuItem>
+              {ORDER_STATUSES.map((s) => (
+                <MenuItem key={s.value} value={s.value}>
+                  {s.label}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
 
@@ -285,6 +375,13 @@ export default function OrdersPage() {
           </div>
         </div>
       )}
+
+      {/* Toast Notification */}
+      <Snackbar open={snackOpen} autoHideDuration={3500} onClose={() => setSnackOpen(false)}>
+        <Alert severity={snackSeverity} onClose={() => setSnackOpen(false)} sx={{ borderRadius: 2 }}>
+          {snackMsg}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }

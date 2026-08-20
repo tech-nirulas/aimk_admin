@@ -6,12 +6,19 @@ import {
   useUpdateOrderStatusMutation,
 } from "@/features/order/orderApiService";
 import { useGetAllOutletsQuery } from "@/features/outlets/outletsApiService";
+import { useMarkCodCollectedMutation } from "@/features/payments/paymentApiService";
+import OrderStatusSelect from "@/components/common/OrderStatusSelect";
+import { getOrderStatusConfig } from "@/utils/orderStatus";
+import { getPaymentStatusConfig, isCollectable } from "@/utils/paymentStatus";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import PersonIcon from "@mui/icons-material/Person";
 import PaymentIcon from "@mui/icons-material/Payment";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import PaymentsIcon from "@mui/icons-material/Payments";
+import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import {
   Alert,
   Avatar,
@@ -27,25 +34,18 @@ import {
   Paper,
   Select,
   Snackbar,
+  Stack,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { useParams, useRouter } from "next/navigation";
 import { useState } from "react";
-
-const STATUS_CHIPS: Record<string, { bg: string; color: string }> = {
-  pending: { bg: "#FEF3C7", color: "#D97706" },
-  confirmed: { bg: "#DBEAFE", color: "#2563EB" },
-  processing: { bg: "#E0E7FF", color: "#4F46E5" },
-  delivered: { bg: "#D1FAE5", color: "#059669" },
-  cancelled: { bg: "#FEE2E2", color: "#DC2626" },
-  refunded: { bg: "#FEE2E2", color: "#DC2626" },
-};
 
 export default function OrderDetailPage() {
   const params = useParams();
@@ -56,6 +56,7 @@ export default function OrderDetailPage() {
   const { data: outletsData } = useGetAllOutletsQuery({ page: 1, limit: 100 });
   const [updateStatus, { isLoading: isUpdatingStatus }] = useUpdateOrderStatusMutation();
   const [assignOutlet, { isLoading: isAssigningOutlet }] = useAssignOrderOutletMutation();
+  const [markCodCollected, { isLoading: isCollectingCash }] = useMarkCodCollectedMutation();
 
   const [selectedOutletId, setSelectedOutletId] = useState<string>("");
   const [snackMsg, setSnackMsg] = useState("");
@@ -90,10 +91,23 @@ export default function OrderDetailPage() {
   const handleStatusChange = async (newStatus: string) => {
     try {
       await updateStatus({ id: orderId, status: newStatus }).unwrap();
-      setSnackMsg(`Order status updated to ${newStatus.toUpperCase()}`);
+      setSnackMsg(`Order status updated to ${getOrderStatusConfig(newStatus).label}`);
       setSnackOpen(true);
     } catch {
       setSnackMsg("Failed to update order status");
+      setSnackOpen(true);
+    }
+  };
+
+  const handleMarkCashReceived = async () => {
+    try {
+      await markCodCollected({ orderId }).unwrap();
+      setSnackMsg("Cash payment recorded for this order");
+      setSnackOpen(true);
+    } catch (err: any) {
+      setSnackMsg(
+        err?.data?.message || "Failed to record the cash payment. Please try again.",
+      );
       setSnackOpen(true);
     }
   };
@@ -111,10 +125,17 @@ export default function OrderDetailPage() {
   };
 
   const statusStr = typeof order.status === "string" ? order.status.toLowerCase() : "pending";
-  const statusStyle = STATUS_CHIPS[statusStr] || { bg: "#F1F5F9", color: "#334155" };
+  const statusStyle = getOrderStatusConfig(statusStr);
   const user = order.customer?.user;
   const deliveryAddress = order.deliveryAddress;
   const isCod = order.paymentMethod === "COD" || (Array.isArray(order.payments) && order.payments[0]?.method?.toLowerCase() === "cod");
+  const payments: any[] = Array.isArray(order.payments) ? order.payments : [];
+  // The order carries a rolled-up paymentStatus; the payment rows carry the
+  // gateway detail. Prefer the row when there is one.
+  const primaryPayment = payments[0];
+  const paymentStatusValue = primaryPayment?.status || order.paymentStatus || "PENDING";
+  const paymentStatusStyle = getPaymentStatusConfig(paymentStatusValue);
+  const canCollectCash = isCod && isCollectable(paymentStatusValue);
 
   return (
     <Box className="p-6">
@@ -140,26 +161,17 @@ export default function OrderDetailPage() {
 
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
           <Chip
-            label={statusStr.toUpperCase()}
+            label={statusStyle.label}
             sx={{ bgcolor: statusStyle.bg, color: statusStyle.color, fontWeight: 800, px: 1 }}
           />
 
-          <FormControl size="small" sx={{ minWidth: 150 }}>
-            <InputLabel>Update Status</InputLabel>
-            <Select
-              value={statusStr}
-              label="Update Status"
-              onChange={(e) => handleStatusChange(e.target.value)}
-              disabled={isUpdatingStatus}
-              sx={{ borderRadius: 2 }}
-            >
-              <MenuItem value="pending">Pending</MenuItem>
-              <MenuItem value="confirmed">Confirmed</MenuItem>
-              <MenuItem value="processing">Processing</MenuItem>
-              <MenuItem value="delivered">Delivered</MenuItem>
-              <MenuItem value="cancelled">Cancelled</MenuItem>
-            </Select>
-          </FormControl>
+          <OrderStatusSelect
+            value={statusStr}
+            onChange={handleStatusChange}
+            disabled={isUpdatingStatus}
+            label="Update Status"
+            minWidth={170}
+          />
         </Box>
       </Box>
 
@@ -174,7 +186,7 @@ export default function OrderDetailPage() {
             <TableContainer>
               <Table>
                 <TableHead>
-                  <TableRow sx={{ bgcolor: "#F8FAFC" }}>
+                  <TableRow>
                     <TableCell sx={{ fontWeight: 700 }}>Item</TableCell>
                     <TableCell sx={{ fontWeight: 700 }} align="right">
                       Price
@@ -330,7 +342,7 @@ export default function OrderDetailPage() {
             </Typography>
 
             {deliveryAddress && (
-              <Box sx={{ p: 1.5, borderRadius: 2, bgcolor: "#F8FAFC", border: "1px solid #E2E8F0" }}>
+              <Box sx={{ p: 1.5, borderRadius: 2, border: "1px solid #E2E8F0" }}>
                 <Box sx={{ display: "flex", alignItems: "center", gap: 0.5, mb: 0.5 }}>
                   <LocalShippingIcon fontSize="small" sx={{ color: "text.secondary" }} />
                   <Typography variant="caption" sx={{ fontWeight: 700, color: "text.primary" }}>
@@ -347,28 +359,191 @@ export default function OrderDetailPage() {
             )}
           </Paper>
 
-          {/* Payment Method & Status */}
+          {/* Payment Method, Status & Transaction Details */}
           <Paper sx={{ borderRadius: 3, p: 3 }}>
-            <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 1.5 }}>
+            <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
               <PaymentIcon sx={{ color: "primary.main" }} />
               <Typography variant="h6" sx={{ fontWeight: 800 }}>
-                Payment Method
+                Payment
               </Typography>
             </Box>
 
-            <Chip
-              label={isCod ? "💵 Cash on Delivery (COD)" : "💳 Online Payment (Razorpay)"}
-              sx={{
-                bgcolor: isCod ? "#FEF3C7" : "#DBEAFE",
-                color: isCod ? "#92400E" : "#1E40AF",
-                fontWeight: 800,
-                mb: 1.5,
-              }}
-            />
+            <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap", mb: 2 }}>
+              <Chip
+                label={isCod ? "💵 Cash on Delivery" : "💳 Online (Razorpay)"}
+                size="small"
+                sx={{
+                  bgcolor: isCod ? "#FEF3C7" : "#DBEAFE",
+                  color: isCod ? "#92400E" : "#1E40AF",
+                  fontWeight: 800,
+                }}
+              />
+              <Chip
+                label={paymentStatusStyle.label}
+                size="small"
+                sx={{
+                  bgcolor: paymentStatusStyle.bg,
+                  color: paymentStatusStyle.color,
+                  fontWeight: 800,
+                }}
+              />
+            </Box>
 
-            <Typography variant="caption" sx={{ color: "text.secondary", display: "block" }}>
-              Payment Status: <strong>{order.paymentStatus || "PENDING"}</strong>
-            </Typography>
+            {/* COD collection — the only way a cash order's payment ever
+                reaches CAPTURED, since no gateway callback exists for it. */}
+            {isCod && (
+              <Box
+                sx={{
+                  p: 1.5,
+                  mb: 2,
+                  borderRadius: 2,
+                  bgcolor: canCollectCash ? "#FFFBEB" : "#F0FDF4",
+                  border: `1px solid ${canCollectCash ? "#FDE68A" : "#BBF7D0"}`,
+                }}
+              >
+                {canCollectCash ? (
+                  <>
+                    <Typography
+                      variant="caption"
+                      sx={{ display: "block", color: "#92400E", fontWeight: 700, mb: 1 }}
+                    >
+                      Cash of ₹{Number(order.grandTotal).toFixed(2)} has not been recorded as
+                      received yet.
+                    </Typography>
+                    <Button
+                      fullWidth
+                      variant="contained"
+                      color="success"
+                      size="small"
+                      startIcon={<PaymentsIcon />}
+                      onClick={handleMarkCashReceived}
+                      disabled={isCollectingCash}
+                      sx={{ borderRadius: 2, textTransform: "none", fontWeight: 800 }}
+                    >
+                      {isCollectingCash ? "Recording..." : "Mark Cash Received"}
+                    </Button>
+                  </>
+                ) : (
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                    <CheckCircleIcon fontSize="small" sx={{ color: "#16A34A" }} />
+                    <Typography variant="caption" sx={{ color: "#166534", fontWeight: 700 }}>
+                      {paymentStatusStyle.value === "CAPTURED"
+                        ? `Cash received${
+                            primaryPayment?.capturedAt
+                              ? ` on ${new Date(primaryPayment.capturedAt).toLocaleString()}`
+                              : ""
+                          }`
+                        : `Payment ${paymentStatusStyle.label.toLowerCase()}`}
+                    </Typography>
+                  </Box>
+                )}
+              </Box>
+            )}
+
+            {/* Transaction records — so an admin can tie a gateway payment to
+                this order without cross-referencing the Payments screen. */}
+            {payments.length === 0 ? (
+              <Box sx={{ p: 2, borderRadius: 2, bgcolor: "#F8FAFC", border: "1px solid #E2E8F0" }}>
+                <Typography variant="caption" sx={{ color: "text.secondary", display: "block", mb: 0.5, fontWeight: 700 }}>
+                  {isCod ? "Cash on Delivery Order" : "Online Gateway Payment (Razorpay)"}
+                </Typography>
+                <Typography variant="caption" sx={{ color: "text.secondary", display: "block" }}>
+                  {isCod
+                    ? "Payment will be captured once cash is collected."
+                    : "No captured transaction callback received yet for this order."}
+                </Typography>
+              </Box>
+            ) : (
+              <Stack spacing={1.5}>
+                {payments.map((p: any) => {
+                  const style = getPaymentStatusConfig(p.status);
+                  return (
+                    <Box
+                      key={p.id}
+                      sx={{ p: 1.5, borderRadius: 2, border: "1px solid #E2E8F0", bgcolor: "#FAFAFA" }}
+                    >
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          gap: 1,
+                          mb: 1,
+                        }}
+                      >
+                        <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+                          <ReceiptLongIcon fontSize="small" sx={{ color: "text.secondary" }} />
+                          <Typography variant="caption" sx={{ fontWeight: 800 }}>
+                            ₹{Number(p.amount).toFixed(2)} {p.currency || "INR"}
+                          </Typography>
+                        </Box>
+                        <Chip
+                          label={style.label}
+                          size="small"
+                          sx={{
+                            bgcolor: style.bg,
+                            color: style.color,
+                            fontWeight: 800,
+                            height: 20,
+                            fontSize: "0.6rem",
+                          }}
+                        />
+                      </Box>
+
+                      <PaymentFact label="Payment ID" value={p.razorpayPaymentId} mono copyable onCopy={setSnackMsg} onOpenSnack={() => setSnackOpen(true)} />
+                      <PaymentFact label="Gateway Order ID" value={p.razorpayOrderId} mono copyable onCopy={setSnackMsg} onOpenSnack={() => setSnackOpen(true)} />
+                      <PaymentFact
+                        label="Method"
+                        value={
+                          p.method
+                            ? [p.method.toUpperCase(), p.bank, p.wallet, p.vpa].filter(Boolean).join(" · ")
+                            : null
+                        }
+                      />
+                      <PaymentFact
+                        label="Captured"
+                        value={p.capturedAt ? new Date(p.capturedAt).toLocaleString() : null}
+                      />
+                      <PaymentFact
+                        label="Failed"
+                        value={p.failedAt ? new Date(p.failedAt).toLocaleString() : null}
+                      />
+                      {p.errorDescription && (
+                        <PaymentFact
+                          label="Error"
+                          value={`${p.errorCode ? `${p.errorCode}: ` : ""}${p.errorDescription}`}
+                        />
+                      )}
+                      {p.refundId && (
+                        <>
+                          <PaymentFact label="Refund ID" value={p.refundId} mono copyable onCopy={setSnackMsg} onOpenSnack={() => setSnackOpen(true)} />
+                          <PaymentFact
+                            label="Refunded"
+                            value={
+                              p.refundedAt
+                                ? `₹${Number(p.refundAmount ?? 0).toFixed(2)} on ${new Date(
+                                    p.refundedAt,
+                                  ).toLocaleString()}`
+                                : `₹${Number(p.refundAmount ?? 0).toFixed(2)}`
+                            }
+                          />
+                        </>
+                      )}
+                    </Box>
+                  );
+                })}
+              </Stack>
+            )}
+
+            <Button
+              fullWidth
+              size="small"
+              variant="text"
+              onClick={() => router.push("/admin/payments")}
+              sx={{ mt: 1.5, textTransform: "none", fontWeight: 700 }}
+            >
+              Open Payments screen →
+            </Button>
           </Paper>
         </Grid>
       </Grid>
@@ -379,6 +554,69 @@ export default function OrderDetailPage() {
           {snackMsg}
         </Alert>
       </Snackbar>
+    </Box>
+  );
+}
+
+// ── PaymentFact helper ────────────────────────────────────────────────────────
+function PaymentFact({
+  label,
+  value,
+  mono,
+  copyable,
+  onCopy,
+  onOpenSnack,
+}: {
+  label: string;
+  value?: string | null;
+  mono?: boolean;
+  copyable?: boolean;
+  onCopy?: (msg: string) => void;
+  onOpenSnack?: () => void;
+}) {
+  if (!value) return null;
+
+  const handleCopy = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    navigator.clipboard.writeText(value);
+    if (onCopy && onOpenSnack) {
+      onCopy(`Copied ${label}: ${value}`);
+      onOpenSnack();
+    }
+  };
+
+  return (
+    <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 1, py: 0.35 }}>
+      <Typography variant="caption" sx={{ color: "text.secondary", flexShrink: 0 }}>
+        {label}
+      </Typography>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 0.5, maxWidth: "70%", justifyContent: "flex-end" }}>
+        <Typography
+          variant="caption"
+          sx={{
+            fontWeight: 700,
+            textAlign: "right",
+            wordBreak: "break-all",
+            ...(mono ? { fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace" } : {}),
+          }}
+        >
+          {value}
+        </Typography>
+        {copyable && (
+          <Tooltip title={`Copy ${label}`}>
+            <ContentCopyIcon
+              onClick={handleCopy}
+              sx={{
+                fontSize: "0.75rem",
+                color: "text.disabled",
+                cursor: "pointer",
+                flexShrink: 0,
+                "&:hover": { color: "primary.main" },
+              }}
+            />
+          </Tooltip>
+        )}
+      </Box>
     </Box>
   );
 }

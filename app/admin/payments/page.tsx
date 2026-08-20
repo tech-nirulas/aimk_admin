@@ -1,6 +1,9 @@
 "use client";
 
 import TableComponent from "@/components/common/DataTable";
+import RealtimeStatus from "@/components/common/RealtimeStatus";
+import { REALTIME_ROOMS } from "@/features/realtime/realtimeEvents";
+import { PAYMENT_STATUSES, getPaymentStatusConfig } from "@/utils/paymentStatus";
 import {
   useGetPaymentsQuery,
   useRefundPaymentMutation,
@@ -25,14 +28,6 @@ import {
 } from "@mui/material";
 import { useMemo, useState } from "react";
 import { FaSearch } from "react-icons/fa";
-
-const STATUS_CHIPS: Record<string, { bg: string; color: string }> = {
-  PENDING: { bg: "#FEF3C7", color: "#D97706" },
-  AUTHORIZED: { bg: "#DBEAFE", color: "#2563EB" },
-  CAPTURED: { bg: "#D1FAE5", color: "#059669" },
-  REFUNDED: { bg: "#FEE2E2", color: "#DC2626" },
-  FAILED: { bg: "#FEE2E2", color: "#DC2626" },
-};
 
 export default function PaymentsPage() {
   const [page, setPage] = useState(1);
@@ -110,7 +105,7 @@ export default function PaymentsPage() {
         headerName: "Order No",
         flex: 1.2,
         renderCell: ({ row }: any) => (
-          <Typography variant="body2" sx={{ fontWeight: 800, color: "#1E293B" }}>
+          <Typography variant="body2" sx={{ fontWeight: 800 }}>
             {row.order?.orderNumber || "N/A"}
           </Typography>
         ),
@@ -138,7 +133,7 @@ export default function PaymentsPage() {
         headerName: "Amount",
         flex: 0.8,
         renderCell: ({ row }: any) => (
-          <Typography variant="body2" sx={{ fontWeight: 800, color: "#0F172A" }}>
+          <Typography variant="body2" sx={{ fontWeight: 800 }}>
             ₹{Number(row.amount).toFixed(2)}
           </Typography>
         ),
@@ -167,10 +162,10 @@ export default function PaymentsPage() {
         headerName: "Status",
         flex: 1,
         renderCell: ({ row }: any) => {
-          const chipStyle = STATUS_CHIPS[row.status] || { bg: "#F1F5F9", color: "#334155" };
+          const chipStyle = getPaymentStatusConfig(row.status);
           return (
             <Chip
-              label={row.status}
+              label={chipStyle.label}
               size="small"
               sx={{
                 bgcolor: chipStyle.bg,
@@ -218,9 +213,10 @@ export default function PaymentsPage() {
 
   return (
     <Box className="p-4">
-      <Typography variant="h2" className="mb-4">
-        Payment & Refund Management
-      </Typography>
+      <div className="flex items-center gap-3 mb-4">
+        <Typography variant="h2">Payment &amp; Refund Management</Typography>
+        <RealtimeStatus room={REALTIME_ROOMS.PAYMENTS} />
+      </div>
 
       {/* Filters Section */}
       <Paper className="mb-4 p-4">
@@ -249,11 +245,11 @@ export default function PaymentsPage() {
               onChange={(e) => handleFilterChange("status", e.target.value)}
             >
               <MenuItem value="">All Statuses</MenuItem>
-              <MenuItem value="CAPTURED">CAPTURED</MenuItem>
-              <MenuItem value="AUTHORIZED">AUTHORIZED</MenuItem>
-              <MenuItem value="PENDING">PENDING</MenuItem>
-              <MenuItem value="REFUNDED">REFUNDED</MenuItem>
-              <MenuItem value="FAILED">FAILED</MenuItem>
+              {PAYMENT_STATUSES.map((s) => (
+                <MenuItem key={s.value} value={s.value}>
+                  {s.label}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
 

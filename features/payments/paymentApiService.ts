@@ -13,4 +13,5 @@ export const {
   useGetPaymentsQuery,
   useGetPaymentQuery,
   useRefundPaymentMutation,
+  useMarkCodCollectedMutation,
 } = paymentApiService;
