@@ -12,9 +12,12 @@ export const mediaEndpoints = (builder: EndpointDefinitions) => ({
     invalidatesTags: ["Media"],
   }),
   getAllMedia: builder.query({
-    query: () => ({
+    // Pass pagination/filter query params straight through to GET /media
+    // (?page=&limit=&search=&type=&folder=&sortBy=&sortOrder=)
+    query: (params) => ({
       url: "media",
       method: "GET",
+      params,
     }),
     providesTags: ["Media"],
   }),

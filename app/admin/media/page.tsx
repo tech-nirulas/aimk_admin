@@ -59,6 +59,7 @@ import {
   LinearProgress,
   Menu,
   MenuItem,
+  Pagination,
   Select,
   Skeleton,
   Slider,
@@ -1387,6 +1388,20 @@ export default function MediaPage() {
   const totalItems: number = data?.meta?.total || 0;
   const folders: { name: string; count: number }[] = foldersData || [];
 
+  // Reset to page 1 whenever search/type/folder filters change, so the user
+  // never lands on an out-of-range page after narrowing results.
+  useEffect(() => {
+    setPage(1);
+  }, [search, typeFilter, folderFilter]);
+
+  // Guard against stale page > totalPages (e.g. after deleting items on the
+  // last page): clamp back to the highest valid page.
+  useEffect(() => {
+    if (!isLoading && page > totalPages && totalPages > 0) {
+      setPage(totalPages);
+    }
+  }, [page, totalPages, isLoading]);
+
   // Upload handler
   const handleUpload = async (
     files: File[],
@@ -1731,39 +1746,29 @@ export default function MediaPage() {
         <Box
           sx={{
             display: "flex",
-            justifyContent: "center",
-            gap: 1,
+            flexDirection: { xs: "column", sm: "row" },
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 1.5,
             mt: 4,
             flexWrap: "wrap",
           }}
         >
-          <Button
-            size="small"
-            variant="outlined"
-            disabled={page <= 1}
-            onClick={() => setPage((p) => p - 1)}
-          >
-            Previous
-          </Button>
-          {Array.from({ length: Math.min(totalPages, 7) }, (_, i) => i + 1).map((p) => (
-            <Button
-              key={p}
-              size="small"
-              variant={p === page ? "contained" : "outlined"}
-              onClick={() => setPage(p)}
-              sx={{ minWidth: 36 }}
-            >
-              {p}
-            </Button>
-          ))}
-          <Button
-            size="small"
-            variant="outlined"
-            disabled={page >= totalPages}
-            onClick={() => setPage((p) => p + 1)}
-          >
-            Next
-          </Button>
+          <Typography variant="body2" color="text.secondary">
+            Showing{" "}
+            {(page - 1) * 40 + 1}–{Math.min(page * 40, totalItems)} of{" "}
+            {totalItems} item{totalItems === 1 ? "" : "s"}
+          </Typography>
+          <Pagination
+            count={totalPages}
+            page={page}
+            onChange={(_, val) => setPage(val)}
+            color="primary"
+            showFirstButton
+            showLastButton
+            siblingCount={1}
+            boundaryCount={1}
+          />
         </Box>
       )}
 
