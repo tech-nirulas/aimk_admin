@@ -279,6 +279,10 @@ export default function OfferForm({ refetch }: { refetch?: () => void }) {
 
                   <Grid size={{ xs: 12 }}>
                     <SectionHeader>2. Hero Carousel Banner (Media Library)</SectionHeader>
+                    <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5, mb: 0.5, lineHeight: 1.5 }}>
+                      Upload a designed creative at 2560×1080. Leave headline/subtext blank when the
+                      image already includes marketing text — overlays are only for photo-only banners.
+                    </Typography>
                   </Grid>
 
                   <Grid size={{ xs: 12 }}>
@@ -325,10 +329,24 @@ export default function OfferForm({ refetch }: { refetch?: () => void }) {
                   </Grid>
 
                   <Grid size={{ xs: 6 }}>
-                    <MaterialTextField name="headline" label="Banner Overlay Headline" placeholder="20% OFF ALL CAKES" />
+                    <MaterialTextField
+                      name="headline"
+                      label="Banner Overlay Headline (optional)"
+                      placeholder="20% OFF ALL CAKES"
+                    />
+                    <Typography variant="caption" color="text.secondary" sx={{ display: "block", mt: 0.5, lineHeight: 1.4 }}>
+                      Shown on the storefront only if set. Leave empty for designed banners.
+                    </Typography>
                   </Grid>
                   <Grid size={{ xs: 6 }}>
-                    <MaterialTextField name="subtext" label="Banner Overlay Subtext" placeholder="Use code CAKE20" />
+                    <MaterialTextField
+                      name="subtext"
+                      label="Banner Overlay Subtext (optional)"
+                      placeholder="Use code CAKE20"
+                    />
+                    <Typography variant="caption" color="text.secondary" sx={{ display: "block", mt: 0.5, lineHeight: 1.4 }}>
+                      Optional supporting line under the headline. Leave empty when art has its own copy.
+                    </Typography>
                   </Grid>
                   <Grid size={{ xs: 6 }}>
                     <MaterialSelectField
