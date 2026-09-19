@@ -136,7 +136,7 @@ export default function ProductsPage() {
       headerName: "Status",
       flex: 0.5,
       renderCell: ({ row }: any) => (
-        <Switch checked={row.isActive} onChange={handleDelete} disabled />
+        <Switch checked={row.isActive} onChange={handleDelete} />
       ),
     },
     {
