@@ -20,6 +20,7 @@
     "@mui/x-data-grid": "^9.7.0",
     "@mui/x-date-pickers": "^9.7.0",
     "@reduxjs/toolkit": "^2.12.0",
+    "@vercel/analytics": "^2.0.1",
     "dayjs": "^1.11.21",
     "formik": "^2.4.9",
     "framer-motion": "^12.42.0",
