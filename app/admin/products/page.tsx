@@ -12,6 +12,7 @@ import ProductForm from "@/components/ui/Product/ProductForm";
 import { useDeleteProductMutation, useGetPaginatedProductQuery } from "@/features/products/productApiService";
 import { clearProduct, clearSelectedProduct, setSelectedProduct } from "@/features/products/productSlice";
 import { usePermission } from "@/hooks/usePermission";
+import { Product } from "@/interfaces/product.interface";
 import { useConfirmDialog } from "@/lib/DialogProvider";
 import { useFormDrawer } from "@/lib/FormDrawerProvider";
 import { PERMISSIONS } from "@aimk/permissions";
@@ -102,7 +103,7 @@ export default function ProductsPage() {
     });
   };
 
-  const handleDelete = useCallback(async (row: any) => {
+  const handleDelete = useCallback(async (row: Product) => {
     openDialog("Are you sure you want to delete this product?", async () => { await deleteProduct({ id: row.id }); })
   }, [deleteProduct, openDialog]);
 
@@ -118,7 +119,7 @@ export default function ProductsPage() {
       field: "name",
       headerName: "Name",
       flex: 1,
-      renderCell: ({ row }: any) => (
+      renderCell: ({ row }: { row: Product }) => (
         <p className="truncate font-medium">{row.name}</p>
       )
     },
@@ -127,7 +128,7 @@ export default function ProductsPage() {
       field: "description",
       headerName: "Description",
       flex: 2,
-      renderCell: ({ row }: any) => (
+      renderCell: ({ row }: { row: Product }) => (
         <p className="truncate">{row.description || "-"}</p>
       )
     },
@@ -135,15 +136,15 @@ export default function ProductsPage() {
       field: "isActive",
       headerName: "Status",
       flex: 0.5,
-      renderCell: ({ row }: any) => (
-        <Switch checked={row.isActive} onChange={handleDelete} />
+      renderCell: ({ row }: { row: Product }) => (
+        <Switch checked={row.isActive} onChange={(e) => handleDelete(row)} />
       ),
     },
     {
       field: "createdAt",
       headerName: "Created At",
       flex: 1,
-      renderCell: ({ row }: any) => (
+      renderCell: ({ row }: { row: Product }) => (
         <p>{new Date(row.createdAt).toLocaleDateString()}</p>
       ),
     },
@@ -151,7 +152,7 @@ export default function ProductsPage() {
       field: "actions",
       headerName: "Actions",
       flex: 0.5,
-      renderCell: ({ row }: any) => (
+      renderCell: ({ row }: { row: Product }) => (
         <div className="flex gap-2 items-center justify-start h-full">
           {canUpdate && (
             <FaEdit
