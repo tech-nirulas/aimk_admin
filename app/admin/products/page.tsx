@@ -6,15 +6,15 @@ import { FaEdit, FaSearch, FaTrash } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 
 import TableComponent from "@/components/common/DataTable";
-import ProductForm from "@/components/ui/Product/ProductForm";
 import { ProtectedComponent } from "@/components/common/ProtectedComponent";
 import { UnauthorizedAccess } from "@/components/common/UnauthorizedAccess";
-import { usePermission } from "@/hooks/usePermission";
-import { PERMISSIONS } from "@aimk/permissions";
+import ProductForm from "@/components/ui/Product/ProductForm";
 import { useDeleteProductMutation, useGetPaginatedProductQuery } from "@/features/products/productApiService";
 import { clearProduct, clearSelectedProduct, setSelectedProduct } from "@/features/products/productSlice";
+import { usePermission } from "@/hooks/usePermission";
 import { useConfirmDialog } from "@/lib/DialogProvider";
 import { useFormDrawer } from "@/lib/FormDrawerProvider";
+import { PERMISSIONS } from "@aimk/permissions";
 
 export default function ProductsPage() {
   const dispatch = useDispatch();
@@ -103,7 +103,7 @@ export default function ProductsPage() {
   };
 
   const handleDelete = useCallback(async (row: any) => {
-    openDialog("Are you sure you want to delete this product?", async () => await deleteProduct({ id: row.id }))
+    openDialog("Are you sure you want to delete this product?", async () => { await deleteProduct({ id: row.id }); })
   }, [deleteProduct, openDialog]);
 
   const handlePageChange = (newPage: number, newPageSize: number) => {
@@ -136,7 +136,7 @@ export default function ProductsPage() {
       headerName: "Status",
       flex: 0.5,
       renderCell: ({ row }: any) => (
-        <Switch checked={row.isActive} disabled />
+        <Switch checked={row.isActive} onChange={handleDelete} disabled />
       ),
     },
     {
