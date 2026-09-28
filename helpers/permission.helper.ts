@@ -1,35 +1,23 @@
+import { canAccess, getModuleByPath, type AnyPermission } from "@aimk/permissions";
+
 /**
- * Check if the logged-in user has permission to access a specific route path.
+ * Route gate for the admin panel. Uses the same MODULE_REGISTRY and canAccess() as the sidebar, so
+ * a module can never be visible in one and hidden in the other.
  *
- * Rules:
- * 1. If user is super_admin or admin -> Full access to all modules.
- * 2. If path is '/admin' (Dashboard) -> Always allowed.
- * 3. Checks if user.role.roleModules contains a module with path matching target path.
+ * The backend PermissionGuard remains the real security boundary; this is a UX affordance that
+ * avoids rendering a page the user cannot use.
  */
-export function hasModuleAccess(user: any, path: string): boolean {
-  if (!user) return false;
+export function hasModuleAccess(
+  userPermissions: AnyPermission[] | undefined,
+  path: string
+): boolean {
+  const permissions = Array.isArray(userPermissions) ? userPermissions : [];
+  if (permissions.length === 0) return false;
 
-  const roleName = user.role?.name?.toLowerCase();
-  if (roleName === 'super_admin' || roleName === 'admin' || roleName === 'superadmin') {
-    return true;
-  }
+  // Unrouted admin pages fall back to the '/admin' root module, so a new page is reachable
+  // rather than silently 403-ing until someone adds it to the registry.
+  const module = getModuleByPath(path);
+  if (!module) return true;
 
-  // Dashboard root path is always accessible to logged-in admin users
-  if (path === '/admin' || path === '/admin/') {
-    return true;
-  }
-
-  const roleModules = user.role?.roleModules || [];
-  if (!Array.isArray(roleModules) || roleModules.length === 0) {
-    return false;
-  }
-
-  return roleModules.some((rm: any) => {
-    if (rm.canView === false && rm.canAccess === false) return false;
-    const modulePath = rm.module?.path;
-    if (!modulePath) return false;
-
-    // Exact match or sub-route prefix match (e.g. /admin/orders/123 matches /admin/orders)
-    return path === modulePath || path.startsWith(`${modulePath}/`);
-  });
+  return canAccess(permissions, module.requiredPermission);
 }

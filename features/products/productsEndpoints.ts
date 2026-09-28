@@ -63,7 +63,7 @@ export const productsEndpoints = (builder: EndpointDefinitions) => ({
       url: `product/${body.id}`,
       method: "GET",
     }),
-    providesTags: (result, error, arg) => [{ type: "Category", id: arg.id }],
+    providesTags: (result, error, arg) => [{ type: "Product", id: arg.id }],
   }),
   updateProduct: builder.mutation<
     GetProductResponse,
@@ -74,7 +74,7 @@ export const productsEndpoints = (builder: EndpointDefinitions) => ({
       method: "PATCH",
       body,
     }),
-    invalidatesTags: (result, error, arg) => [{ type: "Category", id: arg.id }],
+    invalidatesTags: (result, error, arg) => [{ type: "Product", id: arg.id }, "Product"],
   }),
 
   deleteProduct: builder.mutation<any, { id: string }>({

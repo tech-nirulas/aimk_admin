@@ -88,7 +88,7 @@ export default function ProductsPage() {
       children: <ProductForm />,
       dispatchFunctions: [clearSelectedProduct],
       isEditing: true,
-      width: 500,
+      width: 700,
       anchor: "right"
     });
   }, [dispatch, setIsEditing, openDrawer]);
@@ -98,7 +98,7 @@ export default function ProductsPage() {
       drawerName: "Create Product",
       children: <ProductForm />,
       dispatchFunctions: [clearSelectedProduct, clearProduct],
-      width: 500,
+      width: 700,
       anchor: "right"
     });
   };

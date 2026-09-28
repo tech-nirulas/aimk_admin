@@ -22,37 +22,14 @@ const initialState: AuthState = {
   isLoading: true,
 };
 
+/**
+ * The backend resolves a role's effective permissions (including parent-role inheritance) and
+ * returns them as a flat `permissions` array. That array is the only accepted source, so the UI
+ * and the API guard can never disagree about what a user may do.
+ */
 function extractPermissions(payload: any): string[] {
-  if (!payload) return [];
-
-  let perms: string[] = [];
-  if (Array.isArray(payload.permissions) && payload.permissions.length > 0) {
-    perms = payload.permissions.map((p: any) =>
-      typeof p === 'string' ? p : `${p.subject}:${p.action}`
-    );
-  } else if (
-    payload.role?.rolePermissionsV2 &&
-    Array.isArray(payload.role.rolePermissionsV2) &&
-    payload.role.rolePermissionsV2.length > 0
-  ) {
-    perms = payload.role.rolePermissionsV2.map((rp: any) =>
-      typeof rp === 'string' ? rp : rp.permission
-    );
-  } else if (
-    payload.role?.permissions &&
-    Array.isArray(payload.role.permissions) &&
-    payload.role.permissions.length > 0
-  ) {
-    perms = payload.role.permissions.map((p: any) =>
-      typeof p === 'string' ? p : `${p.subject}:${p.action}`
-    );
-  }
-
-  if (payload.role?.name === 'super_admin' && !perms.includes('*')) {
-    perms.push('*');
-  }
-
-  return perms;
+  if (!payload || !Array.isArray(payload.permissions)) return [];
+  return payload.permissions.filter((p: unknown): p is string => typeof p === 'string');
 }
 
 const authSlice = createSlice({

@@ -49,25 +49,15 @@ export const userEndpoints = (builder: EndpointBuilder<any, any, any>) => ({
     query: ({
       roleId,
       permissions,
-      moduleIds,
-      modulePaths,
     }: {
       roleId: string;
-      permissions?: any[];
-      moduleIds?: string[];
-      modulePaths?: string[];
+      permissions: string[];
     }) => ({
       url: `/user/roles/${roleId}/permissions`,
       method: "PATCH",
-      body: { permissions, moduleIds, modulePaths },
+      body: { permissions },
     }),
-    invalidatesTags: ["Role"],
-  }),
-  getSidebarModules: builder.query({
-    query: () => ({
-      url: `/user/modules`,
-      method: "GET",
-    }),
+    invalidatesTags: ["Role", "Auth"],
   }),
   createAdminUser: builder.mutation({
     query: (body: any) => ({

@@ -5,7 +5,7 @@ import { userEndpoints } from "./userEndpoints";
 export const userApiService = createApi({
   reducerPath: "userApiService",
   baseQuery: createBaseQuery(),
-  tagTypes: ["User", "Role"],
+  tagTypes: ["User", "Role", "Auth"],
   endpoints: userEndpoints,
 });
 
@@ -19,5 +19,4 @@ export const {
   useCreateAdminUserMutation,
   useUpdateAdminUserMutation,
   useUpdateUserRoleMutation,
-  useGetSidebarModulesQuery,
 } = userApiService;

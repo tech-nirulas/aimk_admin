@@ -20,7 +20,7 @@ export default function AdminLayout({
   const user = authState?.user;
   const isLoading = authState?.isLoading;
 
-  const isAllowed = hasModuleAccess(user, pathname);
+  const isAllowed = hasModuleAccess(authState?.permissions, pathname);
 
   return (
     <Box sx={{ display: "flex", flexDirection: "row", width: "100%", height: "100vh", overflow: "hidden", backgroundColor: theme.palette.background.default }}>

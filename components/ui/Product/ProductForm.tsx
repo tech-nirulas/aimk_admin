@@ -5,28 +5,35 @@ import MediaPickerModal, { MediaItem } from "@/components/ui/Media/MediaPickerMo
 import type { ImageSlotName } from "@aimk/image-spec";
 import { useToast } from "@/hooks/useToast";
 import { useFormDrawer } from "@/lib/FormDrawerProvider";
-import { Add, Close as CloseIcon, Image as ImageIcon } from "@mui/icons-material";
+import { Add, Close as CloseIcon, Delete as DeleteIcon, Image as ImageIcon } from "@mui/icons-material";
 import {
   Alert,
   Box,
   Button,
+  Card,
+  CardContent,
   Checkbox,
   Chip,
   CircularProgress,
   Divider,
+  FormControl,
   FormControlLabel,
   Grid,
   IconButton,
+  InputLabel,
+  MenuItem,
   Paper,
+  Select,
   Step,
   StepLabel,
   Stepper,
+  Switch,
   TextField,
   Tooltip,
   Typography,
   useTheme
 } from "@mui/material";
-import { Field, Form, Formik, useField } from "formik";
+import { Field, FieldArray, Form, Formik, useField } from "formik";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -34,8 +41,11 @@ import { MaterialSelectField, MaterialTextField } from "@/components/common/Cust
 import { useGetAllCategoriesQuery } from "@/features/categories/categoriesApiService";
 import {
   useCreateProductMutation,
+  useGetAllProductsQuery,
+  useGetProductQuery,
   useUpdateProductMutation,
 } from "@/features/products/productApiService";
+import { useGetModifiersQuery } from "@/features/modifiers/modifierApiService";
 import { CreateProductPayload } from "@/interfaces/product.interface";
 import { useGetAllBrandsQuery } from "@/features/brand/brandApiService";
 import SectionHeader from "@/components/common/SectionHeader";
@@ -45,9 +55,12 @@ import SectionHeader from "@/components/common/SectionHeader";
 const STEPS = [
   "Basic Info",
   "Pricing & Tax",
+  "Variants",
   "Inventory",
   "Bakery Details",
   "Dietary & Allergens",
+  "Add-ons & Modifiers",
+  "Cross-Brand Upsells",
   "Media",
   "SEO & Promotions",
 ];
@@ -439,9 +452,422 @@ const SingleImagePicker = ({
   );
 };
 
+const VariantsStepInput = ({ values, setFieldValue, handleChange }: any) => {
+  return (
+    <Box>
+      <Alert severity="info" sx={{ mb: 2.5 }}>
+        Variants represent purchasable portion sizes (e.g. 500g, 1kg, 6-Pack). If no variants are added, this product will be purchased at the Base Price (₹{values.basePrice || 0}).
+      </Alert>
+
+      <FieldArray name="variants">
+        {({ push, remove }) => (
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+            {values.variants?.map((v: any, index: number) => (
+              <Card
+                key={index}
+                variant="outlined"
+                sx={{
+                  p: 2,
+                  borderRadius: 2,
+                  position: "relative",
+                  border: v.isDefault ? "2px solid" : "1px solid",
+                  borderColor: v.isDefault ? "primary.main" : "divider",
+                }}
+              >
+                <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 1.5 }}>
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                    <Typography variant="subtitle2" fontWeight={700}>
+                      Variant #{index + 1}: {v.name || "Untitled"}
+                    </Typography>
+                    {v.isDefault && (
+                      <Chip label="Default Size" color="primary" size="small" />
+                    )}
+                  </Box>
+                  <IconButton
+                    size="small"
+                    color="error"
+                    onClick={() => remove(index)}
+                    title="Remove Variant"
+                  >
+                    <DeleteIcon fontSize="small" />
+                  </IconButton>
+                </Box>
+
+                <Grid container spacing={2}>
+                  <Grid size={{ xs: 12, sm: 6 }}>
+                    <TextField
+                      label="Variant Name *"
+                      size="small"
+                      fullWidth
+                      name={`variants.${index}.name`}
+                      value={v.name}
+                      onChange={handleChange}
+                      placeholder="e.g. 500g / 1kg / Box of 4"
+                    />
+                  </Grid>
+
+                  <Grid size={{ xs: 6, sm: 3 }}>
+                    <TextField
+                      label="Price (₹) *"
+                      type="number"
+                      size="small"
+                      fullWidth
+                      name={`variants.${index}.price`}
+                      value={v.price}
+                      onChange={handleChange}
+                    />
+                  </Grid>
+
+                  <Grid size={{ xs: 6, sm: 3 }}>
+                    <TextField
+                      label="MRP / Compare Price (₹)"
+                      type="number"
+                      size="small"
+                      fullWidth
+                      name={`variants.${index}.compareAtPrice`}
+                      value={v.compareAtPrice}
+                      onChange={handleChange}
+                      placeholder="Optional"
+                    />
+                  </Grid>
+
+                  <Grid size={{ xs: 6, sm: 3 }}>
+                    <TextField
+                      label="Portion Weight"
+                      type="number"
+                      size="small"
+                      fullWidth
+                      name={`variants.${index}.weight`}
+                      value={v.weight}
+                      onChange={handleChange}
+                      placeholder="e.g. 500"
+                    />
+                  </Grid>
+
+                  <Grid size={{ xs: 6, sm: 3 }}>
+                    <TextField
+                      label="Unit"
+                      size="small"
+                      fullWidth
+                      name={`variants.${index}.weightUnit`}
+                      value={v.weightUnit}
+                      onChange={handleChange}
+                      placeholder="e.g. g, kg, pcs"
+                    />
+                  </Grid>
+
+                  <Grid size={{ xs: 6, sm: 3 }}>
+                    <TextField
+                      label="Stock Qty"
+                      type="number"
+                      size="small"
+                      fullWidth
+                      name={`variants.${index}.stockQuantity`}
+                      value={v.stockQuantity}
+                      onChange={handleChange}
+                    />
+                  </Grid>
+
+                  <Grid size={{ xs: 6, sm: 3 }}>
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          size="small"
+                          checked={v.inStock !== false}
+                          onChange={(e) =>
+                            setFieldValue(`variants.${index}.inStock`, e.target.checked)
+                          }
+                        />
+                      }
+                      label={<Typography variant="caption">In Stock</Typography>}
+                    />
+                  </Grid>
+
+                  <Grid size={{ xs: 12 }}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={Boolean(v.isDefault)}
+                          onChange={() => {
+                            values.variants.forEach((_: any, i: number) => {
+                              setFieldValue(`variants.${i}.isDefault`, i === index);
+                            });
+                          }}
+                        />
+                      }
+                      label={
+                        <Typography variant="body2">
+                          Make this the default selected size on the storefront
+                        </Typography>
+                      }
+                    />
+                  </Grid>
+                </Grid>
+              </Card>
+            ))}
+
+            <Button
+              variant="outlined"
+              startIcon={<Add />}
+              onClick={() =>
+                push({
+                  name: "",
+                  price: values.basePrice || 0,
+                  compareAtPrice: "",
+                  weight: values.weight || "",
+                  weightUnit: values.weightUnit || "g",
+                  isDefault: (values.variants?.length || 0) === 0,
+                  inStock: true,
+                  stockQuantity: 100,
+                  displayOrder: values.variants?.length || 0,
+                })
+              }
+              sx={{ alignSelf: "flex-start" }}
+            >
+              + Add Product Variant
+            </Button>
+          </Box>
+        )}
+      </FieldArray>
+    </Box>
+  );
+};
+
+const ModifiersStepInput = ({ values, setFieldValue }: any) => {
+  const { data: modifierGroupsData, isLoading } = useGetModifiersQuery();
+  const groups = modifierGroupsData?.data || [];
+  const selectedIds: string[] = values.modifierGroupIds || [];
+
+  const toggleGroup = (id: string) => {
+    if (selectedIds.includes(id)) {
+      setFieldValue(
+        "modifierGroupIds",
+        selectedIds.filter((groupId) => groupId !== id)
+      );
+    } else {
+      setFieldValue("modifierGroupIds", [...selectedIds, id]);
+    }
+  };
+
+  return (
+    <Box>
+      <Alert severity="info" sx={{ mb: 2.5 }}>
+        Attach modifier groups to this product. When customers click &quot;Add&quot; or &quot;Customize&quot;, these options will pop up as EatSure-style customization sheets.
+      </Alert>
+
+      {isLoading ? (
+        <Box sx={{ display: "flex", justifyContent: "center", p: 4 }}>
+          <CircularProgress size={32} />
+        </Box>
+      ) : groups.length === 0 ? (
+        <Paper variant="outlined" sx={{ p: 3, textAlign: "center" }}>
+          <Typography variant="body2" color="text.secondary" gutterBottom>
+            No modifier groups created yet.
+          </Typography>
+          <Button
+            variant="outlined"
+            size="small"
+            onClick={() => window.open("/admin/modifiers", "_blank")}
+          >
+            Create Modifier Groups in Modifiers Library ↗
+          </Button>
+        </Paper>
+      ) : (
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
+          {groups.map((group) => {
+            const isSelected = selectedIds.includes(group.id);
+            return (
+              <Card
+                key={group.id}
+                variant="outlined"
+                onClick={() => toggleGroup(group.id)}
+                sx={{
+                  p: 2,
+                  cursor: "pointer",
+                  borderRadius: 2,
+                  border: isSelected ? "2px solid" : "1px solid",
+                  borderColor: isSelected ? "primary.main" : "divider",
+                  bgcolor: isSelected ? "action.hover" : "background.paper",
+                  transition: "all 0.2s ease",
+                }}
+              >
+                <Box sx={{ display: "flex", alignItems: "flex-start", gap: 1.5 }}>
+                  <Checkbox
+                    checked={isSelected}
+                    onChange={() => toggleGroup(group.id)}
+                    sx={{ p: 0.5 }}
+                  />
+                  <Box sx={{ flex: 1 }}>
+                    <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 0.5 }}>
+                      <Typography variant="subtitle2" fontWeight={700}>
+                        {group.name}
+                      </Typography>
+                      <Chip
+                        size="small"
+                        label={group.minSelections > 0 || group.isRequired ? "Required" : "Optional"}
+                        color={group.minSelections > 0 || group.isRequired ? "error" : "default"}
+                        variant="outlined"
+                      />
+                      <Chip
+                        size="small"
+                        label={group.maxSelections === 1 ? "Single Choice" : `Up to ${group.maxSelections}`}
+                        color="primary"
+                        variant="outlined"
+                      />
+                    </Box>
+                    <Typography variant="caption" color="text.secondary" display="block" sx={{ mb: 1 }}>
+                      Storefront Title: &quot;{group.displayName}&quot;
+                    </Typography>
+                    <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.8 }}>
+                      {group.options?.map((opt: any) => (
+                        <Chip
+                          key={opt.id}
+                          size="small"
+                          label={`${opt.name} ${Number(opt.price) > 0 ? `(+₹${opt.price})` : "(Free)"}`}
+                          variant="outlined"
+                        />
+                      ))}
+                    </Box>
+                  </Box>
+                </Box>
+              </Card>
+            );
+          })}
+        </Box>
+      )}
+    </Box>
+  );
+};
+
+const CrossBrandUpsellsStepInput = ({ values, handleChange, setFieldValue, currentProductId }: any) => {
+  const { data: productsData } = useGetAllProductsQuery({ isActive: true });
+  const allProducts = (productsData?.data || []).filter((p: any) => p.id !== currentProductId);
+
+  return (
+    <Box>
+      <Alert severity="info" sx={{ mb: 2.5 }}>
+        EatSure-style Cross-Brand Upsells: Suggest complementary items from any brand (e.g. recommend a Nirula&apos;s Hot Fudge Sundae alongside an AIMK Cake) on the customization bottom sheet or cart drawer with an optional special bundle discount.
+      </Alert>
+
+      <FieldArray name="crossBrandUpsells">
+        {({ push, remove }) => (
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+            {values.crossBrandUpsells?.map((upsell: any, index: number) => (
+              <Card
+                key={index}
+                variant="outlined"
+                sx={{ p: 2, borderRadius: 2 }}
+              >
+                <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 1.5 }}>
+                  <Typography variant="subtitle2" fontWeight={700}>
+                    Cross-Brand Upsell #{index + 1}
+                  </Typography>
+                  <IconButton
+                    size="small"
+                    color="error"
+                    onClick={() => remove(index)}
+                    title="Remove Upsell"
+                  >
+                    <DeleteIcon fontSize="small" />
+                  </IconButton>
+                </Box>
+
+                <Grid container spacing={2}>
+                  <Grid size={{ xs: 12, sm: 6 }}>
+                    <FormControl fullWidth size="small">
+                      <InputLabel>Target Product *</InputLabel>
+                      <Select
+                        name={`crossBrandUpsells.${index}.targetProductId`}
+                        value={upsell.targetProductId || ""}
+                        label="Target Product *"
+                        onChange={handleChange}
+                      >
+                        {allProducts.map((prod: any) => (
+                          <MenuItem key={prod.id} value={prod.id}>
+                            {prod.name} (₹{prod.basePrice})
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  </Grid>
+
+                  <Grid size={{ xs: 12, sm: 6 }}>
+                    <TextField
+                      label="Custom Promotional Title"
+                      size="small"
+                      fullWidth
+                      name={`crossBrandUpsells.${index}.customTitle`}
+                      value={upsell.customTitle}
+                      onChange={handleChange}
+                      placeholder="e.g. Complete your celebration with Hot Fudge!"
+                    />
+                  </Grid>
+
+                  <Grid size={{ xs: 6, sm: 4 }}>
+                    <TextField
+                      label="Bundle Price (₹)"
+                      type="number"
+                      size="small"
+                      fullWidth
+                      name={`crossBrandUpsells.${index}.discountPrice`}
+                      value={upsell.discountPrice}
+                      onChange={handleChange}
+                      helperText="Leave empty to use target item's regular price"
+                    />
+                  </Grid>
+
+                  <Grid size={{ xs: 6, sm: 4 }}>
+                    <FormControlLabel
+                      control={
+                        <Switch
+                          size="small"
+                          checked={upsell.isActive !== false}
+                          onChange={(e) =>
+                            setFieldValue(`crossBrandUpsells.${index}.isActive`, e.target.checked)
+                          }
+                        />
+                      }
+                      label={<Typography variant="caption">Active</Typography>}
+                    />
+                  </Grid>
+                </Grid>
+              </Card>
+            ))}
+
+            <Button
+              variant="outlined"
+              startIcon={<Add />}
+              onClick={() =>
+                push({
+                  targetProductId: "",
+                  customTitle: "",
+                  discountPrice: "",
+                  isActive: true,
+                  displayOrder: values.crossBrandUpsells?.length || 0,
+                })
+              }
+              sx={{ alignSelf: "flex-start" }}
+            >
+              + Add Cross-Brand Upsell
+            </Button>
+          </Box>
+        )}
+      </FieldArray>
+    </Box>
+  );
+};
+
 // ─── Step Content ─────────────────────────────────────────────────────────────
 
-const renderStep = (step: number, values: any, handleChange: any, categoriesData: any, brandsData: any) => {
+const renderStep = (
+  step: number,
+  values: any,
+  handleChange: any,
+  setFieldValue: any,
+  categoriesData: any,
+  brandsData: any,
+  currentProductId?: string
+) => {
   switch (step) {
     // ── Step 0: Basic Info ───────────────────────────────────────────────────
     case 0:
@@ -565,8 +991,18 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
         </Grid>
       );
 
-    // ── Step 2: Inventory ────────────────────────────────────────────────────
+    // ── Step 2: Variants ─────────────────────────────────────────────────────
     case 2:
+      return (
+        <VariantsStepInput
+          values={values}
+          setFieldValue={setFieldValue}
+          handleChange={handleChange}
+        />
+      );
+
+    // ── Step 3: Inventory ────────────────────────────────────────────────────
+    case 3:
       return (
         <Grid container spacing={2.5}>
           <Grid size={{ xs: 12 }}>
@@ -636,8 +1072,8 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
         </Grid>
       );
 
-    // ── Step 3: Bakery Details ───────────────────────────────────────────────
-    case 3:
+    // ── Step 4: Bakery Details ───────────────────────────────────────────────
+    case 4:
       return (
         <Grid container spacing={2.5}>
           <Grid size={{ xs: 12 }}>
@@ -702,8 +1138,8 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
         </Grid>
       );
 
-    // ── Step 4: Dietary & Allergens ──────────────────────────────────────────
-    case 4:
+    // ── Step 5: Dietary & Allergens ──────────────────────────────────────────
+    case 5:
       return (
         <Grid container spacing={3}>
           <Grid size={{ xs: 12 }}>
@@ -730,8 +1166,28 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
         </Grid>
       );
 
-    // ── Step 5: Media ────────────────────────────────────────────────────────
-    case 5:
+    // ── Step 6: Add-ons & Modifiers ──────────────────────────────────────────
+    case 6:
+      return (
+        <ModifiersStepInput
+          values={values}
+          setFieldValue={setFieldValue}
+        />
+      );
+
+    // ── Step 7: Cross-Brand Upsells ──────────────────────────────────────────
+    case 7:
+      return (
+        <CrossBrandUpsellsStepInput
+          values={values}
+          handleChange={handleChange}
+          setFieldValue={setFieldValue}
+          currentProductId={currentProductId}
+        />
+      );
+
+    // ── Step 8: Media ────────────────────────────────────────────────────────
+    case 8:
       return (
         <Grid container spacing={3}>
           <Grid size={{ xs: 12 }}>
@@ -767,8 +1223,8 @@ const renderStep = (step: number, values: any, handleChange: any, categoriesData
         </Grid>
       );
 
-    // ── Step 6: SEO & Promotions ─────────────────────────────────────────────
-    case 6:
+    // ── Step 9: SEO & Promotions ─────────────────────────────────────────────
+    case 9:
       return (
         <Grid container spacing={2.5}>
           <Grid size={{ xs: 12 }}>
@@ -911,6 +1367,12 @@ export default function ProductForm() {
   const [activeStep, setActiveStep] = useState(0);
 
   const selectedProduct = useSelector((state: any) => state.productReducer.selectedProduct);
+  const { data: fullProductResponse } = useGetProductQuery(
+    { id: selectedProduct?.id },
+    { skip: !isEditing || !selectedProduct?.id }
+  );
+  const activeProduct = fullProductResponse?.data || selectedProduct;
+
   const { data: categoriesData } = useGetAllCategoriesQuery();
   const { data: brandsData } = useGetAllBrandsQuery();
 
@@ -923,37 +1385,58 @@ export default function ProductForm() {
   // _mainImageUrl / _thumbnailUrl are UI-only for image previews — stripped before submit.
   const initialValues = {
     // ── Basic ──────────────────────────────────────────────────────────────
-    name: selectedProduct?.name || "",
-    shortDescription: selectedProduct?.shortDescription || "",
-    description: selectedProduct?.description || "",
-    code: selectedProduct?.code || "",
-    categoryId: selectedProduct?.categoryId || "",
+    name: activeProduct?.name || "",
+    shortDescription: activeProduct?.shortDescription || "",
+    description: activeProduct?.description || "",
+    code: activeProduct?.code || "",
+    categoryId: activeProduct?.categoryId || "",
+    brandId: activeProduct?.brandId || "",
 
     // ── Pricing & Tax ──────────────────────────────────────────────────────
-    baseUnit: selectedProduct?.baseUnit || "piece",
-    basePrice: selectedProduct?.basePrice || 0,
-    availableUnits: selectedProduct?.availableUnits || {},
-    hsnCode: selectedProduct?.hsnCode || "",
-    gstRate: selectedProduct?.gstRate ?? 5,
+    baseUnit: activeProduct?.baseUnit || "piece",
+    basePrice: activeProduct?.basePrice ? Number(activeProduct.basePrice) : 0,
+    availableUnits: activeProduct?.availableUnits || {},
+    hsnCode: activeProduct?.hsnCode || "",
+    gstRate: activeProduct?.gstRate ?? 5,
+
+    // ── Variants ───────────────────────────────────────────────────────────
+    variants: activeProduct?.variants?.length
+      ? activeProduct.variants.map((v: any, idx: number) => ({
+          id: v.id,
+          name: v.name,
+          price: Number(v.price),
+          compareAtPrice:
+            v.compareAtPrice !== null && v.compareAtPrice !== undefined
+              ? Number(v.compareAtPrice)
+              : "",
+          weight:
+            v.weight !== null && v.weight !== undefined ? Number(v.weight) : "",
+          weightUnit: v.weightUnit || "g",
+          isDefault: Boolean(v.isDefault),
+          inStock: v.inStock !== false,
+          stockQuantity: v.stockQuantity ?? 100,
+          displayOrder: v.displayOrder ?? idx,
+        }))
+      : [],
 
     // ── Inventory ──────────────────────────────────────────────────────────
-    inStock: selectedProduct?.inStock ?? true,
-    stockQuantity: selectedProduct?.stockQuantity || 0,
-    lowStockThreshold: selectedProduct?.lowStockThreshold || 5,
-    preorderEnabled: selectedProduct?.preorderEnabled || false,
-    preorderLeadDays: selectedProduct?.preorderLeadDays || 2,
+    inStock: activeProduct?.inStock ?? true,
+    stockQuantity: activeProduct?.stockQuantity || 0,
+    lowStockThreshold: activeProduct?.lowStockThreshold || 5,
+    preorderEnabled: activeProduct?.preorderEnabled || false,
+    preorderLeadDays: activeProduct?.preorderLeadDays || 2,
 
     // ── Bakery ─────────────────────────────────────────────────────────────
-    weight: selectedProduct?.weight || "",
-    weightUnit: selectedProduct?.weightUnit || "g",
-    piecesPerPack: selectedProduct?.piecesPerPack || "",
-    shelfLife: selectedProduct?.shelfLife || "",
-    storageInstructions: selectedProduct?.storageInstructions || "",
+    weight: activeProduct?.weight || "",
+    weightUnit: activeProduct?.weightUnit || "g",
+    piecesPerPack: activeProduct?.piecesPerPack || "",
+    shelfLife: activeProduct?.shelfLife || "",
+    storageInstructions: activeProduct?.storageInstructions || "",
 
     // ── Dietary ────────────────────────────────────────────────────────────
-    dietaryTags: selectedProduct?.dietaryTags || [],
-    allergenInfo: selectedProduct?.allergenInfo || { contains: [], mayContain: [] },
-    nutritionalInfo: selectedProduct?.nutritionalInfo || {
+    dietaryTags: activeProduct?.dietaryTags || [],
+    allergenInfo: activeProduct?.allergenInfo || { contains: [], mayContain: [] },
+    nutritionalInfo: activeProduct?.nutritionalInfo || {
       calories: "",
       protein: "",
       carbs: "",
@@ -964,40 +1447,100 @@ export default function ProductForm() {
       sodium: "",
     },
 
+    // ── Add-ons & Modifiers ────────────────────────────────────────────────
+    modifierGroupIds:
+      activeProduct?.modifierGroups?.map(
+        (pmg: any) => pmg.modifierGroupId || pmg.modifierGroup?.id
+      ) || [],
+
+    // ── Cross-Brand Upsells ────────────────────────────────────────────────
+    crossBrandUpsells: activeProduct?.crossBrandUpsells?.length
+      ? activeProduct.crossBrandUpsells.map((u: any, idx: number) => ({
+          id: u.id,
+          targetProductId: u.targetProductId,
+          customTitle: u.customTitle || "",
+          discountPrice:
+            u.discountPrice !== null && u.discountPrice !== undefined
+              ? Number(u.discountPrice)
+              : "",
+          isActive: u.isActive !== false,
+          displayOrder: u.displayOrder ?? idx,
+        }))
+      : [],
+
     // ── Media (submit IDs only) ────────────────────────────────────────────
-    mainImageId: selectedProduct?.mainImageId || "",
-    thumbnailId: selectedProduct?.thumbnailId || "",
+    mainImageId: activeProduct?.mainImageId || "",
+    thumbnailId: activeProduct?.thumbnailId || "",
     gallery:
-      selectedProduct?.gallery?.map((m: any) => (typeof m === "string" ? m : m.id)) || [],
+      activeProduct?.gallery?.map((m: any) =>
+        typeof m === "string" ? m : m.id
+      ) || [],
 
     // UI-only preview URLs — NOT sent to API
-    _mainImageUrl: selectedProduct?.mainImage?.url || "",
-    _thumbnailUrl: selectedProduct?.thumbnail?.url || "",
+    _mainImageUrl: activeProduct?.mainImage?.url || "",
+    _thumbnailUrl: activeProduct?.thumbnail?.url || "",
 
     // ── Promotions ─────────────────────────────────────────────────────────
-    featured: selectedProduct?.featured || false,
-    bestSeller: selectedProduct?.bestSeller || false,
-    newArrival: selectedProduct?.newArrival || false,
+    featured: activeProduct?.featured || false,
+    bestSeller: activeProduct?.bestSeller || false,
+    newArrival: activeProduct?.newArrival || false,
 
     // ── Seasonal ───────────────────────────────────────────────────────────
-    isSeasonal: selectedProduct?.isSeasonal || false,
-    availableFrom: selectedProduct?.availableFrom
-      ? new Date(selectedProduct.availableFrom).toISOString().split("T")[0]
+    isSeasonal: activeProduct?.isSeasonal || false,
+    availableFrom: activeProduct?.availableFrom
+      ? new Date(activeProduct.availableFrom).toISOString().split("T")[0]
       : "",
-    availableUntil: selectedProduct?.availableUntil
-      ? new Date(selectedProduct.availableUntil).toISOString().split("T")[0]
+    availableUntil: activeProduct?.availableUntil
+      ? new Date(activeProduct.availableUntil).toISOString().split("T")[0]
       : "",
-    maxPerOrder: selectedProduct?.maxPerOrder || "",
+    maxPerOrder: activeProduct?.maxPerOrder || "",
 
     // ── SEO ────────────────────────────────────────────────────────────────
-    seoTitle: selectedProduct?.seoTitle || "",
-    seoDescription: selectedProduct?.seoDescription || "",
+    seoTitle: activeProduct?.seoTitle || "",
+    seoDescription: activeProduct?.seoDescription || "",
   };
 
   const handleSubmit = async (values: typeof initialValues) => {
     try {
       // Strip UI-only preview URL fields
       const { _mainImageUrl, _thumbnailUrl, ...rest } = values;
+
+      // Format variants
+      const formattedVariants = (rest.variants || [])
+        .filter((v: any) => v.name && v.name.trim() !== "")
+        .map((v: any, idx: number) => ({
+          ...(v.id ? { id: v.id } : {}),
+          name: v.name.trim(),
+          price: Number(v.price || 0),
+          compareAtPrice:
+            v.compareAtPrice !== "" && v.compareAtPrice !== null && v.compareAtPrice !== undefined
+              ? Number(v.compareAtPrice)
+              : undefined,
+          weight:
+            v.weight !== "" && v.weight !== null && v.weight !== undefined
+              ? Number(v.weight)
+              : undefined,
+          weightUnit: v.weightUnit || undefined,
+          isDefault: Boolean(v.isDefault),
+          inStock: v.inStock !== false,
+          stockQuantity: Number(v.stockQuantity || 0),
+          displayOrder: idx,
+        }));
+
+      // Format cross-brand upsells
+      const formattedUpsells = (rest.crossBrandUpsells || [])
+        .filter((u: any) => u.targetProductId && u.targetProductId.trim() !== "")
+        .map((u: any, idx: number) => ({
+          ...(u.id ? { id: u.id } : {}),
+          targetProductId: u.targetProductId,
+          customTitle: u.customTitle ? u.customTitle.trim() : undefined,
+          discountPrice:
+            u.discountPrice !== "" && u.discountPrice !== null && u.discountPrice !== undefined
+              ? Number(u.discountPrice)
+              : undefined,
+          isActive: u.isActive !== false,
+          displayOrder: idx,
+        }));
 
       // Coerce empty strings to undefined for optional numeric fields
       const payload = {
@@ -1016,6 +1559,9 @@ export default function ProductForm() {
         thumbnailId: rest.thumbnailId || undefined,
         description: rest.description || undefined,
         storageInstructions: rest.storageInstructions || undefined,
+        variants: formattedVariants,
+        modifierGroupIds: rest.modifierGroupIds || [],
+        crossBrandUpsells: formattedUpsells,
       };
 
       if (isEditing) {
@@ -1052,7 +1598,7 @@ export default function ProductForm() {
       // validationSchema={ProductValidator.createProductSchema}
       enableReinitialize
     >
-      {({ isSubmitting, submitForm, values, handleChange }) => (
+      {({ isSubmitting, submitForm, values, handleChange, setFieldValue }) => (
         <Form className="flex flex-col" style={{ height: "100%" }}>
           {/* ── Stepper Header ─────────────────────────────────────────────── */}
           <Box sx={{ p: 2.5, borderBottom: 1, borderColor: "divider", overflowX: "auto" }}>
@@ -1068,7 +1614,15 @@ export default function ProductForm() {
           {/* ── Scrollable Content ──────────────────────────────────────────── */}
           <Box sx={{ flex: 1, overflow: "auto", p: 3 }}>
             <Paper elevation={0} variant="outlined" sx={{ p: 3 }}>
-              {renderStep(activeStep, values, handleChange, categoriesData, brandsData)}
+              {renderStep(
+                activeStep,
+                values,
+                handleChange,
+                setFieldValue,
+                categoriesData,
+                brandsData,
+                activeProduct?.id
+              )}
             </Paper>
           </Box>
 

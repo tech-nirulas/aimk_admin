@@ -12,6 +12,7 @@ import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import CakeIcon from "@mui/icons-material/Cake";
 import RateReviewIcon from "@mui/icons-material/RateReview";
 import PeopleIcon from "@mui/icons-material/People";
+import TuneIcon from "@mui/icons-material/Tune";
 import {
   Box,
   Divider,
@@ -45,6 +46,7 @@ const ICON_MAP: Record<string, React.ReactNode> = {
   Payments: <ReceiptLongOutlinedIcon />,
   LocalOffer: <ReceiptLongOutlinedIcon />,
   Discount: <ReceiptLongOutlinedIcon />,
+  Tune: <TuneIcon />,
 };
 
 export default function Sidebar() {
@@ -53,30 +55,10 @@ export default function Sidebar() {
   const permissions = useSelector((state: any) => state.authReducer?.permissions) || [];
   const user = useSelector((state: any) => state.authReducer?.user);
 
-  const visibleModules = useMemo(() => {
-    const allModules = getVisibleSidebarModules(permissions);
-
-    // Super Admin sees all modules without restriction
-    if (user?.role?.name === 'super_admin' || permissions.includes('*') || permissions.includes('*:*')) {
-      return allModules;
-    }
-
-    // If the user has roleModules from the backend, use them to filter sidebar visibility
-    const roleModules = user?.role?.roleModules;
-    if (roleModules && Array.isArray(roleModules) && roleModules.length > 0) {
-      const allowedPaths = new Set(
-        roleModules
-          .filter((rm: any) => rm.canView || rm.canAccess)
-          .map((rm: any) => rm.module?.path)
-          .filter(Boolean)
-      );
-      if (allowedPaths.size > 0) {
-        return allModules.filter((m) => allowedPaths.has(m.path));
-      }
-    }
-
-    return allModules;
-  }, [permissions, user]);
+  const visibleModules = useMemo(
+    () => getVisibleSidebarModules(permissions),
+    [permissions]
+  );
 
   return (
     <Drawer

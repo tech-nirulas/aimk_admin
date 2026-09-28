@@ -43,28 +43,32 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const publicRoutes = ['/login'];
   const isPublicRoute = publicRoutes.includes(pathname);
 
+  const reauthenticate = async (): Promise<string | null> => {
+    const refreshToken = getRefreshToken();
+    if (!refreshToken) return null;
+    try {
+      const refreshRes = await refreshTokenMutation(refreshToken).unwrap();
+      if (!refreshRes?.accessToken) return null;
+      await saveEncryptedToken(refreshRes.accessToken);
+      if (refreshRes.refreshToken) saveRefreshToken(refreshRes.refreshToken);
+      return refreshRes.accessToken;
+    } catch {
+      return null;
+    }
+  };
+
+  const loadSession = async (token: string) => {
+    const userData = await fetchUser(token).unwrap();
+    dispatch(setUser(userData));
+  };
+
   const checkAuth = async () => {
     try {
       dispatch(setLoading(true));
       let token = await getDecryptedToken();
 
       if (!token) {
-        // Attempt silent re-authentication via refresh token if present
-        const refreshToken = getRefreshToken();
-        if (refreshToken) {
-          try {
-            const refreshRes = await refreshTokenMutation(refreshToken).unwrap();
-            if (refreshRes?.accessToken) {
-              token = refreshRes.accessToken;
-              await saveEncryptedToken(refreshRes.accessToken);
-              if (refreshRes.refreshToken) {
-                saveRefreshToken(refreshRes.refreshToken);
-              }
-            }
-          } catch (_err) {
-            token = null;
-          }
-        }
+        token = await reauthenticate();
       }
 
       if (!token) {
@@ -75,30 +79,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return;
       }
 
-      // Fetch user data with token
-      const userData = await fetchUser(token).unwrap();
-      dispatch(setUser(userData));
-    } catch (error: any) {
-      // Access token expired - attempt silent refresh before giving up
-      const refreshToken = getRefreshToken();
-      if (refreshToken) {
-        try {
-          const refreshRes = await refreshTokenMutation(refreshToken).unwrap();
-          if (refreshRes?.accessToken) {
-            await saveEncryptedToken(refreshRes.accessToken);
-            if (refreshRes.refreshToken) {
-              saveRefreshToken(refreshRes.refreshToken);
-            }
-            const userData = await fetchUser(refreshRes.accessToken).unwrap();
-            dispatch(setUser(userData));
-            return;
-          }
-        } catch (_err) {
-          // Refresh failed
-        }
+      try {
+        await loadSession(token);
+      } catch (err) {
+        // Either the access token expired or a role permission edit bumped permissionsVersion
+        // and invalidated it. One silent refresh handles both, so a permission change no longer
+        // reads to the user as a failed restriction.
+        const refreshed = await reauthenticate();
+        if (!refreshed) throw err;
+        await loadSession(refreshed);
       }
-
-      // Session expired or invalid token - log out cleanly
+    } catch (_error) {
       dispatch(logout());
       if (!isPublicRoute) {
         router.push('/login');

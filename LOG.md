@@ -161,3 +161,15 @@ The admin Orders and Payments grids now update themselves when the backend emits
 - Updated `CategoryForm.tsx` in `aimk_admin` with parent category selector including a `-- None (Top Level Category) --` option and self-filtering logic to prevent circular references.
 - Added `CategoryWithChildren` interface in `interfaces/category.interface.ts`.
 
+## [2026-09-26] Product Variants, Reusable Modifiers & Cross-Brand Upsells Admin Management
+- Created Modifiers RTK Query slice (`features/modifiers/modifierApiService.ts`, `modifierEndpoints.ts`, `modifierSlice.ts`, `interfaces/modifier.interface.ts`) and registered in Redux store.
+- Built Modifiers & Add-ons Library page (`app/admin/modifiers/page.tsx`) with DataTable, Brand filters, search, and delete confirmations.
+- Created `ModifierGroupForm.tsx` drawer form to manage Modifier Group name, display title, min/max selection constraints, and dynamic option rows (price, dietary status, default & in-stock flags).
+- Added "Modifiers & Add-ons" link with `Tune` icon into `Sidebar.tsx`.
+- Enhanced `ProductForm.tsx` with a 10-step wizard:
+  - Step 2: "Variants" with dynamic FieldArray for portion sizes (price, compareAtPrice, portion weight/unit, default toggle, stock quantity, and inStock status).
+  - Step 6: "Add-ons & Modifiers" with multi-select cards to attach reusable modifier groups to the product.
+  - Step 7: "Cross-Brand Upsells" (EatSure style) to configure complementary cross-brand items with bundle discount pricing.
+  - Integrated `useGetProductQuery` to fetch complete variant/modifier tree on edit drawer opening.
+- Verified Next.js 16 production build compiles with 0 errors (`npm run build`).
+
