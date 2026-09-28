@@ -1,5 +1,6 @@
 import AdminLayout from "@/components/layout/AdminLayout";
 import { Providers } from "@/lib/Providers";
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import { Cormorant_Garamond, DM_Mono, Lato, Playfair_Display } from "next/font/google";
 import "slick-carousel/slick/slick-theme.css";
@@ -32,6 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Providers>
           {children}
         </Providers>
+        <Analytics />
       </body>
     </html>
   );
