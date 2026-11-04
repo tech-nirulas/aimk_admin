@@ -39,6 +39,9 @@ export default function OrdersPage() {
   const [status, setStatus] = useState("");
   const [sortBy, setSortBy] = useState("placedAt");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+  const [timeRange, setTimeRange] = useState("48h");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
   // Debounced search
   const debouncedSearch = useMemo(
@@ -59,12 +62,24 @@ export default function OrdersPage() {
     if (field === "limit") setLimit(value);
     if (field === "sortBy") setSortBy(value);
     if (field === "sortOrder") setSortOrder(value);
+    if (field === "timeRange") {
+      setTimeRange(value);
+      if (value !== "custom") {
+        setStartDate("");
+        setEndDate("");
+      }
+    }
+    if (field === "startDate") setStartDate(value);
+    if (field === "endDate") setEndDate(value);
     setPage(1);
   };
 
   const handleClearFilters = () => {
     setSearch("");
     setStatus("");
+    setTimeRange("48h");
+    setStartDate("");
+    setEndDate("");
     setSortBy("placedAt");
     setSortOrder("desc");
     setLimit(10);
@@ -79,6 +94,9 @@ export default function OrdersPage() {
     status: status || undefined,
     sortBy,
     sortOrder,
+    timeRange,
+    startDate: timeRange === "custom" && startDate ? startDate : undefined,
+    endDate: timeRange === "custom" && endDate ? endDate : undefined,
   });
 
   const [updateStatus] = useUpdateOrderStatusMutation();
@@ -127,11 +145,24 @@ export default function OrdersPage() {
       {
         field: "orderNumber",
         headerName: "Order ID",
-        flex: 1,
+        flex: 1.1,
         renderCell: ({ row }: any) => (
-          <Typography variant="body2" sx={{ fontWeight: 800 }}>
-            {row.orderNumber}
-          </Typography>
+          <Box sx={{ py: 0.5 }}>
+            <Typography variant="body2" sx={{ fontWeight: 800 }}>
+              {row.orderNumber}
+            </Typography>
+            {row.placedAt && (
+              <Typography variant="caption" sx={{ color: "text.secondary", display: "block" }}>
+                {new Date(row.placedAt).toLocaleString("en-IN", {
+                  day: "2-digit",
+                  month: "short",
+                  year: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </Typography>
+            )}
+          </Box>
         ),
       },
       {
@@ -288,6 +319,43 @@ export default function OrdersPage() {
               }}
             />
           </div>
+
+          <FormControl size="small" sx={{ minWidth: 170 }}>
+            <InputLabel>Date Range</InputLabel>
+            <Select
+              value={timeRange}
+              label="Date Range"
+              onChange={(e) => handleFilterChange("timeRange", e.target.value)}
+            >
+              <MenuItem value="48h">Last 48 Hours (Default)</MenuItem>
+              <MenuItem value="today">Today</MenuItem>
+              <MenuItem value="7d">Last 7 Days</MenuItem>
+              <MenuItem value="30d">Last 30 Days</MenuItem>
+              <MenuItem value="all">All Orders (Past & Present)</MenuItem>
+              <MenuItem value="custom">Custom Date Range</MenuItem>
+            </Select>
+          </FormControl>
+
+          {timeRange === "custom" && (
+            <Box sx={{ display: "flex", gap: 1.5, alignItems: "center" }}>
+              <TextField
+                label="From"
+                type="date"
+                size="small"
+                slotProps={{ inputLabel: { shrink: true } }}
+                value={startDate}
+                onChange={(e) => handleFilterChange("startDate", e.target.value)}
+              />
+              <TextField
+                label="To"
+                type="date"
+                size="small"
+                slotProps={{ inputLabel: { shrink: true } }}
+                value={endDate}
+                onChange={(e) => handleFilterChange("endDate", e.target.value)}
+              />
+            </Box>
+          )}
 
           <FormControl size="small" sx={{ minWidth: 120 }}>
             <InputLabel>Status</InputLabel>

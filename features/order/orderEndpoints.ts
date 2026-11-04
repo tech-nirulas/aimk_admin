@@ -82,6 +82,9 @@ export const orderEndpoints = (builder: EndpointDefinitions) => ({
       status?: string;
       sortBy?: string;
       sortOrder?: "asc" | "desc";
+      timeRange?: string;
+      startDate?: string;
+      endDate?: string;
     }
   >({
     query: (params) => ({
@@ -94,6 +97,9 @@ export const orderEndpoints = (builder: EndpointDefinitions) => ({
         ...(params.status && { status: params.status }),
         ...(params.sortBy && { sortBy: params.sortBy }),
         ...(params.sortOrder && { sortOrder: params.sortOrder }),
+        ...(params.timeRange && { timeRange: params.timeRange }),
+        ...(params.startDate && { startDate: params.startDate }),
+        ...(params.endDate && { endDate: params.endDate }),
       },
     }),
     providesTags: ["Order"],

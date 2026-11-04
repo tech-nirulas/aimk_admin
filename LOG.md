@@ -1,5 +1,17 @@
 # AIMK Admin Panel — Development Log
 
+## [2026-11-04] Admin Orders: 48-Hour Default Filter & Past Orders Date Range
+- **Orders Table (`app/admin/orders/page.tsx`)**:
+  - Implemented 48-hour default time range filter: `timeRange` defaults to `"48h"`.
+  - Added preset options: *Last 48 Hours (Default)*, *Today*, *Last 7 Days*, *Last 30 Days*, *All Orders (Past & Present)*, and *Custom Date Range*.
+  - Added conditional From/To date picker inputs when "Custom Date Range" is selected.
+  - Updated `handleClearFilters` to reset the time range back to `"48h"` and clear custom date bounds.
+  - Added order timestamp subtitle (`placedAt`) formatted in Indian locale (`day`, `month`, `year`, `hour:minute`) directly under Order ID for instant visual verification.
+- **RTK Query Endpoints (`features/order/orderEndpoints.ts`)**:
+  - Extended `getAllAdminOrders` query parameters to include `timeRange`, `startDate`, and `endDate`.
+- **Verification**:
+  - Production build (`npm run build` with Turbopack) completed successfully with 0 errors.
+
 ## [2026-08-20] Admin Orders Table Payment Column & Online Gateway Details
 
 - **Orders Table (`app/admin/orders/page.tsx`)**:
