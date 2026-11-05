@@ -7,6 +7,7 @@ import outletReducer from "@/features/outlets/outletsSlice";
 import brandReducer from "@/features/brand/brandSlice";
 import discountReducer from "@/features/discounts/discountSlice";
 import offerReducer from "@/features/offers/offerSlice";
+import deliveryFeeReducer from "@/features/delivery-fee/deliveryFeeSlice";
 import modifierReducer from "@/features/modifiers/modifierSlice";
 
 export const reducer = {
@@ -19,5 +20,6 @@ export const reducer = {
   brandReducer,
   discountReducer,
   offerReducer,
+  deliveryFeeReducer,
   modifierReducer,
 };

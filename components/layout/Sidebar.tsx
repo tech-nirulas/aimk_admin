@@ -5,6 +5,7 @@ import CategoryIcon from "@mui/icons-material/Category";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ImageIcon from "@mui/icons-material/Image";
 import InventoryIcon from "@mui/icons-material/Inventory";
+import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
 import LocationIcon from "@mui/icons-material/LocationCity";
 import MoneyIcon from "@mui/icons-material/Money";
 import ReceiptLongOutlinedIcon from "@mui/icons-material/ReceiptLongOutlined";
@@ -46,6 +47,7 @@ const ICON_MAP: Record<string, React.ReactNode> = {
   Payments: <ReceiptLongOutlinedIcon />,
   LocalOffer: <ReceiptLongOutlinedIcon />,
   Discount: <ReceiptLongOutlinedIcon />,
+  LocalShipping: <LocalShippingOutlinedIcon />,
   Tune: <TuneIcon />,
 };
 
