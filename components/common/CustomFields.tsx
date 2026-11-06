@@ -71,11 +71,13 @@ export const MaterialSelectField = ({ label, options, ...props }: MaterialSelect
 
   // Synchronize the internal inputValue with the Formik field value
   useEffect(() => {
-    if (!field.value) {
+    if (field.value === undefined || field.value === null || field.value === "") {
       setInputValue('');
     } else {
-      // Optional: if you want to display the label corresponding to the value
-      const selectedOption = options?.find(option => option.value === field.value);
+      const selectedOption = options?.find(option =>
+        String(option.value) === String(field.value) ||
+        (Number(option.value) === Number(field.value) && !isNaN(Number(field.value)))
+      );
       if (selectedOption) {
         setInputValue(selectedOption.label || '');
       }
@@ -86,14 +88,25 @@ export const MaterialSelectField = ({ label, options, ...props }: MaterialSelect
     const currentInput = inputRef.current?.value || "";
     helpers.setError("");
     if (currentInput.trim() === "") {
+      // If field already has a valid value matching an option, don't clear it
+      const currentSelected = options?.find(option =>
+        String(option.value) === String(field.value) ||
+        (Number(option.value) === Number(field.value) && !isNaN(Number(field.value)))
+      );
+      if (currentSelected) {
+        setInputValue(currentSelected.label || "");
+        return;
+      }
       helpers.setValue("");
       return;
     }
     const exactMatch = options?.find(option =>
-      option.label?.toLowerCase() === currentInput.toLowerCase()
+      option.label?.toLowerCase() === currentInput.toLowerCase() ||
+      String(option.value).toLowerCase() === currentInput.toLowerCase()
     );
     if (exactMatch) {
       helpers.setValue(exactMatch.value);
+      setInputValue(exactMatch.label || "");
       return;
     }
     const partialMatch = options?.find(option =>
@@ -103,11 +116,24 @@ export const MaterialSelectField = ({ label, options, ...props }: MaterialSelect
       helpers.setValue(partialMatch.value);
       setInputValue(partialMatch.label || "");
     } else {
-      helpers.setError("No matching option found");
-      helpers.setValue("");
-      setInputValue("");
+      const currentSelected = options?.find(option =>
+        String(option.value) === String(field.value) ||
+        (Number(option.value) === Number(field.value) && !isNaN(Number(field.value)))
+      );
+      if (currentSelected) {
+        setInputValue(currentSelected.label || "");
+      } else {
+        helpers.setError("No matching option found");
+        helpers.setValue("");
+        setInputValue("");
+      }
     }
   };
+
+  const selectedValue = options?.find(option =>
+    String(option.value) === String(field.value) ||
+    (Number(option.value) === Number(field.value) && !isNaN(Number(field.value)))
+  ) || null;
 
   return (
     <FormControl fullWidth variant="outlined" error={!!errorText}>
@@ -117,11 +143,12 @@ export const MaterialSelectField = ({ label, options, ...props }: MaterialSelect
         getOptionLabel={(option) =>
           typeof option === "string" ? option : option.label || ""
         }
-        isOptionEqualToValue={(option, value) =>
-          typeof option === "string"
-            ? option === value
-            : option.value === (typeof value === "string" ? value : value?.value)
-        }
+        isOptionEqualToValue={(option, value) => {
+          if (typeof option === "string") return option === value;
+          const optVal = String(option?.value ?? "");
+          const valVal = String(typeof value === "string" ? value : value?.value ?? "");
+          return optVal === valVal;
+        }}
         renderInput={(params) => (
           <TextField
             {...params}
@@ -138,15 +165,27 @@ export const MaterialSelectField = ({ label, options, ...props }: MaterialSelect
         }}
         onChange={(_, newValue) => {
           if (typeof newValue === "string") {
-            helpers.setValue(newValue);
+            const matched = options?.find(option =>
+              option.label?.toLowerCase() === newValue.toLowerCase() ||
+              String(option.value).toLowerCase() === newValue.toLowerCase()
+            );
+            if (matched) {
+              helpers.setValue(matched.value);
+              setInputValue(matched.label || "");
+            } else {
+              helpers.setValue(newValue);
+              setInputValue(newValue);
+            }
+          } else if (newValue) {
+            helpers.setValue(newValue.value);
+            setInputValue(newValue.label || "");
           } else {
-            helpers.setValue(newValue ? newValue.value : "");
+            helpers.setValue("");
+            setInputValue("");
           }
-          // Clear the input when a new value is selected
-          setInputValue("");
         }}
         onBlur={validateValue}
-        value={options?.find(option => option.value === field.value) || null}
+        value={selectedValue}
         autoHighlight
         freeSolo
         filterOptions={(options, state) => {
