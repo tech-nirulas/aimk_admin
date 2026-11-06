@@ -14,12 +14,12 @@ import { clearProduct, clearSelectedProduct, setSelectedProduct } from "@/featur
 import { usePermission } from "@/hooks/usePermission";
 import { Product } from "@/interfaces/product.interface";
 import { useConfirmDialog } from "@/lib/DialogProvider";
-import { useFormDrawer } from "@/lib/FormDrawerProvider";
+import { useModal } from "@/lib/ModalProvider";
 import { PERMISSIONS } from "@aimk/permissions";
 
 export default function ProductsPage() {
   const dispatch = useDispatch();
-  const { openDrawer, setIsEditing } = useFormDrawer();
+  const { openModal, setIsEditing } = useModal();
   const { can } = usePermission();
 
   const canCreate = can(PERMISSIONS.PRODUCT.CREATE);
@@ -83,23 +83,25 @@ export default function ProductsPage() {
     dispatch(setSelectedProduct(row));
     setIsEditing(true);
 
-    openDrawer({
-      drawerName: "Edit Product",
+    openModal({
+      title: "Edit Product",
+      hideHeader: true,
       children: <ProductForm />,
       dispatchFunctions: [clearSelectedProduct],
       isEditing: true,
-      width: 700,
-      anchor: "right"
+      maxWidth: "xl",
+      disableBackdropClick: true,
     });
-  }, [dispatch, setIsEditing, openDrawer]);
+  }, [dispatch, setIsEditing, openModal]);
 
   const handleCreate = () => {
-    openDrawer({
-      drawerName: "Create Product",
+    openModal({
+      title: "Create Product",
+      hideHeader: true,
       children: <ProductForm />,
       dispatchFunctions: [clearSelectedProduct, clearProduct],
-      width: 700,
-      anchor: "right"
+      maxWidth: "xl",
+      disableBackdropClick: true,
     });
   };
 

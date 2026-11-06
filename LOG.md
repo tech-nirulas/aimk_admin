@@ -1,5 +1,37 @@
 # AIMK Admin Panel — Development Log
 
+## [2026-11-06] Bugfix: Product GST Rate Persistence & Select Field Synchronization
+- **GST Rate Input Control (`PricingTaxSection.tsx`)**:
+  - Replaced the fuzzy-matching Autocomplete with a dedicated, resilient MUI `Select` (`GstRateSelect`) that cleanly casts and binds numeric values (`0, 5, 12, 18, 28, 40`).
+- **Initial Values & Payload Coercion (`ProductForm.tsx`)**:
+  - Fixed initialValues to explicitly parse Prisma's Decimal string (`"18.00"`, `"5.00"`, `"0.00"`) into `Number(...)` instead of leaving it as an unparsed string.
+  - Explicitly coerced `payload.gstRate` to a number upon submission (`Number(rest.gstRate)`) to prevent empty string serialization.
+- **Global `MaterialSelectField` Autocomplete Fix (`components/common/CustomFields.tsx`)**:
+  - Fixed falsy evaluation `!field.value` which previously wiped out `0` (e.g. 0% GST).
+  - Fixed strict equality `option.value === field.value` to support string/number type conversions (`String(option.value) === String(field.value)`).
+  - Fixed bug where `onChange` was calling `setInputValue("")`, which triggered `validateValue` on blur to clear the field.
+- **Verification**:
+  - Next.js production build (`npm run build`) passed with 0 errors.
+
+## [2026-11-06] Product Edit/Create: 2-Column Shopify-Style Modal with Quick-Jump Navigation
+- **Unified Modal Architecture (`lib/ModalProvider.tsx`)**:
+  - Upgraded `ModalProvider` with full feature parity to `FormDrawerProvider`: added `isEditing`, `setIsEditing`, `dispatchFunctions` (auto-executing Redux cleanups on close), `disableBackdropClick`, and `hideHeader` option.
+  - Dialog is configured for 90vh full-height responsive viewport with rounded corners (`borderRadius: 3`) and clean inner content isolation.
+- **Product Modal Form Modernization (`components/ui/Product/ProductForm.tsx`)**:
+  - Eliminated the 10-step wizard stepper (`Next -> Next -> Back -> Submit on Step 10`).
+  - Replaced it with an interactive 2-column Shopify-style canvas:
+    - **Main Column (65%)**: Basic Info, Media & Gallery, Pricing & Tax, Portion Sizes & Variants, Modifier Groups, Cross-Brand Upsells.
+    - **Side Rail (35%)**: Organization (Brand/Category), Inventory & Pre-orders, Bakery Specs, Dietary & Allergen tags, SEO & Merchandising.
+  - **Sticky Top Action Bar**: Persistent Header with Product Title, Status chip, Cancel button, and one-click "Save Changes" / "Create Product" button with loading spinner.
+  - **Sticky Quick-Jump Pill Bar**: Navigational pills with `IntersectionObserver` scroll-spy synchronization and Formik validation error badging (`⚠️`).
+  - **Safety & Ergonomics**: Integrated unsaved changes discard confirmation dialog (`useConfirmDialog`) and toast notifications (`useToast`).
+- **Modular Components Structure (`components/ui/Product/sections/`)**:
+  - Decomposed the previous 1,700-line monolithic file into 10 clean, domain-focused section components: `BasicInfoSection`, `MediaGallerySection`, `PricingTaxSection`, `VariantsSection`, `ModifiersSection`, `CrossBrandUpsellsSection`, `OrganizationSection`, `InventorySection`, `BakeryDetailsSection`, `DietarySection`, `SeoSection`.
+- **Products Page Integration (`app/admin/products/page.tsx`)**:
+  - Replaced `useFormDrawer` with `useModal`, opening the new full-canvas `maxWidth="xl"` modal while preserving all Redux cleanup dispatches (`clearSelectedProduct`, `clearProduct`).
+- **Verification**:
+  - Next.js production build (`npm run build` with Turbopack) completed successfully with 0 errors.
+
 ## [2026-11-04] Admin Orders: 48-Hour Default Filter & Past Orders Date Range
 - **Orders Table (`app/admin/orders/page.tsx`)**:
   - Implemented 48-hour default time range filter: `timeRange` defaults to `"48h"`.

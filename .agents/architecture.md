@@ -51,6 +51,9 @@ aimk_admin/
   - **MUI X-Date-Pickers**: Used for date selection.
   - **Tailwind CSS v4**: Installed and configured for layout grid adjustments, utilities, and helper classes.
 - **Forms**: Managed using **Formik** and validated with **Yup** schemas. See `components/common/CustomFields.tsx` for wrapper inputs (text, select, date, checkbox) bound to Formik context.
+- **Form Containers (Modal vs Drawer)**:
+  - **`lib/FormDrawerProvider.tsx` (`useFormDrawer`)**: Used for lighter resource create/edit panels (Categories, Brands) rendered inside an anchor side drawer.
+  - **`lib/ModalProvider.tsx` (`useModal`)**: Used for full-canvas forms like Products (`maxWidth="xl"`, 90vh height). Supports `dispatchFunctions` (auto-executes Redux cleanups on dismiss), `isEditing`, and `hideHeader`. ProductForm uses a responsive 2-column Shopify canvas (`65%` left main / `35%` right rail) with a sticky top action bar and quick-jump navigation pills.
 
 ---
 
