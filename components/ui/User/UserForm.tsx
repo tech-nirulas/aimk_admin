@@ -76,7 +76,11 @@ export default function UserForm({
     onSubmit: async (values) => {
       try {
         if (isEditing) {
-          await updateAdminUser({ id: initialData.id, ...values }).unwrap();
+          const payload: any = { ...values };
+          if (!payload.password || payload.password.trim() === "") {
+            delete payload.password;
+          }
+          await updateAdminUser({ id: initialData?.id, ...payload }).unwrap();
           showSuccess("Team member updated successfully!");
         } else {
           await createAdminUser(values).unwrap();
@@ -170,19 +174,17 @@ export default function UserForm({
           </FormControl>
         </Grid>
 
-        {isEditing && (
-          <Grid size={{ xs: 12 }}>
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={formik.values.isActive}
-                  onChange={(e) => formik.setFieldValue("isActive", e.target.checked)}
-                />
-              }
-              label="Active Account"
-            />
-          </Grid>
-        )}
+        <Grid size={{ xs: 12 }}>
+          <FormControlLabel
+            control={
+              <Switch
+                checked={formik.values.isActive}
+                onChange={(e) => formik.setFieldValue("isActive", e.target.checked)}
+              />
+            }
+            label="Active Account"
+          />
+        </Grid>
 
         <Grid size={{ xs: 12 }} sx={{ mt: 3, display: "flex", gap: 2, justifyContent: "flex-end" }}>
           <Button variant="outlined" onClick={closeDrawer}>

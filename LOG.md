@@ -1,5 +1,15 @@
 # AIMK Admin Panel — Development Log
 
+## [2026-11-09] Bugfix: UserForm Active Switch & Empty Password Handling
+- **Issue**:
+  - User creation payload sent `isActive: true` by default, which previously clashed with non-whitelisted backend DTO validation.
+  - User edit submitted empty password string `password: ""` if left blank, causing backend minLength validation errors.
+- **Fix**:
+  - Updated `components/ui/User/UserForm.tsx` to omit empty password strings on edit requests so the user's password remains unchanged without triggering validation errors.
+  - Made the `Active Account` toggle visible in both create and edit modes so admins can control account activation status when adding or updating staff members.
+- **Verification**:
+  - Production build (`npm run build` with Turbopack) completed successfully with 0 errors.
+
 ## [2026-11-06] Bugfix: Product GST Rate Persistence & Select Field Synchronization
 - **GST Rate Input Control (`PricingTaxSection.tsx`)**:
   - Replaced the fuzzy-matching Autocomplete with a dedicated, resilient MUI `Select` (`GstRateSelect`) that cleanly casts and binds numeric values (`0, 5, 12, 18, 28, 40`).
