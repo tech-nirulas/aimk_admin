@@ -14,6 +14,8 @@ import { useField } from "formik";
 
 const DIETARY_OPTIONS = [
   "vegetarian",
+  "non_vegetarian",
+  "contains_egg",
   "vegan",
   "gluten_free",
   "dairy_free",
@@ -23,6 +25,15 @@ const DIETARY_OPTIONS = [
   "halal",
   "kosher",
 ];
+
+const getDietaryChipColor = (
+  opt: string,
+): "success" | "error" | "warning" | "default" => {
+  if (opt === "non_vegetarian") return "error";
+  if (opt === "contains_egg") return "warning";
+  if (opt === "vegetarian" || opt === "vegan" || opt === "egg_free") return "success";
+  return "success";
+};
 
 const COMMON_ALLERGENS = [
   "wheat",
@@ -55,7 +66,7 @@ const DietaryTagsInput = ({ name }: { name: string }) => {
             key={opt}
             label={opt.replace(/_/g, " ").toUpperCase()}
             onClick={() => toggle(opt)}
-            color={value.includes(opt) ? "success" : "default"}
+            color={value.includes(opt) ? getDietaryChipColor(opt) : "default"}
             variant={value.includes(opt) ? "filled" : "outlined"}
             size="small"
           />

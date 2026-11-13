@@ -1,5 +1,16 @@
 # AIMK Admin Panel — Development Log
 
+## [2026-11-13] Feat: Non-Veg & Contains-Egg Dietary Tags in Product Editor
+- **Dietary Options Expansion (`components/ui/Product/sections/DietarySection.tsx`)**:
+  - Added `"non_vegetarian"` and `"contains_egg"` to `DIETARY_OPTIONS` to support granular dietary tagging aligned with backend `DietaryStatus` enum.
+  - Implemented `getDietaryChipColor` mapping to display intuitive visual status colors for admin tagging:
+    - `"non_vegetarian"`: `error` (red)
+    - `"contains_egg"`: `warning` (amber)
+    - `"vegetarian"`, `"vegan"`, `"egg_free"`, and lifestyle tags: `success` (green)
+- **Automated Verification (`test/dietary-options.spec.ts`)**:
+  - Added test validating `DIETARY_OPTIONS` includes `non_vegetarian` and `contains_egg`, with verification of error, warning, and success chip styling.
+  - Next.js production build (`npm run build`) passed with 0 errors.
+
 ## [2026-11-09] Bugfix: UserForm Active Switch & Empty Password Handling
 - **Issue**:
   - User creation payload sent `isActive: true` by default, which previously clashed with non-whitelisted backend DTO validation.
