@@ -11,29 +11,13 @@ import {
   Typography,
 } from "@mui/material";
 import { useField } from "formik";
+import {
+  DIETARY_OPTIONS,
+  getDietaryChipColor,
+  resolveDietaryTags,
+} from "@/utils/dietary";
 
-const DIETARY_OPTIONS = [
-  "vegetarian",
-  "non_vegetarian",
-  "contains_egg",
-  "vegan",
-  "gluten_free",
-  "dairy_free",
-  "nut_free",
-  "sugar_free",
-  "egg_free",
-  "halal",
-  "kosher",
-];
-
-const getDietaryChipColor = (
-  opt: string,
-): "success" | "error" | "warning" | "default" => {
-  if (opt === "non_vegetarian") return "error";
-  if (opt === "contains_egg") return "warning";
-  if (opt === "vegetarian" || opt === "vegan" || opt === "egg_free") return "success";
-  return "success";
-};
+export { DIETARY_OPTIONS, getDietaryChipColor, resolveDietaryTags };
 
 const COMMON_ALLERGENS = [
   "wheat",
@@ -51,8 +35,7 @@ const DietaryTagsInput = ({ name }: { name: string }) => {
   const [field, , helpers] = useField(name);
   const value: string[] = field.value || [];
   const toggle = (tag: string) => {
-    if (value.includes(tag)) helpers.setValue(value.filter((t) => t !== tag));
-    else helpers.setValue([...value, tag]);
+    helpers.setValue(resolveDietaryTags(value, tag));
   };
 
   return (

@@ -1,5 +1,18 @@
 # AIMK Admin Panel — Development Log
 
+## [2026-11-13] Fix: Mutual Exclusion in Admin Dietary Tags & Dietary Utils
+- **Dietary Utilities & Mutual Exclusion (`utils/dietary.ts`, `components/ui/Product/sections/DietarySection.tsx`)**:
+  - Extracted dietary configuration (`DIETARY_OPTIONS`, `getDietaryChipColor`, `resolveDietaryTags`) to `utils/dietary.ts`.
+  - Implemented mutual exclusion rules in `resolveDietaryTags`:
+    - Toggling `non_vegetarian` automatically removes `vegetarian` and `vegan`.
+    - Toggling `vegetarian` or `vegan` automatically removes `non_vegetarian`.
+    - Toggling `contains_egg` automatically removes `egg_free`.
+    - Toggling `egg_free` automatically removes `contains_egg`.
+- **Testing & Verification (`test/dietary-options.spec.ts`)**:
+  - Expanded unit tests asserting all mutual exclusion combinations and untoggle functionality.
+  - Next.js production build (`npm run build`) passed with 0 errors.
+
+
 ## [2026-11-13] Feat: Non-Veg & Contains-Egg Dietary Tags in Product Editor
 - **Dietary Options Expansion (`components/ui/Product/sections/DietarySection.tsx`)**:
   - Added `"non_vegetarian"` and `"contains_egg"` to `DIETARY_OPTIONS` to support granular dietary tagging aligned with backend `DietaryStatus` enum.
