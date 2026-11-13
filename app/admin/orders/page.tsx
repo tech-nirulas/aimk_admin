@@ -428,6 +428,16 @@ export default function OrdersPage() {
         totalItems={data?.meta?.totalItems || 0}
         isLoading={isLoading}
         onPageChange={handlePageChange}
+        exportEntity="orders"
+        exportQuery={{
+          search: search || undefined,
+          status: status || undefined,
+          sortBy,
+          sortOrder,
+          timeRange,
+          startDate: timeRange === "custom" && startDate ? startDate : undefined,
+          endDate: timeRange === "custom" && endDate ? endDate : undefined,
+        }}
       />
 
       {/* Pagination Info */}

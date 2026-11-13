@@ -324,6 +324,8 @@ export default function ModifiersPage() {
             setPage(newPage);
             if (newLimit !== limit) setLimit(newLimit);
           }}
+          exportEntity="modifiers"
+          exportQuery={{ brandId: brandId || undefined }}
         />
 
         {/* Pagination Info */}

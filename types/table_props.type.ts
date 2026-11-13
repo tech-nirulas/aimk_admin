@@ -7,4 +7,6 @@ export interface TableComponentProps {
   isLoading: boolean
   pageSize: number
   onPageChange: (page: number, pageSize: number) => void
+  exportEntity?: string
+  exportQuery?: Record<string, any>
 }

@@ -363,6 +363,8 @@ export default function OffersPage() {
           totalItems={data?.meta?.totalItems || 0}
           isLoading={isLoading}
           onPageChange={handlePageChange}
+          exportEntity="offers"
+          exportQuery={{ search: search || undefined, isActive: isActive ? isActive === "true" : undefined, sortBy, sortOrder }}
         />
       </Paper>
 

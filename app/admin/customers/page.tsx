@@ -276,6 +276,8 @@ export default function CustomersPage() {
           totalItems={data?.meta?.totalItems || 0}
           isLoading={isLoading}
           onPageChange={handlePageChange}
+          exportEntity="customers"
+          exportQuery={{ search: search || undefined, sortBy, sortOrder }}
         />
       </Paper>
 

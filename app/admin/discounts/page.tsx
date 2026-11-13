@@ -280,6 +280,8 @@ export default function DiscountsPage() {
         totalItems={data?.meta?.totalItems || 0}
         isLoading={isLoading}
         onPageChange={handlePageChange}
+        exportEntity="discounts"
+        exportQuery={{ search: search || undefined, isActive: isActive ? isActive === "true" : undefined, sortBy, sortOrder }}
       />
 
       {/* Pagination Info */}

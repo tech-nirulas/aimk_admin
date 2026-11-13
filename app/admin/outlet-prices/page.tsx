@@ -265,6 +265,8 @@ export default function CategoriesPage() {
         totalItems={data?.meta?.totalItems || 0}
         isLoading={isLoading}
         onPageChange={handlePageChange}
+        exportEntity="outlet-prices"
+        exportQuery={{ search: search || undefined, isActive: isActive ? isActive === "true" : undefined, sortBy, sortOrder }}
       />
 
       {/* Pagination Info */}

@@ -211,6 +211,8 @@ export default function DeliveryFeeRulesPage() {
           totalItems={rules.length}
           isLoading={isLoading}
           onPageChange={() => {}}
+          exportEntity="delivery-fee-rules"
+          exportQuery={{}}
         />
       </Paper>
     </Box>

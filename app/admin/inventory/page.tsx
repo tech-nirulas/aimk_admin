@@ -410,6 +410,8 @@ export default function InventoryPage() {
           totalItems={data?.meta?.totalItems || 0}
           isLoading={isLoading}
           onPageChange={handlePageChange}
+          exportEntity="inventory"
+          exportQuery={{ search: search || undefined, status: status || undefined, sortBy, sortOrder }}
         />
       </Paper>
 

@@ -264,6 +264,8 @@ export default function OutletsPage() {
         totalItems={data?.meta?.totalItems || 0}
         isLoading={isLoading}
         onPageChange={handlePageChange}
+        exportEntity="outlets"
+        exportQuery={{ search: search || undefined }}
       />
 
       {/* Pagination Info */}

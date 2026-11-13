@@ -348,6 +348,8 @@ export default function CakeCustomizationsPage() {
         totalItems={data?.meta?.totalItems || 0}
         isLoading={isLoading}
         onPageChange={handlePageChange}
+        exportEntity="cake-customizations"
+        exportQuery={{ status: statusFilter || undefined, search: search || undefined, sortBy, sortOrder }}
       />
 
       {/* Pagination Info */}

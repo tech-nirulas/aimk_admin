@@ -297,6 +297,8 @@ export default function ReviewsPage() {
           totalItems={data?.meta?.totalItems || 0}
           isLoading={isLoading}
           onPageChange={handlePageChange}
+          exportEntity="reviews"
+          exportQuery={{ search: search || undefined }}
         />
       </Paper>
 

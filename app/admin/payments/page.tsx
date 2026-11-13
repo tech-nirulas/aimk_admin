@@ -308,6 +308,8 @@ export default function PaymentsPage() {
           totalItems={data?.meta?.totalItems || 0}
           isLoading={isLoading}
           onPageChange={handlePageChange}
+          exportEntity="payments"
+          exportQuery={{ search: search || undefined, status: status || undefined, sortBy, sortOrder }}
         />
       </Paper>
 

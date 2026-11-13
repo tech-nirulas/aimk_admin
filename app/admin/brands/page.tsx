@@ -295,6 +295,8 @@ export default function BrandsPage() {
         totalItems={data?.meta?.totalItems || 0}
         isLoading={isLoading}
         onPageChange={handlePageChange}
+        exportEntity="brands"
+        exportQuery={{ search: search || undefined, isActive: isActive ? isActive === "true" : undefined, sortBy, sortOrder }}
       />
 
       {/* Pagination Info */}
