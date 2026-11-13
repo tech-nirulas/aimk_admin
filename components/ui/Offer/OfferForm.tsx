@@ -273,6 +273,10 @@ export default function OfferForm({ refetch }: { refetch?: () => void }) {
                     <MaterialDateField name="startsAt" label="Start Date" required />
                   </Grid>
 
+                  <Grid size={{ xs: 6 }}>
+                    <MaterialDateField name="expiresAt" label="End Date (Optional)" />
+                  </Grid>
+
                   <Grid size={{ xs: 12 }}>
                     <MaterialTextField name="description" label="Description" multiline rows={2} />
                   </Grid>

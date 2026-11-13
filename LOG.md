@@ -1,5 +1,11 @@
 # AIMK Admin Panel — Development Log
 
+## [2026-11-13] Feat: Add Expiration Date Field to Offer Form
+- **Offer Form UI (`components/ui/Offer/OfferForm.tsx`)**:
+  - Mounted `<MaterialDateField name="expiresAt" label="End Date (Optional)" />` alongside the Start Date in a 6-column responsive grid.
+  - The backend database, APIs, and Formik submission logic already supported `expiresAt`; adding the input allows admins to configure campaign expiry dates directly from the admin panel without leaving offers perpetually open unless intended.
+
+
 ## [2026-11-13] Fix: Mutual Exclusion in Admin Dietary Tags & Dietary Utils
 - **Dietary Utilities & Mutual Exclusion (`utils/dietary.ts`, `components/ui/Product/sections/DietarySection.tsx`)**:
   - Extracted dietary configuration (`DIETARY_OPTIONS`, `getDietaryChipColor`, `resolveDietaryTags`) to `utils/dietary.ts`.
