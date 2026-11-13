@@ -23,10 +23,10 @@ export const getDietaryChipColor = (
 
 /**
  * Resolves mutual exclusions between dietary lifestyle tags:
- * - When toggling `non_vegetarian`, automatically remove `vegetarian` and `vegan`.
- * - When toggling `vegetarian`, automatically remove `non_vegetarian`.
- * - When toggling `vegan`, automatically remove `non_vegetarian`.
- * - When toggling `contains_egg`, automatically remove `egg_free`.
+ * - When toggling `non_vegetarian`, automatically remove `vegetarian`, `vegan`, and `contains_egg`.
+ * - When toggling `vegetarian`, automatically remove `non_vegetarian` and `contains_egg`.
+ * - When toggling `vegan`, automatically remove `non_vegetarian` and `contains_egg`.
+ * - When toggling `contains_egg`, automatically remove `vegetarian`, `vegan`, `non_vegetarian`, and `egg_free`.
  * - When toggling `egg_free`, automatically remove `contains_egg`.
  */
 export function resolveDietaryTags(currentTags: string[], tagToToggle: string): string[] {
@@ -36,11 +36,11 @@ export function resolveDietaryTags(currentTags: string[], tagToToggle: string): 
 
   let next = [...currentTags, tagToToggle];
   if (tagToToggle === "non_vegetarian") {
-    next = next.filter((t) => t !== "vegetarian" && t !== "vegan");
+    next = next.filter((t) => t !== "vegetarian" && t !== "vegan" && t !== "contains_egg");
   } else if (tagToToggle === "vegetarian" || tagToToggle === "vegan") {
-    next = next.filter((t) => t !== "non_vegetarian");
+    next = next.filter((t) => t !== "non_vegetarian" && t !== "contains_egg");
   } else if (tagToToggle === "contains_egg") {
-    next = next.filter((t) => t !== "egg_free");
+    next = next.filter((t) => t !== "vegetarian" && t !== "vegan" && t !== "non_vegetarian" && t !== "egg_free");
   } else if (tagToToggle === "egg_free") {
     next = next.filter((t) => t !== "contains_egg");
   }
