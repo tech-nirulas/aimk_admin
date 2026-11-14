@@ -67,7 +67,7 @@ export const mediaEndpoints = (builder: EndpointDefinitions) => ({
     query: ({ ids }) => ({
       url: `media/bulk-delete`,
       method: "POST",
-      body: ids
+      body: { ids },
     }),
     invalidatesTags: ["Media"],
   }),

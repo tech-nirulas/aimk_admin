@@ -289,3 +289,14 @@ The admin Orders and Payments grids now update themselves when the backend emits
   - Integrated `useGetProductQuery` to fetch complete variant/modifier tree on edit drawer opening.
 - Verified Next.js 16 production build compiles with 0 errors (`npm run build`).
 
+## [2026-11-14] Strict Removal of Refund Button and Confirmation Dialog from Admin Payments
+- Strictly removed the refund action button and `actions` column from the Payments data table in [app/admin/payments/page.tsx](file:///home/ujjwal/Desktop/angels_projects/aimk_admin/app/admin/payments/page.tsx).
+- Removed the refund confirmation `<Dialog>`, local state `selectedRefundRow`, `handleConfirmRefund` handler, and `useRefundPaymentMutation` invocation.
+- Cleaned up unused Material-UI and RTK Query imports (`UndoIcon`, `Dialog`, `DialogActions`, `DialogContent`, `DialogTitle`, `useRefundPaymentMutation`).
+- Updated the payments screen heading from "Payment & Refund Management" to "Payment Management".
+- Verified 0 TypeScript errors on `app/admin/payments/page.tsx` and validated production build (`npm run build`).
+
+
+
+## [2026-11-14] Fix Bulk Delete Media Payload Structure
+- Updated `bulkDeleteMedia` mutation in `features/media/mediaEndpoints.ts` to send `{ ids }` object payload matching API expectations.

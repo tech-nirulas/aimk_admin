@@ -4,19 +4,11 @@ import TableComponent from "@/components/common/DataTable";
 import RealtimeStatus from "@/components/common/RealtimeStatus";
 import { REALTIME_ROOMS } from "@/features/realtime/realtimeEvents";
 import { PAYMENT_STATUSES, getPaymentStatusConfig } from "@/utils/paymentStatus";
-import {
-  useGetPaymentsQuery,
-  useRefundPaymentMutation,
-} from "@/features/payments/paymentApiService";
-import UndoIcon from "@mui/icons-material/Undo";
+import { useGetPaymentsQuery } from "@/features/payments/paymentApiService";
 import {
   Box,
   Button,
   Chip,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
   FormControl,
   InputLabel,
   MenuItem,
@@ -36,7 +28,6 @@ export default function PaymentsPage() {
   const [status, setStatus] = useState("");
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
-  const [selectedRefundRow, setSelectedRefundRow] = useState<any>(null);
 
   // Debounced search
   const debouncedSearch = useMemo(
@@ -78,18 +69,6 @@ export default function PaymentsPage() {
     sortBy,
     sortOrder,
   });
-
-  const [refundPayment, { isLoading: isRefunding }] = useRefundPaymentMutation();
-
-  const handleConfirmRefund = async () => {
-    if (!selectedRefundRow) return;
-    try {
-      await refundPayment({ orderId: selectedRefundRow.orderId }).unwrap();
-      setSelectedRefundRow(null);
-    } catch (err) {
-      console.error("Refund failed:", err);
-    }
-  };
 
   const handlePageChange = (newPage: number, newPageSize: number) => {
     setPage(newPage);
@@ -186,27 +165,6 @@ export default function PaymentsPage() {
           </Typography>
         ),
       },
-      {
-        field: "actions",
-        headerName: "Action",
-        flex: 0.8,
-        renderCell: ({ row }: any) => {
-          const isRefunded = row.status === "REFUNDED";
-          return (
-            <Button
-              size="small"
-              variant="outlined"
-              color="error"
-              disabled={isRefunded}
-              startIcon={<UndoIcon fontSize="small" />}
-              onClick={() => setSelectedRefundRow(row)}
-              sx={{ borderRadius: 2, textTransform: "none", fontSize: "0.75rem", fontWeight: 700 }}
-            >
-              {isRefunded ? "Refunded" : "Refund"}
-            </Button>
-          );
-        },
-      },
     ],
     []
   );
@@ -214,7 +172,7 @@ export default function PaymentsPage() {
   return (
     <Box className="p-4">
       <div className="flex items-center gap-3 mb-4">
-        <Typography variant="h2">Payment &amp; Refund Management</Typography>
+        <Typography variant="h2">Payment Management</Typography>
         <RealtimeStatus room={REALTIME_ROOMS.PAYMENTS} />
       </div>
 
@@ -326,36 +284,6 @@ export default function PaymentsPage() {
           </div>
         </div>
       )}
-
-      {/* Confirmation Dialog for Refund */}
-      <Dialog open={Boolean(selectedRefundRow)} onClose={() => setSelectedRefundRow(null)} maxWidth="xs" fullWidth>
-        {selectedRefundRow && (
-          <>
-            <DialogTitle sx={{ fontWeight: 800 }}>Confirm Refund</DialogTitle>
-            <DialogContent>
-              <Typography variant="body2" sx={{ mb: 2 }}>
-                Are you sure you want to refund <strong>₹{Number(selectedRefundRow.amount).toFixed(2)}</strong> for Order <strong>#{selectedRefundRow.order?.orderNumber}</strong>?
-              </Typography>
-
-              {selectedRefundRow.order?.paymentMethod === "COD" ? (
-                <Typography variant="caption" sx={{ color: "warning.main", display: "block", fontWeight: 700 }}>
-                  Note: This is a Cash on Delivery order. Processing this refund will record the cash return in the system and mark the order as refunded.
-                </Typography>
-              ) : (
-                <Typography variant="caption" sx={{ color: "info.main", display: "block", fontWeight: 700 }}>
-                  Note: This will execute an automatic refund request via Razorpay API back to the customer's account.
-                </Typography>
-              )}
-            </DialogContent>
-            <DialogActions sx={{ p: 2 }}>
-              <Button onClick={() => setSelectedRefundRow(null)}>Cancel</Button>
-              <Button variant="contained" color="error" onClick={handleConfirmRefund} disabled={isRefunding}>
-                {isRefunding ? "Processing..." : "Confirm Refund"}
-              </Button>
-            </DialogActions>
-          </>
-        )}
-      </Dialog>
     </Box>
   );
 }
