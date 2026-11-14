@@ -14,6 +14,7 @@ import CakeIcon from "@mui/icons-material/Cake";
 import RateReviewIcon from "@mui/icons-material/RateReview";
 import PeopleIcon from "@mui/icons-material/People";
 import TuneIcon from "@mui/icons-material/Tune";
+import StraightenIcon from "@mui/icons-material/Straighten";
 import {
   Box,
   Divider,
@@ -49,6 +50,7 @@ const ICON_MAP: Record<string, React.ReactNode> = {
   Discount: <ReceiptLongOutlinedIcon />,
   LocalShipping: <LocalShippingOutlinedIcon />,
   Tune: <TuneIcon />,
+  Straighten: <StraightenIcon />,
 };
 
 export default function Sidebar() {

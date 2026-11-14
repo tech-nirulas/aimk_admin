@@ -85,6 +85,12 @@ The Orders and Payments grids update themselves when the backend emits an event.
 - **Gap recovery**: on *re*connect (never on first connect) the provider invalidates the `Order` / `Payment` tags once, so RTK Query refetches only the queries a mounted component is subscribed to. This is the single intentional refetch in the design.
 - **Degradation**: if the socket never connects, the grids behave exactly as before — REST load, manual filters, manual refresh. `components/common/RealtimeStatus.tsx` renders a Live/Reconnecting/Offline chip on both pages so the state is visible.
 
+### Variant Master Hub & Product Linking
+- **Hub Page**: `app/admin/variant-masters/page.tsx` provides high-level KPIs, category/brand filters, and active master management.
+- **Bulk Product Assignment**: `components/ui/VariantMaster/AttachProductsModal.tsx` allows admins to multi-select products and attach portion size variants with 3 pricing strategies (Use Base Price, Fixed Price for All, or Custom Price Per Product).
+- **Linked Products Drawer**: `components/ui/VariantMaster/VariantMasterProductsDrawer.tsx` renders all products running any variant master with inline price editing, default size selection, in-stock toggles, and detachment controls.
+- **Product Form Variants**: `components/ui/Product/sections/VariantsSection.tsx` removes numerical stock tracking (`stockQuantity`) and provides an optional quick-picker from existing Variant Masters.
+
 ---
 
 ## 3. Data Flow & Integration

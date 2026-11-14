@@ -111,6 +111,12 @@ export declare const PERMISSIONS: {
         readonly UPDATE: "modifier:update";
         readonly DELETE: "modifier:delete";
     };
+    readonly VARIANT: {
+        readonly READ: "variant:read";
+        readonly CREATE: "variant:create";
+        readonly UPDATE: "variant:update";
+        readonly DELETE: "variant:delete";
+    };
 };
 /**
  * Subjects that gate API behaviour but have no dedicated admin page, so they intentionally have

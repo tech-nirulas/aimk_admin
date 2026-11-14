@@ -14,7 +14,8 @@ export interface SidebarModuleDefinition {
 export const MODULE_REGISTRY: SidebarModuleDefinition[] = [
   { key: 'dashboard',           name: 'Dashboard',            path: '/admin',                      icon: 'Dashboard',        order: 1,  requiredPermission: PERMISSIONS.DASHBOARD.READ },
   { key: 'products',            name: 'Products',             path: '/admin/products',             icon: 'ShoppingBag',      order: 2,  requiredPermission: PERMISSIONS.PRODUCT.READ },
-  { key: 'modifiers',           name: 'Modifiers & Add-ons',  path: '/admin/modifiers',            icon: 'Tune',             order: 3,  requiredPermission: PERMISSIONS.MODIFIER.READ },
+  { key: 'variant-masters',     name: 'Variant Masters',      path: '/admin/variant-masters',      icon: 'Straighten',       order: 3,  requiredPermission: PERMISSIONS.VARIANT.READ },
+  { key: 'modifiers',           name: 'Modifiers & Add-ons',  path: '/admin/modifiers',            icon: 'Tune',             order: 4,  requiredPermission: PERMISSIONS.MODIFIER.READ },
   { key: 'inventory',           name: 'Inventory & Batches',  path: '/admin/inventory',            icon: 'Inventory',        order: 4,  requiredPermission: PERMISSIONS.INVENTORY.READ },
   { key: 'customers',           name: 'Customers',            path: '/admin/customers',            icon: 'People',           order: 5,  requiredPermission: PERMISSIONS.CUSTOMER.READ },
   { key: 'categories',          name: 'Categories',           path: '/admin/categories',           icon: 'Category',         order: 6,  requiredPermission: PERMISSIONS.CATEGORY.READ },

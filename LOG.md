@@ -1,5 +1,37 @@
 # AIMK Admin Panel — Development Log
 
+## [2026-11-14] Feature: Variant Master Management Hub & Direct Product Linking
+- **Permissions & Sidebar Navigation (`packages/aimk-permissions`, `components/layout/Sidebar.tsx`)**:
+  - Registered `PERMISSIONS.VARIANT` (`variant:read`, `variant:create`, `variant:update`, `variant:delete`).
+  - Added `/admin/variant-masters` to `MODULE_REGISTRY` with `Straighten` icon, order 3, and test suite verification (20/20 modules verified).
+  - Synced permissions to `aimk_backend/packages/aimk-permissions`.
+  - Added `Straighten` icon to `Sidebar.tsx`'s `ICON_MAP`.
+- **RTK Query Endpoints & Redux Slice (`features/variant-master/`)**:
+  - Created `variantMasterEndpoints.ts` and `variantMasterApiService.ts` with tag invalidation for `["VariantMaster", "VariantMasterProduct", "Product"]`.
+  - Created `variantMasterSlice.ts` managing `selectedMaster` and `managingMaster` state.
+  - Registered `variantMasterApiService` in `redux/api.ts` and `variantMasterReducer` in `redux/reducer.ts`.
+- **Variant Masters Dashboard (`app/admin/variant-masters/page.tsx`)**:
+  - Added KPI summary cards: Total Masters, Active Masters, Products Running Variants.
+  - Filter bar: Search by name/code, Category filter, Brand Scope filter.
+  - DataTable with name, code, category, default measure, linked products count button, active switch, and edit/delete actions.
+- **Manage Products Drawer (`components/ui/VariantMaster/VariantMasterProductsDrawer.tsx`)**:
+  - Displays all products running any selected variant master.
+  - Inline editing of variant selling price and MRP/compare-at price with save controls.
+  - Toggles for default storefront size and availability status.
+  - Detach action with confirmation dialog.
+- **Attach Products Modal (`components/ui/VariantMaster/AttachProductsModal.tsx`)**:
+  - Search and filter available products by Category, Brand, and keyword.
+  - Checkbox selection with select-all.
+  - Pricing strategy options: "Use Product Base Price", "Fixed Price for All Selected", or "Custom Price Per Product".
+  - One-click bulk attachment directly from the master screen.
+- **Product Form Cleanup (`components/ui/Product/sections/VariantsSection.tsx`)**:
+  - Removed numerical `Stock Qty` field completely from variant cards.
+  - Added "Link to Variant Master" quick-picker that auto-populates variant name, weight, and unit from master.
+  - Retained clean binary `In Stock` switch and default size selector.
+- **Verification**:
+  - Permissions test suite: 20/20 modules verified.
+  - Next.js production build (`npm run build`) succeeded with 25/25 static pages compiled cleanly.
+
 ## [2026-11-13] Feat: Add Expiration Date Field to Offer Form
 - **Offer Form UI (`components/ui/Offer/OfferForm.tsx`)**:
   - Mounted `<MaterialDateField name="expiresAt" label="End Date (Optional)" />` alongside the Start Date in a 6-column responsive grid.

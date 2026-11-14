@@ -9,6 +9,7 @@ import discountReducer from "@/features/discounts/discountSlice";
 import offerReducer from "@/features/offers/offerSlice";
 import deliveryFeeReducer from "@/features/delivery-fee/deliveryFeeSlice";
 import modifierReducer from "@/features/modifiers/modifierSlice";
+import variantMasterReducer from "@/features/variant-master/variantMasterSlice";
 
 export const reducer = {
   cartReducer,
@@ -22,4 +23,5 @@ export const reducer = {
   offerReducer,
   deliveryFeeReducer,
   modifierReducer,
+  variantMasterReducer,
 };

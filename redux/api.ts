@@ -17,6 +17,7 @@ import { customerApiService } from "@/features/customers/customerApiService";
 import { analyticsApiService } from "@/features/analytics/analyticsApiService";
 import { modifierApiService } from "@/features/modifiers/modifierApiService";
 import { deliveryFeeApiService } from "@/features/delivery-fee/deliveryFeeApiService";
+import { variantMasterApiService } from "@/features/variant-master/variantMasterApiService";
 
 export const api = {
   categoryApiService,
@@ -38,4 +39,5 @@ export const api = {
   analyticsApiService,
   modifierApiService,
   deliveryFeeApiService,
+  variantMasterApiService,
 };

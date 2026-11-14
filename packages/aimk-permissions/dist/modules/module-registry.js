@@ -8,7 +8,8 @@ const permissions_1 = require("../permissions");
 exports.MODULE_REGISTRY = [
     { key: 'dashboard', name: 'Dashboard', path: '/admin', icon: 'Dashboard', order: 1, requiredPermission: permissions_1.PERMISSIONS.DASHBOARD.READ },
     { key: 'products', name: 'Products', path: '/admin/products', icon: 'ShoppingBag', order: 2, requiredPermission: permissions_1.PERMISSIONS.PRODUCT.READ },
-    { key: 'modifiers', name: 'Modifiers & Add-ons', path: '/admin/modifiers', icon: 'Tune', order: 3, requiredPermission: permissions_1.PERMISSIONS.MODIFIER.READ },
+    { key: 'variant-masters', name: 'Variant Masters', path: '/admin/variant-masters', icon: 'Straighten', order: 3, requiredPermission: permissions_1.PERMISSIONS.VARIANT.READ },
+    { key: 'modifiers', name: 'Modifiers & Add-ons', path: '/admin/modifiers', icon: 'Tune', order: 4, requiredPermission: permissions_1.PERMISSIONS.MODIFIER.READ },
     { key: 'inventory', name: 'Inventory & Batches', path: '/admin/inventory', icon: 'Inventory', order: 4, requiredPermission: permissions_1.PERMISSIONS.INVENTORY.READ },
     { key: 'customers', name: 'Customers', path: '/admin/customers', icon: 'People', order: 5, requiredPermission: permissions_1.PERMISSIONS.CUSTOMER.READ },
     { key: 'categories', name: 'Categories', path: '/admin/categories', icon: 'Category', order: 6, requiredPermission: permissions_1.PERMISSIONS.CATEGORY.READ },

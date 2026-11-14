@@ -21,6 +21,7 @@ export const PERMISSIONS = {
   DELIVERY_ZONE:    { READ: 'delivery-zone:read', CREATE: 'delivery-zone:create', UPDATE: 'delivery-zone:update', DELETE: 'delivery-zone:delete' },
   SERVICEABLE_AREA: { READ: 'serviceable-area:read', CREATE: 'serviceable-area:create', UPDATE: 'serviceable-area:update', DELETE: 'serviceable-area:delete' },
   MODIFIER:         { READ: 'modifier:read', CREATE: 'modifier:create', UPDATE: 'modifier:update', DELETE: 'modifier:delete' },
+  VARIANT:          { READ: 'variant:read', CREATE: 'variant:create', UPDATE: 'variant:update', DELETE: 'variant:delete' },
 } as const;
 
 /**
