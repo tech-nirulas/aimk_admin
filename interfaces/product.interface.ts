@@ -36,6 +36,7 @@ export interface Product {
   featured: boolean;
   bestSeller: boolean;
   newArrival: boolean;
+  recommended: boolean;
   isSeasonal: boolean;
   availableFrom: string;
   availableUntil: string;
@@ -140,6 +141,7 @@ export type CreateProductPayload = {
   featured: boolean;
   bestSeller: boolean;
   newArrival: boolean;
+  recommended: boolean;
   isSeasonal: boolean;
   availableFrom: string;
   availableUntil: string;

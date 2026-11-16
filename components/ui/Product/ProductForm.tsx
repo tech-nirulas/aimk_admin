@@ -241,6 +241,7 @@ export default function ProductForm({ onClose }: { onClose?: () => void }) {
     featured: activeProduct?.featured || false,
     bestSeller: activeProduct?.bestSeller || false,
     newArrival: activeProduct?.newArrival || false,
+    recommended: activeProduct?.recommended || false,
 
     // ── Seasonal ───────────────────────────────────────────────────────────
     isSeasonal: activeProduct?.isSeasonal || false,

@@ -1,5 +1,15 @@
 # AIMK Admin Panel — Development Log
 
+## [2026-11-16] Feature: Add "Recommended" Merchandising Badge to Product Form
+- **Product Interfaces & Payloads (`interfaces/product.interface.ts`)**:
+  - Added `recommended: boolean;` to `Product` interface and `CreateProductPayload`.
+- **Form Component & Sections (`components/ui/Product/`)**:
+  - `sections/SeoSection.tsx`: Added "Recommended" checkbox with tooltip under *Badges & Merchandising Highlights*.
+  - `ProductForm.tsx`: Initialized `recommended: activeProduct?.recommended || false` in initial form values.
+- **Verification**:
+  - Zero type errors introduced in modified components.
+
+
 ## [2026-11-14] Feature: Variant Master Management Hub & Direct Product Linking
 - **Permissions & Sidebar Navigation (`packages/aimk-permissions`, `components/layout/Sidebar.tsx`)**:
   - Registered `PERMISSIONS.VARIANT` (`variant:read`, `variant:create`, `variant:update`, `variant:delete`).

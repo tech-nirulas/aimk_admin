@@ -56,7 +56,7 @@ export default function SeoSection() {
             Badges & Merchandising Highlights
           </Typography>
           <Grid container spacing={1}>
-            <Grid size={{ xs: 12, sm: 4 }}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <Tooltip title="Show in homepage featured collection">
                 <FormControlLabel
                   control={
@@ -70,7 +70,7 @@ export default function SeoSection() {
                 />
               </Tooltip>
             </Grid>
-            <Grid size={{ xs: 12, sm: 4 }}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <Tooltip title="Highlight with Best Seller ribbon">
                 <FormControlLabel
                   control={
@@ -84,7 +84,21 @@ export default function SeoSection() {
                 />
               </Tooltip>
             </Grid>
-            <Grid size={{ xs: 12, sm: 4 }}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+              <Tooltip title="Highlight with Recommended badge">
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      name="recommended"
+                      checked={Boolean(values.recommended)}
+                      onChange={handleChange}
+                    />
+                  }
+                  label="Recommended"
+                />
+              </Tooltip>
+            </Grid>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <Tooltip title="Highlight with New Arrival badge">
                 <FormControlLabel
                   control={

@@ -91,6 +91,10 @@ The Orders and Payments grids update themselves when the backend emits an event.
 - **Linked Products Drawer**: `components/ui/VariantMaster/VariantMasterProductsDrawer.tsx` renders all products running any variant master with inline price editing, default size selection, in-stock toggles, and detachment controls.
 - **Product Form Variants**: `components/ui/Product/sections/VariantsSection.tsx` removes numerical stock tracking (`stockQuantity`) and provides an optional quick-picker from existing Variant Masters.
 
+### Product Merchandising Badges
+- **Form Controls (`components/ui/Product/sections/SeoSection.tsx`)**: Configures product merchandising flags: `Featured`, `Best Seller`, `Recommended`, and `New Arrival`.
+- **Payload Handling (`components/ui/Product/ProductForm.tsx`)**: Passes boolean flags to `createProduct` / `updateProduct` endpoints to drive storefront prioritization.
+
 ---
 
 ## 3. Data Flow & Integration
