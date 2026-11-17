@@ -2,14 +2,14 @@
 
 import { Box, Button, FormControl, InputLabel, MenuItem, Paper, Select, Switch, TextField, Typography, debounce } from "@mui/material";
 import { useCallback, useMemo, useState } from "react";
-import { FaEdit, FaSearch, FaTrash } from "react-icons/fa";
+import { FaEdit, FaSearch } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 
 import TableComponent from "@/components/common/DataTable";
 import { ProtectedComponent } from "@/components/common/ProtectedComponent";
 import { UnauthorizedAccess } from "@/components/common/UnauthorizedAccess";
 import ProductForm from "@/components/ui/Product/ProductForm";
-import { useDeleteProductMutation, useGetPaginatedProductQuery } from "@/features/products/productApiService";
+import { useDeleteProductMutation, useGetPaginatedProductQuery, useUpdateProductMutation } from "@/features/products/productApiService";
 import { clearProduct, clearSelectedProduct, setSelectedProduct } from "@/features/products/productSlice";
 import { usePermission } from "@/hooks/usePermission";
 import { Product } from "@/interfaces/product.interface";
@@ -24,7 +24,6 @@ export default function ProductsPage() {
 
   const canCreate = can(PERMISSIONS.PRODUCT.CREATE);
   const canUpdate = can(PERMISSIONS.PRODUCT.UPDATE);
-  const canDelete = can(PERMISSIONS.PRODUCT.DELETE);
 
   // Pagination and filter state
   const [page, setPage] = useState(1);
@@ -47,6 +46,7 @@ export default function ProductsPage() {
   });
 
   const [deleteProduct] = useDeleteProductMutation();
+  const [updateProduct] = useUpdateProductMutation();
 
   // Debounced search
   const debouncedSearch = useMemo(
@@ -109,6 +109,10 @@ export default function ProductsPage() {
     openDialog("Are you sure you want to delete this product?", async () => { await deleteProduct({ id: row.id }); })
   }, [deleteProduct, openDialog]);
 
+  const handleToggleStatus = useCallback(async (row: Product) => {
+    await updateProduct({ id: row.id, body: { isActive: !row.isActive } });
+  }, [updateProduct]);
+
   const handlePageChange = (newPage: number, newPageSize: number) => {
     setPage(newPage);
     if (newPageSize !== limit) {
@@ -139,7 +143,7 @@ export default function ProductsPage() {
       headerName: "Status",
       flex: 0.5,
       renderCell: ({ row }: { row: Product }) => (
-        <Switch checked={row.isActive} onChange={(e) => handleDelete(row)} />
+        <Switch checked={row.isActive} onChange={() => handleToggleStatus(row)} />
       ),
     },
     {
@@ -163,17 +167,10 @@ export default function ProductsPage() {
               onClick={() => handleEdit(row)}
             />
           )}
-          {canDelete && (
-            <FaTrash
-              className="cursor-pointer text-red-600 hover:text-red-800"
-              size={16}
-              onClick={() => handleDelete(row)}
-            />
-          )}
         </div>
       ),
     },
-  ], [handleDelete, handleEdit, canUpdate, canDelete]);
+  ], [handleDelete, handleEdit, handleToggleStatus, canUpdate]);
 
   return (
     <ProtectedComponent permission={PERMISSIONS.PRODUCT.READ} fallback={<UnauthorizedAccess />}>
