@@ -1,5 +1,10 @@
 # AIMK Admin Panel — Development Log
 
+## [2026-11-18] Maintenance: Restore SeaweedFS Media Storage & Verification
+- Resolved 404 image serving issues for Categories (Cookies, Pastries, Cakes, etc.) by restoring volume files and LevelDB filer records from backup and merging recent media uploads.
+- Verified all 10 active category avatars now return HTTP 200 OK.
+- Added `-master.garbageThreshold=0.99` to prevent unintended SeaweedFS volume compactions and increased nightly backup retention to 30 days.
+
 ## [2026-11-16] Feature: Add "Recommended" Merchandising Badge to Product Form
 - **Product Interfaces & Payloads (`interfaces/product.interface.ts`)**:
   - Added `recommended: boolean;` to `Product` interface and `CreateProductPayload`.
